@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KunjunganAnak;
+use App\Models\KunjunganAnc;
 use Illuminate\Http\Request;
 
-class KunjunganAnakController extends Controller
+class KunjunganAncController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class KunjunganAnakController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KunjunganAnak $kunjunganAnak)
+    public function show(KunjunganAnc $kunjunganAnc)
     {
         //
     }
@@ -42,7 +42,7 @@ class KunjunganAnakController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KunjunganAnak $kunjunganAnak)
+    public function edit(KunjunganAnc $kunjunganAnc)
     {
         //
     }
@@ -50,7 +50,7 @@ class KunjunganAnakController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, KunjunganAnak $kunjunganAnak)
+    public function update(Request $request, KunjunganAnc $kunjunganAnc)
     {
         //
     }
@@ -58,7 +58,7 @@ class KunjunganAnakController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KunjunganAnak $kunjunganAnak)
+    public function destroy(KunjunganAnc $kunjunganAnc)
     {
         //
     }
