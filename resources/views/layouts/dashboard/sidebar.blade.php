@@ -18,7 +18,8 @@
             <i class="bi bi-database"></i><span>Data Master</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
           <ul id="master-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li><a href="#"><i class="bi bi-circle"></i><span>User & Role</span></a></li>
+            <li><a href="{{ route('users.index') }}"><i class="bi bi-circle"></i><span>Data User</span></a></li>
+            <li><a href="{{ route('roles.index') }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Jenis Pembiayaan</span></a></li>

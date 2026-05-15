@@ -8,6 +8,8 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+use RealRashid\SweetAlert\Facades\Alert;
+
 class LoginController extends Controller
 {
     public function login()
@@ -24,20 +26,24 @@ class LoginController extends Controller
 
             if (!$user->is_active) {
                 Auth::logout();
-                return redirect()->back()->with('error', 'Akun Anda tidak aktif.');
+                Alert::error('Akses Ditolak', 'Akun Anda tidak aktif.');
+                return redirect()->back();
             }
 
             $request->session()->regenerate();
+            Alert::success('Berhasil Masuk', 'Selamat datang kembali, ' . $user->name);
 
             return redirect()->intended('/dashboard');
         }
 
-        return redirect()->back()->with('error', 'Email atau password salah.');
+        Alert::error('Gagal Masuk', 'Email atau password salah.');
+        return redirect()->back();
     }
 
     public function logout()
     {
         Auth::logout();
+        Alert::success('Berhasil Keluar', 'Anda telah keluar dari sistem.');
         return redirect()->route('login');
     }
 }
