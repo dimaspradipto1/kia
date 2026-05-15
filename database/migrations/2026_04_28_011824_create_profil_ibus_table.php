@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama_lengkap');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
+            $table->string('jenis_fasilitas_kesehatan')->nullable();
             $table->string('golongan_darah')->nullable();
             $table->string('pendidikan')->nullable();
             $table->string('pekerjaan')->nullable();

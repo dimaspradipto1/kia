@@ -15,9 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('nama_faskes');
             $table->string('jenis');
-            $table->string('kabupaten');
-            $table->string('provinsi');
             $table->string('alamat');
+            $table->string('kecamatan');
+            $table->string('kab_kota');
+            $table->string('provinsi');
+            $table->string('latitude');
+            $table->string('longitude');
+            $table->string('telepon');
+            $table->string('jam_operasional');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
