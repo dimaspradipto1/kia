@@ -16,7 +16,7 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #046B26 !important;">
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #EC1E88 !important;">
                 <div class="card-header bg-white border-bottom py-3 px-4">
                     <h5 class="m-0 fw-bold text-dark" style="font-size: 1.1rem;">Form Tambah Role</h5>
                 </div>
@@ -45,7 +45,7 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-10 offset-sm-2">
-                                <button type="submit" class="btn btn-success px-4" style="background-color: #046B26;">Simpan Role</button>
+                                <button type="submit" class="btn btn-success px-4" style="background-color: #EC1E88;">Simpan Role</button>
                                 <a href="{{ route('roles.index') }}" class="btn btn-secondary px-4">Batal</a>
                             </div>
                         </div>

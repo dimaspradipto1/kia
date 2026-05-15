@@ -84,6 +84,20 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+    public function updatePassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        Alert::success('Berhasil', 'Password user berhasil diperbarui.');
+        return redirect()->back();
+    }
+
     public function destroy(User $user)
     {
         if ($user->photo) {

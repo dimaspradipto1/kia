@@ -26,6 +26,13 @@ class UserDataTable extends DataTable
             ->addColumn('DT_RowIndex', '')
             ->addColumn('action', function ($row) {
                 $btn = '<div class="d-flex justify-content-center gap-1">
+                            <button type="button" class="btn btn-info btn-sm btn-password-modal" 
+                                    data-id="' . $row->id . '" 
+                                    data-name="' . $row->name . '" 
+                                    title="Update Password" 
+                                    style="background-color: #16B3AC; border-color: #16B3AC; color: white;">
+                                <i class="bi bi-key"></i>
+                            </button>
                             <a href="' . route('users.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>

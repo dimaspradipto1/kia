@@ -66,6 +66,49 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Password Update Modal -->
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                    <div class="modal-header text-white" style="background-color: #16B3AC;">
+                        <h5 class="modal-title fw-bold" id="passwordModalLabel">Update Password: <span id="modal-user-name"></span></h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="password-form" method="POST">
+                        @csrf
+                        <div class="modal-body p-4">
+                            <div class="mb-3">
+                                <label class="fw-bold mb-2">Password Baru</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" id="modal-password" class="form-control border-start-0 border-end-0" required minlength="8">
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="modal-password">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold mb-2">Konfirmasi Password Baru</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-check2-circle"></i></span>
+                                    <input type="password" name="password_confirmation" id="modal-password-conf" class="form-control border-start-0 border-end-0" required minlength="8">
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="modal-password-conf">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer bg-light border-0">
+                            <button type="button" class="btn btn-secondary btn-sm px-4" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-sm px-4 shadow-sm text-white" style="background-color: #16B3AC;">
+                                <i class="bi bi-check-lg me-1"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
         <div class="card-body p-4">
             <div class="table-responsive">
@@ -85,6 +128,30 @@
         {!! $dataTable->scripts() !!}
     @endif
     <script>
+        $(document).on('click', '.btn-password-modal', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const url = "{{ route('users.update-password', ':id') }}".replace(':id', id);
+            
+            $('#modal-user-name').text(name);
+            $('#password-form').attr('action', url);
+            $('#passwordModal').modal('show');
+        });
+
+        $(document).on('click', '.toggle-password', function() {
+            const targetId = $(this).data('target');
+            const input = $('#' + targetId);
+            const icon = $(this).find('i');
+            
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                icon.removeClass('bi-eye').addClass('bi-eye-slash');
+            } else {
+                input.attr('type', 'password');
+                icon.removeClass('bi-eye-slash').addClass('bi-eye');
+            }
+        });
+
         $(document).on('click', '.btn-delete', function(e) {
             e.preventDefault();
             const form = $(this).closest('form');

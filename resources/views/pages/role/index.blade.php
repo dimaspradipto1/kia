@@ -1,12 +1,12 @@
 @extends('layouts.dashboard.template')
 
 @section('content')
-    <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #046B26 !important;">
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #EC1E88 !important;">
         <div class="card-header bg-white border-bottom py-3 px-4">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <div class="d-inline-flex shadow-sm overflow-hidden" style="border: 1px solid #e3e6f0; border-radius: 30px;">
-                        <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm font-weight-bold px-3 py-1 border-0" style="background-color: #046B26; color: white; font-size: 11px; height: 32px; display: flex; align-items: center; border-top-left-radius: 30px; border-bottom-left-radius: 30px;">
+                        <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm font-weight-bold px-3 py-1 border-0" style="background-color: #EC1E88; color: white; font-size: 11px; height: 32px; display: flex; align-items: center; border-top-left-radius: 30px; border-bottom-left-radius: 30px;">
                             <i class="bi bi-plus-lg me-1"></i> TAMBAH ROLE
                         </a>
                     </div>
@@ -44,7 +44,7 @@
                 text: "Role ini mungkin terhubung dengan data pengguna!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#d33',
+                confirmButtonColor: '#EC1E88',
                 cancelButtonColor: '#3085d6',
                 confirmButtonText: 'Ya, hapus!',
                 cancelButtonText: 'Batal'

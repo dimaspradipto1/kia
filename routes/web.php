@@ -20,6 +20,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     
     Route::get('users/export-template', [UserController::class, 'exportTemplate'])->name('users.export-template');
     Route::post('users/import', [UserController::class, 'import'])->name('users.import');
+    Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
 }); 

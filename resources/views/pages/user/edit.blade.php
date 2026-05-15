@@ -77,9 +77,15 @@
                         <div class="row mb-3">
                             <label for="password" class="col-sm-2 col-form-label fw-bold">Password Baru</label>
                             <div class="col-sm-10">
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Kosongkan jika tidak ingin mengubah password">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" id="password" class="form-control border-start-0 border-end-0 @error('password') is-invalid @enderror" placeholder="Kosongkan jika tidak ingin mengubah password">
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="password">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -87,7 +93,13 @@
                         <div class="row mb-3">
                             <label for="password_confirmation" class="col-sm-2 col-form-label fw-bold">Konfirmasi Password Baru</label>
                             <div class="col-sm-10">
-                                <input type="password" name="password_confirmation" class="form-control">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-check2-circle"></i></span>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border-start-0 border-end-0" placeholder="Ulangi password baru jika diubah">
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="password_confirmation">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -116,7 +128,7 @@
 
                         <div class="row mb-3">
                             <div class="col-sm-10 offset-sm-2">
-                                <button type="submit" class="btn btn-success px-4" style="background-color: #046B26;">Perbarui User</button>
+                                <button type="submit" class="btn btn-success px-4" style="background-color: #EC1E88;">Perbarui User</button>
                                 <a href="{{ route('users.index') }}" class="btn btn-secondary px-4">Batal</a>
                             </div>
                         </div>
@@ -126,4 +138,23 @@
         </div>
     </div>
 </section>
+@push('scripts')
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

@@ -16,7 +16,7 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #046B26 !important;">
+            <div class="card border-0 shadow-sm mb-4" style="border-radius: 12px; overflow: hidden; border-top: 5px solid #EC1E88 !important;">
                 <div class="card-header bg-white border-bottom py-3 px-4">
                     <h5 class="m-0 fw-bold text-dark" style="font-size: 1.1rem;">Form Tambah User</h5>
                 </div>
@@ -63,9 +63,15 @@
                         <div class="row mb-3">
                             <label for="password" class="col-sm-2 col-form-label fw-bold">Password</label>
                             <div class="col-sm-10">
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock"></i></span>
+                                    <input type="password" name="password" id="password" class="form-control border-start-0 border-end-0 @error('password') is-invalid @enderror" required>
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="password">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -73,7 +79,13 @@
                         <div class="row mb-3">
                             <label for="password_confirmation" class="col-sm-2 col-form-label fw-bold">Konfirmasi Password</label>
                             <div class="col-sm-10">
-                                <input type="password" name="password_confirmation" class="form-control" required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-check2-circle"></i></span>
+                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control border-start-0 border-end-0" required>
+                                    <button class="btn btn-outline-secondary border-start-0 toggle-password" type="button" data-target="password_confirmation">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -112,4 +124,23 @@
         </div>
     </div>
 </section>
+@push('scripts')
+<script>
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

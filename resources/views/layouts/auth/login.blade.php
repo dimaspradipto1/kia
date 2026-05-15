@@ -238,7 +238,10 @@
             <label for="password" class="form-label">Kata Sandi</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-              <input type="password" name="password" class="form-control border-start-0 bg-light" id="password" placeholder="Masukkan password" required>
+              <input type="password" name="password" class="form-control border-start-0 border-end-0 bg-light" id="password" placeholder="Masukkan password" required>
+              <button class="btn btn-light border border-start-0 text-muted" type="button" id="toggle-password" style="border-radius: 0 12px 12px 0;">
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
             @error('password')
               <div class="text-danger small mt-1">{{ $message }}</div>
@@ -246,7 +249,7 @@
           </div>
 
           <div class="mb-4 d-flex justify-content-between align-items-center">
-            <div class="form-check">
+            <div class="form-check d-none">
               <input class="form-check-input" type="checkbox" id="show-password">
               <label class="form-check-label small text-muted" for="show-password">Tampilkan Sandi</label>
             </div>
@@ -272,9 +275,16 @@
 
   <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script>
-    document.getElementById('show-password').addEventListener('change', function() {
+    document.getElementById('toggle-password').addEventListener('click', function() {
       const passwordInput = document.getElementById('password');
-      passwordInput.type = this.checked ? 'text' : 'password';
+      const icon = this.querySelector('i');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.replace('bi-eye', 'bi-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.replace('bi-eye-slash', 'bi-eye');
+      }
     });
   </script>
 </body>
