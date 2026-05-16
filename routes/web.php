@@ -30,9 +30,9 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('faqs', FaqController::class);
-    Route::resource('fasilitas-kesehatan', FasilitasKesehatanController::class);
-    Route::resource('profil-ibu', ProfilIbuController::class);
-    Route::resource('profil-suami', ProfilSuamiController::class);
-    Route::resource('profil-anak', ProfilAnakController::class);
-    Route::resource('buku-kia', BukuKiaController::class);
+    Route::resource('fasilitas-kesehatan', FasilitasKesehatanController::class)->parameters(['fasilitas-kesehatan' => 'fasilitasKesehatan']);
+    Route::resource('profil-ibu', ProfilIbuController::class)->parameters(['profil-ibu' => 'profilIbu']);
+    Route::resource('profil-suami', ProfilSuamiController::class)->parameters(['profil-suami' => 'profilSuami']);
+    Route::resource('profil-anak', ProfilAnakController::class)->parameters(['profil-anak' => 'profilAnak']);
+    Route::resource('buku-kia', BukuKiaController::class)->parameters(['buku-kia' => 'bukuKia']);
 }); 

@@ -38,6 +38,18 @@ class BukuKia extends Model
         return $this->hasMany(ProfilAnak::class, 'buku_kia_id');
     }
 
+    public function profilSuami()
+    {
+        return $this->hasOneThrough(
+            ProfilSuami::class,
+            ProfilIbu::class,
+            'id',            // Foreign key on profil_ibus (PK)
+            'profil_ibu_id', // Foreign key on profil_suamis
+            'profil_ibu_id', // Local key on buku_kias
+            'id'             // Local key on profil_ibus
+        );
+    }
+
     public function fasilitasKesehatan()
     {
         return $this->belongsTo(FasilitasKesehatan::class, 'fasilitas_kesehatan_id');
