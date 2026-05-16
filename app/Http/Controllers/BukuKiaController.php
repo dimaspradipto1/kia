@@ -3,63 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Models\BukuKia;
-use Illuminate\Http\Request;
+use App\Models\ProfilIbu;
+use App\Models\FasilitasKesehatan;
+use App\Http\Requests\BukuKiaRequest;
+use App\DataTables\BukuKiaDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BukuKiaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(BukuKiaDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.buku_kia.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $ibu    = ProfilIbu::all();
+        $faskes = FasilitasKesehatan::all();
+        return view('pages.buku_kia.create', compact('ibu', 'faskes'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(BukuKiaRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['qr_code'] = 'KIA-' . strtoupper(uniqid());
+        BukuKia::create($data);
+        Alert::success('Berhasil', 'Buku KIA berhasil ditambahkan.');
+        return redirect()->route('buku-kia.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(BukuKia $bukuKia)
     {
-        //
+        return view('pages.buku_kia.show', compact('bukuKia'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(BukuKia $bukuKia)
     {
-        //
+        $ibu    = ProfilIbu::all();
+        $faskes = FasilitasKesehatan::all();
+        return view('pages.buku_kia.edit', compact('bukuKia', 'ibu', 'faskes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BukuKia $bukuKia)
+    public function update(BukuKiaRequest $request, BukuKia $bukuKia)
     {
-        //
+        $bukuKia->update($request->validated());
+        Alert::success('Berhasil', 'Buku KIA berhasil diperbarui.');
+        return redirect()->route('buku-kia.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(BukuKia $bukuKia)
     {
-        //
+        $bukuKia->delete();
+        return response()->json(['status' => 'success', 'message' => 'Buku KIA berhasil dihapus.']);
     }
 }

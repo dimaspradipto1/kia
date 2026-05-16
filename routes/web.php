@@ -7,6 +7,11 @@ use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\FasilitasKesehatanController;
+use App\Http\Controllers\ProfilIbuController;
+use App\Http\Controllers\ProfilSuamiController;
+use App\Http\Controllers\ProfilAnakController;
+use App\Http\Controllers\BukuKiaController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -25,4 +30,9 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('faqs', FaqController::class);
+    Route::resource('fasilitas-kesehatan', FasilitasKesehatanController::class);
+    Route::resource('profil-ibu', ProfilIbuController::class);
+    Route::resource('profil-suami', ProfilSuamiController::class);
+    Route::resource('profil-anak', ProfilAnakController::class);
+    Route::resource('buku-kia', BukuKiaController::class);
 }); 

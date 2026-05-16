@@ -31,9 +31,13 @@
     {{--  datatables CSS  --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
 
+    {{-- Flatpickr --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -49,7 +53,6 @@
     </main><!-- End #main -->
 
     @include('layouts.dashboard.footer')
-
 
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
@@ -70,8 +73,42 @@
 
     {{-- datatables --}}
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
     <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+
+    {{-- Flatpickr --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/id.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Select2 dengan search
+            $('.select2').select2({
+                theme: 'default',
+                width: '100%',
+                allowClear: true,
+                minimumResultsForSearch: 0,
+                language: {
+                    noResults: function() { return "Tidak ada hasil"; },
+                    searching: function() { return "Mencari..."; }
+                }
+            });
+
+            // Select2 tanpa search (untuk pilihan sedikit)
+            $('.select2-nosearch').select2({
+                theme: 'default',
+                width: '100%',
+                allowClear: true,
+                minimumResultsForSearch: Infinity,
+                language: {
+                    noResults: function() { return "Tidak ada hasil"; }
+                }
+            });
+        });
+    </script>
 
     @stack('scripts')
     @stack('styles')

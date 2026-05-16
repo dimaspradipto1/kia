@@ -4,62 +4,62 @@ namespace App\Http\Controllers;
 
 use App\Models\FasilitasKesehatan;
 use Illuminate\Http\Request;
+use App\DataTables\FasilitasKesehatanDataTable;
+use App\Http\Requests\FasilitasKesehatanRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class FasilitasKesehatanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(FasilitasKesehatanDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.fasilitas_kesehatan.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('pages.fasilitas_kesehatan.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(FasilitasKesehatanRequest $request)
     {
-        //
+        $data = $request->validated();
+        if ($request->jam_buka && $request->jam_tutup) {
+            $data['jam_operasional'] = $request->jam_buka . ' - ' . $request->jam_tutup;
+        }
+
+        FasilitasKesehatan::create($data);
+
+        Alert::success('Berhasil', 'Fasilitas Kesehatan berhasil ditambahkan.');
+        return redirect()->route('fasilitas-kesehatan.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(FasilitasKesehatan $fasilitasKesehatan)
     {
-        //
+        return view('pages.fasilitas_kesehatan.show', compact('fasilitasKesehatan'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(FasilitasKesehatan $fasilitasKesehatan)
     {
-        //
+        return view('pages.fasilitas_kesehatan.edit', compact('fasilitasKesehatan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, FasilitasKesehatan $fasilitasKesehatan)
+    public function update(FasilitasKesehatanRequest $request, FasilitasKesehatan $fasilitasKesehatan)
     {
-        //
+        $data = $request->validated();
+        if ($request->jam_buka && $request->jam_tutup) {
+            $data['jam_operasional'] = $request->jam_buka . ' - ' . $request->jam_tutup;
+        }
+
+        $fasilitasKesehatan->update($data);
+
+        Alert::success('Berhasil', 'Fasilitas Kesehatan berhasil diperbarui.');
+        return redirect()->route('fasilitas-kesehatan.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(FasilitasKesehatan $fasilitasKesehatan)
     {
-        //
+        $fasilitasKesehatan->delete();
+        Alert::success('Berhasil', 'Fasilitas Kesehatan berhasil dihapus.');
+        return redirect()->route('fasilitas-kesehatan.index');
     }
 }

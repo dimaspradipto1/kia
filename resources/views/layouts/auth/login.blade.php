@@ -202,7 +202,7 @@
       <div class="login-illustration d-none d-lg-flex">
         <div class="text-center">
           <img src="{{ asset('assets/img/login.png') }}" alt="KIA Illustration" class="mb-4">
-          <h3 class="fw-bold mb-2">Monitoring KIA</h3>
+          <h3 class="fw-bold mb-2">Monitoring MYKIA</h3>
           <p class="opacity-75">Sistem Informasi Monitoring Kesehatan Ibu dan Anak Terpadu</p>
         </div>
       </div>
@@ -211,7 +211,7 @@
         <div class="brand-logos">
           <img src="{{ asset('assets/img/logo.png') }}" alt="Logo">
           <div style="width: 2px; height: 40px; background: #eee;"></div>
-          <h4 class="mt-2 fw-bold" style="color: var(--primary-color);">Buku KIA</h4>
+          <h4 class="mt-2 fw-bold" style="color: var(--primary-color);">MYKIA</h4>
         </div>
 
         <div class="login-header">

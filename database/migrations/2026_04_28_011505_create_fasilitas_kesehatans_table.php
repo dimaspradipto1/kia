@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('kecamatan');
             $table->string('kab_kota');
             $table->string('provinsi');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->text('embed_map')->nullable();
             $table->string('telepon');
+            $table->string('jam_buka')->nullable();
+            $table->string('jam_tutup')->nullable();
             $table->string('jam_operasional');
             $table->boolean('is_active');
             $table->timestamps();

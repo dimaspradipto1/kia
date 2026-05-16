@@ -3,63 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfilIbu;
-use Illuminate\Http\Request;
+use App\Models\User;
+use App\Models\FasilitasKesehatan;
+use App\Http\Requests\ProfilIbuRequest;
+use App\DataTables\ProfileIbuDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfilIbuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(ProfileIbuDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.profil_ibu.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $faskes = FasilitasKesehatan::where('is_active', true)->get();
+        return view('pages.profil_ibu.create', [
+            'faskes' => $faskes
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ProfilIbuRequest $request)
     {
-        //
+        ProfilIbu::create($request->validated());
+
+        Alert::success('Berhasil', 'Profil Ibu berhasil ditambahkan.');
+        return redirect()->route('profil-ibu.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ProfilIbu $profilIbu)
     {
-        //
+        return view('pages.profil_ibu.show', ['profilIbu' => $profilIbu]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ProfilIbu $profilIbu)
     {
-        //
+        $faskes = FasilitasKesehatan::where('is_active', true)->get();
+        return view('pages.profil_ibu.edit', [
+            'profilIbu' => $profilIbu,
+            'faskes' => $faskes
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProfilIbu $profilIbu)
+    public function update(ProfilIbuRequest $request, ProfilIbu $profilIbu)
     {
-        //
+        $profilIbu->update($request->validated());
+
+        Alert::success('Berhasil', 'Profil Ibu berhasil diperbarui.');
+        return redirect()->route('profil-ibu.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProfilIbu $profilIbu)
     {
-        //
+        $profilIbu->delete();
+        Alert::success('Berhasil', 'Profil Ibu berhasil dihapus.');
+        return redirect()->route('profil-ibu.index');
     }
 }

@@ -19,8 +19,12 @@
           </a>
           <ul id="master-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
             <li><a href="{{ route('users.index') }}"><i class="bi bi-circle"></i><span>Data User</span></a></li>
+            <li><a href="{{ route('profil-ibu.index') }}"><i class="bi bi-circle"></i><span>Profil Ibu</span></a></li>
+            <li><a href="{{ route('profil-suami.index') }}"><i class="bi bi-circle"></i><span>Profil Suami</span></a></li>
+            <li><a href="{{ route('profil-anak.index') }}"><i class="bi bi-circle"></i><span>Profil Anak</span></a></li>
+            <li><a href="{{ route('buku-kia.index') }}"><i class="bi bi-circle"></i><span>Buku KIA</span></a></li>
             <li><a href="{{ route('roles.index') }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
+            <li><a href="{{ route('fasilitas-kesehatan.index') }}"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Jenis Pembiayaan</span></a></li>
             <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
@@ -42,7 +46,18 @@
         <li class="nav-heading">Tenaga Kesehatan</li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#"><i class="bi bi-book"></i><span>Manajemen Buku KIA</span></a>
+          <a class="nav-link collapsed" href="{{ route('buku-kia.index') }}"><i class="bi bi-book"></i><span>Manajemen Buku KIA</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" data-bs-target="#pasien-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-people"></i><span>Data Pasien</span><i class="bi bi-chevron-down ms-auto"></i>
+          </a>
+          <ul id="pasien-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+            <li><a href="{{ route('profil-ibu.index') }}"><i class="bi bi-circle"></i><span>Profil Ibu</span></a></li>
+            <li><a href="{{ route('profil-suami.index') }}"><i class="bi bi-circle"></i><span>Profil Suami</span></a></li>
+            <li><a href="{{ route('profil-anak.index') }}"><i class="bi bi-circle"></i><span>Profil Anak</span></a></li>
+          </ul>
         </li>
 
         <li class="nav-item">
@@ -81,7 +96,16 @@
       @if(Auth::user()->role->nama_role == 'ibu hamil')
         <li class="nav-heading">Ibu Hamil</li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#"><i class="bi bi-journal-check"></i><span>Buku KIA Saya</span></a>
+          <a class="nav-link collapsed" href="{{ route('buku-kia.index') }}"><i class="bi bi-journal-check"></i><span>Buku KIA Saya</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('profil-ibu.index') }}"><i class="bi bi-person-heart"></i><span>Profil Ibu</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('profil-suami.index') }}"><i class="bi bi-person-badge"></i><span>Profil Suami</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('profil-anak.index') }}"><i class="bi bi-person-hearts"></i><span>Profil Anak</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#"><i class="bi bi-calendar-check"></i><span>Riwayat Pemeriksaan</span></a>
@@ -92,13 +116,6 @@
       @endif
 
       <li class="nav-heading">Layanan</li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
-          <i class="bi bi-newspaper"></i>
-          <span>Artikel Edukasi</span>
-        </a>
-      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#">

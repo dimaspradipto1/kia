@@ -3,63 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfilAnak;
-use Illuminate\Http\Request;
+use App\Models\BukuKia;
+use App\Http\Requests\ProfilAnakRequest;
+use App\DataTables\ProfilAnakDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfilAnakController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(ProfilAnakDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.profil_anak.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $bukuKia = BukuKia::with('profilIbu')->get();
+        return view('pages.profil_anak.create', compact('bukuKia'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(ProfilAnakRequest $request)
     {
-        //
+        ProfilAnak::create($request->validated());
+        Alert::success('Berhasil', 'Profil Anak berhasil ditambahkan.');
+        return redirect()->route('profil-anak.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ProfilAnak $profilAnak)
     {
-        //
+        return view('pages.profil_anak.show', compact('profilAnak'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ProfilAnak $profilAnak)
     {
-        //
+        $bukuKia = BukuKia::with('profilIbu')->get();
+        return view('pages.profil_anak.edit', compact('profilAnak', 'bukuKia'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProfilAnak $profilAnak)
+    public function update(ProfilAnakRequest $request, ProfilAnak $profilAnak)
     {
-        //
+        $profilAnak->update($request->validated());
+        Alert::success('Berhasil', 'Profil Anak berhasil diperbarui.');
+        return redirect()->route('profil-anak.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(ProfilAnak $profilAnak)
     {
-        //
+        $profilAnak->delete();
+        return response()->json(['status' => 'success', 'message' => 'Profil Anak berhasil dihapus.']);
     }
 }
