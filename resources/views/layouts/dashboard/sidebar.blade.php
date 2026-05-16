@@ -23,6 +23,7 @@
             <li><a href="#"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Jenis Pembiayaan</span></a></li>
+            <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
       @endif

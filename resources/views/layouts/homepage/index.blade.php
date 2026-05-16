@@ -17,7 +17,14 @@
 <body>
     <!-- Preloader -->
     <div class="preloader d-flex align-items-center justify-content-center">
-        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        <div class="maternity-loader">
+            <div class="heart-pulse">
+                <i class="fa fa-heart"></i>
+            </div>
+            <div class="loader-text mt-4">
+                <span class="sora fw-bold">Memuat Kebahagiaan...</span>
+            </div>
+        </div>
     </div>
 
     <!-- ===== NAVBAR (single dark bar, logo left, nav center, CTA right) ===== -->
@@ -148,50 +155,627 @@
         </div>
     </div>
 
-    <!-- ===== SERVICES GRID (new card layout) ===== -->
-    <section class="ve-section ve-services-section">
-        <div class="container">
-            <div class="ve-section-header text-center">
-                <span class="ve-section-tag">Layanan Kami</span>
-                <h2>Solusi Kesehatan <span>Ibu & Anak</span></h2>
-                <p>Pendampingan lengkap mulai dari masa kehamilan hingga tumbuh kembang anak untuk masa depan yang lebih sehat.</p>
+    <!-- Google Fonts: Sora (Titles) & Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --brand-p: #EC1E88;
+            --brand-s: #16B3AC;
+            --brand-dark: #0F172A;
+            --brand-light: #F8FAFC;
+            --magenta-soft: rgba(236, 30, 136, 0.05);
+            --border-color: rgba(15, 23, 42, 0.08);
+            --transition-smooth: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        body { 
+            font-family: 'Inter', sans-serif; 
+            color: #334155; 
+            background: #FFFFFF;
+            overflow-x: hidden;
+        }
+
+        .sora { font-family: 'Sora', sans-serif; }
+        
+        /* Modern Container */
+        .container-tight { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section-gap { padding: 160px 0; }
+
+        /* Infinite Trust Bar Loop */
+        .ve-trust-bar {
+            background: var(--brand-dark); color: #fff;
+            padding: 25px 0; overflow: hidden;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .ve-trust-inner {
+            display: flex; gap: 80px; width: max-content;
+            animation: trustLoop 30s linear infinite;
+        }
+        .ve-trust-bar:hover .ve-trust-inner { animation-play-state: paused; }
+        .ve-trust-inner span {
+            font-family: 'Sora', sans-serif; font-weight: 600; font-size: 1.1rem;
+            display: flex; align-items: center; gap: 15px; white-space: nowrap;
+            opacity: 0.8; transition: opacity 0.3s;
+        }
+        .ve-trust-inner span:hover { opacity: 1; color: var(--brand-p); }
+        .ve-trust-inner i { color: var(--brand-p); font-size: 1.4rem; }
+
+        @keyframes trustLoop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* FAQ Marquee */
+        .faq-marquee-container {
+            width: 100%; overflow: hidden; padding: 40px 0;
+            position: relative;
+        }
+        .faq-marquee-inner {
+            display: flex; gap: 30px; width: max-content;
+            animation: faqLoop 40s linear infinite;
+        }
+        .faq-marquee-container:hover .faq-marquee-inner { animation-play-state: paused; }
+        .faq-marquee-card {
+            width: 400px; background: #fff; border-radius: 40px;
+            padding: 40px; border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            display: flex; flex-direction: column;
+        }
+        .faq-marquee-card:hover { border-color: var(--brand-p); transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+        .border-magenta { border-color: var(--brand-p) !important; }
+        .x-small { font-size: 0.8rem; }
+
+        @keyframes faqLoop {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Maternity Preloader */
+        .preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #fff; z-index: 999999; flex-direction: column;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+        .preloader.fade-out { opacity: 0; visibility: hidden; }
+        .maternity-loader { text-align: center; }
+        .heart-pulse {
+            width: 100px; height: 100px; background: var(--magenta-soft);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: var(--brand-p);
+            animation: heartbeat 1.5s ease-in-out infinite;
+            position: relative;
+        }
+        .heart-pulse::after {
+            content: ''; position: absolute; width: 100%; height: 100%;
+            border: 2px solid var(--brand-p); border-radius: 50%;
+            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        .loader-text { color: var(--brand-dark); font-size: 1.1rem; letter-spacing: 1px; }
+
+        @keyframes heartbeat {
+            0% { transform: scale(0.95); }
+            5% { transform: scale(1.1); }
+            39% { transform: scale(0.85); }
+            45% { transform: scale(1); }
+            60% { transform: scale(0.95); }
+            100% { transform: scale(0.9); }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.33); opacity: 0.8; }
+            80%, 100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Tech-Savvy Typography */
+        .badge-pill {
+            display: inline-flex; align-items: center;
+            padding: 8px 20px; border-radius: 100px;
+            background: var(--magenta-soft); color: var(--brand-p);
+            font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 30px;
+            border: 1px solid rgba(236, 30, 136, 0.1);
+        }
+        .hero-title-main {
+            font-size: 4.5rem; font-weight: 800; line-height: 1.05;
+            color: var(--brand-dark); letter-spacing: -0.05em;
+            margin-bottom: 35px;
+        }
+        .hero-subtitle {
+            font-size: 1.4rem; line-height: 1.8; color: #64748B;
+            max-width: 700px; margin-bottom: 50px; font-weight: 400;
+        }
+
+        /* Bento Grid Layout */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-gap: 30px;
+            margin-top: 80px;
+        }
+        .bento-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 40px;
+            padding: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+        }
+        .bento-card:hover {
+            border-color: var(--brand-p);
+            box-shadow: 0 40px 80px -20px rgba(15, 23, 42, 0.08);
+            transform: translateY(-10px);
+        }
+        .bento-card.tall { grid-column: span 4; grid-row: span 2; }
+        .bento-card.wide { grid-column: span 8; }
+        .bento-card.normal { grid-column: span 4; }
+
+        .icon-circle {
+            width: 70px; height: 70px;
+            background: var(--brand-light);
+            border-radius: 22px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; color: var(--brand-dark);
+            margin-bottom: 40px; transition: var(--transition-smooth);
+        }
+        .bento-card:hover .icon-circle { background: var(--brand-p); color: #fff; }
+        
+        /* App Showcase Mockup Style */
+        .mockup-wrap {
+            background: linear-gradient(135deg, #F1F5F9 0%, #FFFFFF 100%);
+            border-radius: 80px; padding: 120px 80px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        .mockup-screen {
+            background: #fff; border-radius: 30px;
+            box-shadow: 0 50px 100px -20px rgba(15, 23, 42, 0.15);
+            border: 8px solid #0F172A; position: relative;
+            z-index: 2;
+        }
+
+        /* Unified Premium Buttons */
+        .btn-p {
+            background: var(--brand-p); color: #fff !important;
+            padding: 22px 48px; border-radius: 100px;
+            font-weight: 700; border: none;
+            transition: var(--transition-smooth);
+            display: inline-flex; align-items: center; justify-content: center;
+            white-space: nowrap;
+            box-shadow: 0 15px 35px rgba(236, 30, 136, 0.25);
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-p:hover { transform: scale(1.05); background: #C2186D; box-shadow: 0 20px 45px rgba(236, 30, 136, 0.35); }
+        
+        .btn-s {
+            background: transparent; color: var(--brand-dark) !important;
+            padding: 22px 48px; border-radius: 100px;
+            font-weight: 700; border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            display: inline-flex; align-items: center; justify-content: center;
+            white-space: nowrap;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .btn-s:hover { background: #0F172A; color: #fff !important; border-color: #0F172A; }
+
+        .btn-s-white {
+            background: transparent; color: #fff !important;
+            padding: 22px 48px; border-radius: 100px;
+            font-weight: 700; border: 1px solid rgba(255,255,255,0.2);
+            transition: var(--transition-smooth);
+            display: inline-flex; align-items: center; justify-content: center;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .btn-s-white:hover { background: #fff; color: var(--brand-dark) !important; }
+
+        /* Faskes Section - Light Mode */
+        .faskes-card-light {
+            background: #FFFFFF; border-radius: 40px;
+            padding: 50px; border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .faskes-card-light:hover { border-color: var(--brand-s); box-shadow: 0 30px 60px rgba(22, 179, 172, 0.1); }
+        .icon-circle-s {
+            width: 60px; height: 60px; background: #E6FFFA; color: var(--brand-s);
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 30px;
+        }
+
+        /* Modern FAQ Dropdown */
+        .faq-v2-item { 
+            background: #F8FAFC; border-radius: 30px;
+            margin-bottom: 15px; border: 1px solid transparent;
+            transition: var(--transition-smooth);
+            overflow: hidden;
+        }
+        .faq-v2-item:hover { border-color: rgba(236, 30, 136, 0.2); background: #fff; }
+        .faq-v2-trigger {
+            padding: 35px 45px; display: flex; justify-content: space-between;
+            align-items: center; cursor: pointer;
+            width: 100%; background: none; border: none; text-align: left;
+        }
+        .faq-v2-trigger h4 { font-size: 1.4rem; font-weight: 700; margin: 0; color: var(--brand-dark); }
+        .faq-v2-body { padding: 0 45px 35px 45px; color: #64748B; font-size: 1.1rem; line-height: 1.8; }
+        .faq-v2-item .arrow { transition: transform 0.4s; color: var(--brand-p); font-size: 1.2rem; }
+        .faq-v2-item.active .arrow { transform: rotate(45deg); }
+
+        /* Service Cards Refinement */
+        .service-mini-card {
+            padding: 45px; border-radius: 40px; background: #fff;
+            border: 1px solid var(--border-color); transition: var(--transition-smooth);
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .service-mini-card:hover { border-color: var(--brand-p); box-shadow: 0 30px 60px rgba(236, 30, 136, 0.05); transform: translateY(-5px); }
+        .service-mini-card .icon-box {
+            width: 65px; height: 65px; background: var(--magenta-soft);
+            color: var(--brand-p); border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; margin-bottom: 30px; transition: var(--transition-smooth);
+        }
+        .service-mini-card:hover .icon-box { background: var(--brand-p); color: #fff; }
+        .service-mini-card h4 { font-size: 1.4rem; color: var(--brand-dark); }
+        .service-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            margin-top: auto; color: var(--brand-p); font-weight: 700;
+            text-decoration: none; padding: 12px 24px; border-radius: 12px;
+            background: var(--magenta-soft); transition: var(--transition-smooth);
+            width: fit-content; font-size: 0.95rem;
+        }
+        .service-btn:hover { background: var(--brand-p); color: #fff !important; }
+
+        /* Responsive Fixes */
+        @media (max-width: 1200px) {
+            .container-tight { padding: 0 40px; }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-title-main { font-size: 3.5rem; }
+            .bento-card.tall, .bento-card.wide, .bento-card.normal { grid-column: span 6; grid-row: span 1; }
+            .bento-card { padding: 35px; border-radius: 30px; height: auto !important; }
+            .mockup-wrap { padding: 80px 40px; border-radius: 60px; }
+            .section-gap { padding: 100px 0; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title-main { font-size: 2.5rem; line-height: 1.2; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .bento-grid { grid-template-columns: 1fr; margin-top: 40px; }
+            .bento-card.tall, .bento-card.wide, .bento-card.normal { grid-column: span 12; grid-row: auto; }
+            .bento-card { padding: 30px; border-radius: 30px; min-height: auto !important; }
+            .mockup-wrap { padding: 60px 24px; border-radius: 40px; }
+            .section-gap { padding: 60px 0; }
+            
+            /* Stacking buttons on mobile */
+            .mockup-wrap .d-flex.gap-4 { flex-direction: column; width: 100%; gap: 20px !important; }
+            .btn-p, .btn-s, .btn-s-white { 
+                padding: 18px 30px; font-size: 1rem; width: 100%; 
+                justify-content: center; text-align: center;
+            }
+            
+            .faskes-card-light { padding: 30px; border-radius: 30px; }
+            .faq-v2-trigger { padding: 25px 30px; }
+            .faq-v2-trigger h4 { font-size: 1.1rem; }
+            .faq-v2-body { padding: 0 30px 25px 30px; font-size: 1rem; }
+            
+            .icon-circle { width: 55px; height: 55px; font-size: 1.4rem; margin-bottom: 25px; }
+            
+            /* Section Titles */
+            .hero-title-main { font-size: 2.2rem; }
+
+            /* Spacing for reordered mockup columns */
+            .mockup-wrap .order-2 { margin-top: 120px; text-align: center; }
+            .mockup-wrap .order-1 { margin-bottom: 40px; }
+            .mockup-wrap h2 { font-size: 2rem !important; margin-top: 15px; }
+            .mockup-wrap .badge-pill { margin: 0 auto 15px auto; }
+            .mockup-wrap .d-flex.mb-4, .mockup-wrap .d-flex.mb-5 { justify-content: center; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
+            .mockup-wrap .d-flex.gap-4 { flex-direction: column; align-items: center; gap: 20px !important; margin-top: 30px; }
+            
+            /* Konsultasi Section Mobile */
+            .konsultasi-online { border-radius: 40px !important; padding: 40px 24px !important; text-align: center; }
+            .konsultasi-online h2 { font-size: 2.5rem !important; }
+            .konsultasi-online p { font-size: 1.1rem !important; }
+            .konsultasi-online .d-flex.gap-4 { flex-direction: column; align-items: center; gap: 15px !important; }
+            .konsultasi-online .col-lg-5 { margin-top: 50px; }
+
+            /* Tablet horizontal button gap fix */
+            @media (min-width: 768px) {
+                .mockup-wrap .d-flex.gap-4 { flex-direction: row; justify-content: center; gap: 30px !important; }
+                .konsultasi-online { text-align: left; padding: 60px !important; }
+                .konsultasi-online .d-flex.gap-4 { flex-direction: row; align-items: center; }
+                .konsultasi-online .col-lg-5 { margin-top: 0; }
+            }
+
+            /* Hide non-essential decorative elements on mobile */
+            .ve-nav-cta { display: none !important; }
+            .ve-hero-badge { display: none !important; }
+            .badge-pill { margin-bottom: 30px; font-size: 0.8rem; }
+            
+            /* Tighten header for mobile */
+            .ve-header { padding: 15px 0 !important; }
+            .ve-logo-text span { font-size: 1.1rem !important; }
+        }
+    </style>
+
+    <!-- ===== INFO KIA 2024 & EDUKASI ===== -->
+    <section class="section-gap">
+        <div class="container-tight">
+            <div class="text-center">
+                <span class="badge-pill">Edukasi KIA 2024</span>
+                <h2 class="hero-title-main">Pengetahuan Adalah <br><span style="color: var(--brand-p);">Kekuatan Ibu.</span></h2>
+                <p class="hero-subtitle mx-auto">Materi kesehatan yang disusun secara ilmiah untuk mendampingi setiap langkah perkembangan buah hati Anda.</p>
             </div>
-            <div class="ve-services-grid">
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="100ms">
-                    <div class="ve-service-icon"><i class="icon-profits"></i></div>
-                    <h4>Panduan Kehamilan</h4>
-                    <p>Informasi lengkap mengenai perkembangan janin dari minggu ke minggu serta tips menjaga kesehatan selama masa kehamilan.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+
+            <div class="bento-grid">
+                <div class="bento-card tall">
+                    <div>
+                        <div class="icon-circle"><i class="fa fa-child"></i></div>
+                        <h4 class="sora fw-bold mb-3">1000 HPK</h4>
+                        <p>Fase krusial yang menentukan kualitas hidup anak selamanya. Pastikan nutrisi optimal hari demi hari.</p>
+                    </div>
+                    <div class="mt-5 d-none d-lg-block">
+                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=400" class="w-100 rounded-4" style="height: 150px; object-fit: cover;">
+                    </div>
                 </div>
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="200ms">
-                    <div class="ve-service-icon"><i class="icon-money-1"></i></div>
-                    <h4>Tumbuh Kembang</h4>
-                    <p>Pantau perkembangan motorik, sensorik, dan kognitif buah hati Anda dengan standar kurva kesehatan internasional.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+                <div class="bento-card wide">
+                    <div class="row align-items-center">
+                        <div class="col-md-7">
+                            <div class="icon-circle" style="background: #E0F2FE; color: #0284C7;"><i class="fa fa-shield"></i></div>
+                            <h4 class="sora fw-bold mb-3">Strategi Cegah Stunting</h4>
+                            <p>Intervensi dini melalui pola asuh dan sanitasi untuk pertumbuhan fisik yang sempurna.</p>
+                        </div>
+                        <div class="col-md-5 d-none d-lg-block">
+                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=400" class="w-100 rounded-4" style="height: 200px; object-fit: cover;">
+                        </div>
+                    </div>
                 </div>
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="300ms">
-                    <div class="ve-service-icon"><i class="icon-coin"></i></div>
-                    <h4>Jadwal Imunisasi</h4>
-                    <p>Jangan lewatkan momen penting perlindungan buah hati Anda dengan pengingat jadwal imunisasi dasar lengkap.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+                <div class="bento-card normal">
+                    <div class="icon-circle" style="background: #FEF3C7; color: #D97706;"><i class="fa fa-tint"></i></div>
+                    <h4 class="sora fw-bold mb-3">ASI Eksklusif</h4>
+                    <p>Imunitas terbaik langsung dari ibu. Panduan sukses menyusui 6 bulan pertama.</p>
                 </div>
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="400ms">
-                    <div class="ve-service-icon"><i class="icon-smartphone-1"></i></div>
-                    <h4>Gizi Ibu & Anak</h4>
-                    <p>Rekomendasi asupan nutrisi seimbang untuk Ibu selama menyusui dan MPASI sehat untuk pertumbuhan Si Kecil.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+                <div class="bento-card normal">
+                    <div class="icon-circle" style="background: #F1F5F9; color: var(--brand-p);"><i class="fa fa-book"></i></div>
+                    <h4 class="sora fw-bold mb-3">Katalog Digital</h4>
+                    <p>Akses ratusan artikel gizi dan tips kesehatan ibu terbaru.</p>
                 </div>
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="500ms">
-                    <div class="ve-service-icon"><i class="icon-diamond"></i></div>
-                    <h4>Tips Persalinan</h4>
-                    <p>Persiapkan diri menyambut kelahiran dengan panduan teknik pernapasan, senam hamil, dan kebutuhan rumah sakit.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PANDUAN BUKU KIA DIGITAL ===== -->
+    <section class="section-gap" style="background: #F8FAFC;">
+        <div class="container-tight">
+            <div class="mockup-wrap">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-5 order-2 order-lg-1">
+                        <span class="badge-pill" style="background: #fff;">Smart Platform</span>
+                        <h2 class="sora fw-bold mb-4" style="font-size: 3.5rem; line-height: 1.1;">Buku KIA <br><span style="color: var(--brand-p);">Dalam Smartphone.</span></h2>
+                        <p class="mb-5 fs-5">Lupakan buku fisik yang mudah rusak. Sekarang semua catatan kesehatan tersimpan aman di cloud.</p>
+                        
+                        <div class="d-none d-md-block">
+                            <div class="d-flex mb-4">
+                                <div class="me-4"><i class="fa fa-check-circle fs-3 text-success"></i></div>
+                                <div>
+                                    <h6 class="fw-bold m-0">Input Data Instan</h6>
+                                    <p class="small text-muted">Catat hasil kontrol bidan dalam hitungan detik.</p>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-5">
+                                <div class="me-4"><i class="fa fa-check-circle fs-3 text-success"></i></div>
+                                <div>
+                                    <h6 class="fw-bold m-0">Grafik Tumbuh Kembang</h6>
+                                    <p class="small text-muted">Analisis otomatis KMS (Kartu Menuju Sehat) digital.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-4">
+                            <a href="{{ route('login') }}" class="btn-p">Mulai Sekarang</a>
+                            <a href="#" class="btn-s">Pelajari Fitur</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 order-1 order-lg-2">
+                        <div class="mockup-screen" style="background: transparent; border: none; box-shadow: none; display: flex; justify-content: center;">
+                            <img src="{{ asset('homepage/img/core-img/buku_kia.png') }}" class="rounded-4 shadow-2xl" style="max-width: 100%; height: auto;">
+                        </div>
+                    </div>
                 </div>
-                <div class="ve-service-card wow fadeInUp" data-wow-delay="600ms">
-                    <div class="ve-service-icon"><i class="icon-piggy-bank"></i></div>
-                    <h4>Kesehatan Mental</h4>
-                    <p>Dukungan emosional dan tips mengatasi baby blues untuk menjaga kebahagiaan Ibu selama masa pasca persalinan.</p>
-                    <a href="services.html" class="ve-card-link">Selengkapnya <i class="fa fa-long-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FASKES & LAYANAN (LIGHT & COOL) ===== -->
+    <section class="section-gap">
+        <div class="container-tight">
+            <div class="text-center mb-5">
+                <span class="badge-pill">Jejaring Kesehatan</span>
+                <h2 class="hero-title-main" style="font-size: 3.5rem;">Layanan Faskes <br><span style="color: var(--brand-s);">Dekat Dengan Anda.</span></h2>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="faskes-card-light">
+                        <div class="position-relative rounded-4 overflow-hidden mb-4" style="height: 300px;">
+                            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="icon-circle-s"><i class="fa fa-map-marker"></i></div>
+                        <h3 class="sora fw-bold mb-3">Puskesmas Standar Internasional</h3>
+                        <p class="text-muted">Fasilitas kesehatan primer dengan peralatan medis modern dan tenaga ahli untuk pelayanan KIA terbaik.</p>
+                        <div class="mt-4">
+                            <a href="#" class="btn-s">Cek Lokasi Terdekat</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="faskes-card-light" style="background: #F0FDFA; border-color: #CCFBF1;">
+                        <div class="icon-circle-s" style="background: #fff;"><i class="fa fa-hospital-o"></i></div>
+                        <h3 class="sora fw-bold mb-3">RS Umum Daerah</h3>
+                        <p class="text-muted">Rujukan utama untuk penanganan medis tingkat lanjut bagi ibu dan anak dengan fasilitas rawat inap lengkap.</p>
+                        <div class="mt-auto">
+                            <div class="p-4 bg-white rounded-4 border border-info border-opacity-10 d-flex align-items-center mb-4">
+                                <div class="me-3"><i class="fa fa-bed text-info fs-3"></i></div>
+                                <div>
+                                    <span class="d-block small text-muted">Ketersediaan Bed</span>
+                                    <strong class="text-dark">12 Bed Tersedia</strong>
+                                </div>
+                            </div>
+                            <a href="#" class="btn-p w-100 justify-content-center">Pesan Kamar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== KONSULTASI ONLINE (MORE ROUNDED) ===== -->
+    <section class="section-gap">
+        <div class="container-tight">
+            <div class="konsultasi-online p-5 shadow-2xl overflow-hidden position-relative" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius: 80px;">
+                <div class="row align-items-center py-5">
+                    <div class="col-lg-7 px-lg-5" style="z-index: 2;">
+                        <h2 class="sora fw-bold text-white mb-4" style="font-size: 4rem; line-height: 1;">Konsultasi <br><span style="color: var(--brand-p);">Cepat & Akurat.</span></h2>
+                        <p class="text-white opacity-50 fs-4 mb-5">Terhubung langsung dengan dokter spesialis anak dan obgyn melalui integrasi WhatsApp Medis.</p>
+                        <div class="d-flex gap-4">
+                            <a href="#" class="btn-p">Chat Sekarang</a>
+                            <a href="#" class="btn-s-white">Jadwalkan Temu</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 text-center" style="z-index: 2;">
+                        <div class="bg-white p-4 rounded-5 shadow-lg d-inline-block">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/628123456789" style="width: 200px;">
+                            <p class="mt-4 mb-0 text-dark fw-bold small" style="letter-spacing: 3px;">SCAN UNTUK CHAT</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Abstract Glow -->
+                <div style="position: absolute; top: -100px; right: -100px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(236, 30, 136, 0.2) 0%, transparent 70%);"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ & HELPDESK (HORIZONTAL LOOP) ===== -->
+    <section class="section-gap overflow-hidden">
+        <div class="container-tight">
+            <div class="text-center mb-5">
+                <span class="badge-pill">Pusat Bantuan</span>
+                <h2 class="sora fw-bold" style="font-size: 3.5rem; line-height: 1.1;">Pertanyaan <br><span style="color: var(--brand-p);">Sering Diajukan.</span></h2>
+                <p class="mt-4 text-muted fs-5 mx-auto" style="max-width: 600px;">Masih bingung? Tim kami siap membantu Anda 24/7 melalui pusat bantuan.</p>
+            </div>
+        </div>
+
+        <div class="faq-marquee-container">
+            <div class="faq-marquee-inner">
+                @php
+                    $staticFaqs = [
+                        [
+                            'pertanyaan' => 'Bagaimana cara mengakses Buku KIA Digital?',
+                            'jawaban' => 'Anda cukup masuk ke akun KIA Care Anda, lalu pilih menu "Buku Digital". Semua data riwayat kesehatan Anda dan buah hati.',
+                            'tips' => 'Perbarui data rutin setiap bulan.'
+                        ],
+                        [
+                            'pertanyaan' => 'Apakah konsultasi online tersedia 24/7?',
+                            'jawaban' => 'Layanan bantuan kami tersedia 24 jam, namun untuk konsultasi langsung mengikuti jadwal praktik dokter.',
+                            'tips' => 'Gunakan fitur "Jadwalkan Temu".'
+                        ]
+                    ];
+
+                    // Convert database collection to array or use static if empty
+                    if ($faqs->count() > 0) {
+                        $displayFaqs = $faqs->map(function($f) {
+                            return [
+                                'pertanyaan' => $f->pertanyaan,
+                                'jawaban' => $f->jawaban,
+                                'tips' => $f->tips ?? 'Patuhi jadwal kontrol rutin Anda.'
+                            ];
+                        })->toArray();
+                    } else {
+                        $displayFaqs = $staticFaqs;
+                    }
+
+                    // Duplicate items to ensure seamless loop if count is small
+                    if (count($displayFaqs) < 6) {
+                        $displayFaqs = array_merge($displayFaqs, $displayFaqs, $displayFaqs);
+                    }
+                @endphp
+
+                @foreach($displayFaqs as $faq)
+                    <div class="faq-marquee-card">
+                        <div class="icon-circle" style="width: 50px; height: 50px; margin-bottom: 20px;"><i class="fa fa-question-circle" style="font-size: 1.2rem;"></i></div>
+                        <h4 class="sora fw-bold mb-3">{{ $faq['pertanyaan'] }}</h4>
+                        <p class="text-muted small mb-4">{{ $faq['jawaban'] }}</p>
+                        <div class="p-3 rounded-4 bg-light border-start border-4 border-magenta">
+                             <strong class="text-dark d-block mb-1 small">Tips:</strong>
+                             <p class="x-small mb-0 text-muted">{{ $faq['tips'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SOLUSI KESEHATAN IBU & ANAK (REFINED) ===== -->
+    <section class="section-gap pb-5" style="background: #F8FAFC;">
+        <div class="container-tight">
+            <div class="text-center mb-5">
+                <span class="badge-pill">Layanan Kami</span>
+                <h2 class="hero-title-main">Solusi Kesehatan <br><span style="color: var(--brand-p);">Ibu & Anak.</span></h2>
+                <p class="hero-subtitle mx-auto">Pendampingan lengkap mulai dari masa kehamilan hingga tumbuh kembang anak.</p>
+            </div>
+            
+            <div class="row g-5">
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-female"></i></div>
+                        <h4 class="sora fw-bold mb-3">Panduan Kehamilan</h4>
+                        <p class="text-muted">Informasi lengkap mengenai perkembangan janin dari minggu ke minggu.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-line-chart"></i></div>
+                        <h4 class="sora fw-bold mb-3">Tumbuh Kembang</h4>
+                        <p class="text-muted">Pantau perkembangan motorik, sensorik, dan kognitif buah hati Anda.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-calendar-check-o"></i></div>
+                        <h4 class="sora fw-bold mb-3">Jadwal Imunisasi</h4>
+                        <p class="text-muted">Jangan lewatkan pengingat jadwal imunisasi dasar lengkap.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-cutlery"></i></div>
+                        <h4 class="sora fw-bold mb-3">Gizi Ibu & Anak</h4>
+                        <p class="text-muted">Rekomendasi asupan nutrisi seimbang untuk Ibu dan MPASI sehat.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-stethoscope"></i></div>
+                        <h4 class="sora fw-bold mb-3">Tips Persalinan</h4>
+                        <p class="text-muted">Persiapkan diri menyambut kelahiran dengan panduan teknik pernapasan.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 py-4">
+                    <div class="service-mini-card">
+                        <div class="icon-box"><i class="fa fa-heart"></i></div>
+                        <h4 class="sora fw-bold mb-3">Kesehatan Mental</h4>
+                        <p class="text-muted">Dukungan emosional dan tips mengatasi baby blues pasca persalinan.</p>
+                        <a href="#" class="service-btn">Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,7 +788,7 @@
                 <!-- Image Side -->
                 <div class="col-12 col-lg-5">
                     <div class="ve-whyus-img-wrap wow fadeInLeft" data-wow-delay="100ms">
-                        <div class="ve-whyus-img-main bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}pediatrician_accent.png);"></div>
+                        <div class="ve-whyus-img-main bg-img" style="background-image:url({{ asset('homepage/img/bg-img/pediatrician_accent.png') }});"></div>
                         <div class="ve-whyus-badge">
                             <strong>10rb+</strong>
                             <span>Ibu Terbantu</span>
@@ -278,7 +862,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Sangat membantu memantau jadwal imunisasi anak saya. Pengingatnya sangat akurat dan informasinya sangat lengkap."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}mother_avatar.png);"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
                         <div><strong>Ibu Rahma</strong><span>Ibu Rumah Tangga</span></div>
                     </div>
                 </div>
@@ -286,7 +870,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Panduan kehamilannya sangat detail. Saya jadi tidak khawatir lagi menghadapi persalinan anak pertama saya."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}mother_avatar.png);"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
                         <div><strong>Ibu Sari</strong><span>Guru SD</span></div>
                     </div>
                 </div>
@@ -294,7 +878,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Konsultasi gizi lewat KIA Care sangat praktis. Menu MPASI yang disarankan sangat disukai oleh buah hati saya."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}mother_avatar.png);"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
                         <div><strong>Ibu Linda</strong><span>Karyawan Swasta</span></div>
                     </div>
                 </div>
@@ -303,7 +887,7 @@
     </section>
 
     <!-- ===== CTA BANNER ===== -->
-    <section class="ve-cta-banner bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}maternity_clinic_bg.png);">
+    <section class="ve-cta-banner bg-img" style="background-image:url({{ asset('homepage/img/bg-img/maternity_clinic_bg.png') }});">
         <div class="ve-cta-overlay"></div>
         <div class="container ve-cta-content">
             <div class="row align-items-center">
@@ -329,7 +913,7 @@
             <div class="row">
                 <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="100ms">
                     <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}mother_baby_hero.png);"></div>
+                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_baby_hero.png') }});"></div>
                         <div class="ve-insight-body">
                             <span class="ve-insight-cat">Kehamilan</span>
                             <h5><a href="single-post.html">5 Tips Menjaga Nutrisi Selama Trimester Pertama</a></h5>
@@ -471,5 +1055,13 @@
     <script src="{{ asset('homepage/js/plugins/plugins.js') }}"></script>
     <script src="{{ asset('homepage/js/active.js') }}"></script>
     <script src="{{ asset('homepage/js/vaultedge.js') }}"></script>
+    <script>
+        $(window).on('load', function() {
+            $('.preloader').addClass('fade-out');
+            setTimeout(function() {
+                $('.preloader').hide();
+            }, 800);
+        });
+    </script>
 </body>
 </html>

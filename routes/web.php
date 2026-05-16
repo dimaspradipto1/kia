@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomepageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\FaqController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -23,4 +24,5 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('faqs', FaqController::class);
 }); 

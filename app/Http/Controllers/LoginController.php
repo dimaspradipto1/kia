@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UserDataTable;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -12,9 +13,9 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
-    public function login()
+    public function login(UserDataTable $dataTable)
     {
-        return view('layouts.auth.login');
+       return $dataTable->render('layouts.auth.login');
     }
 
     public function proseslogin(LoginRequest $request)
