@@ -29,6 +29,8 @@
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="{{ route('pembiayaan.index') }}"><i class="bi bi-circle"></i><span>Pembiayaan</span></a></li>
             <li><a href="{{ route('dokumen.index') }}"><i class="bi bi-circle"></i><span>Dokumen Pasien</span></a></li>
+            <li><a href="{{ route('kb-pasca-salin.index') }}" class="{{ request()->routeIs('kb-pasca-salin.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>KB Pasca Salin</span></a></li>
+            <li><a href="{{ route('pemantauan-nifas.index') }}" class="{{ request()->routeIs('pemantauan-nifas.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Pemantauan Nifas</span></a></li>
             <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
@@ -85,10 +87,10 @@
           <a class="nav-link collapsed" data-bs-target="#persalinan-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-heart-pulse"></i><span>Persalinan & Nifas</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="persalinan-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <ul id="persalinan-nav" class="nav-content collapse {{ request()->routeIs('kb-pasca-salin.*') || request()->routeIs('pemantauan-nifas.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
             <li><a href="#"><i class="bi bi-circle"></i><span>Data Persalinan</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>Pemantauan Nifas</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>KB Pasca Salin</span></a></li>
+            <li><a href="{{ route('pemantauan-nifas.index') }}" class="{{ request()->routeIs('pemantauan-nifas.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Pemantauan Nifas</span></a></li>
+            <li><a href="{{ route('kb-pasca-salin.index') }}" class="{{ request()->routeIs('kb-pasca-salin.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>KB Pasca Salin</span></a></li>
           </ul>
         </li>
 

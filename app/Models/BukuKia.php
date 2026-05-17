@@ -64,4 +64,14 @@ class BukuKia extends Model
     {
         return $this->hasMany(Dokumen::class, 'buku_kia_id');
     }
+
+    public function kbPascaSalins()
+    {
+        return $this->hasMany(KbPascaSalin::class, 'buku_kia_id');
+    }
+
+    public function pemantauanNifas()
+    {
+        return $this->hasMany(PemantauanNifas::class, 'buku_kia_id');
+    }
 }

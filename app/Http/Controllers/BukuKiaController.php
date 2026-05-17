@@ -34,6 +34,16 @@ class BukuKiaController extends Controller
 
     public function show(BukuKia $bukuKia)
     {
+        $bukuKia->load([
+            'profilIbu',
+            'profilSuami',
+            'profilAnak',
+            'pembiayaans',
+            'dokumens',
+            'kbPascaSalins.nakes',
+            'kbPascaSalins.fasilitasKesehatan',
+            'pemantauanNifas.nakes',
+        ]);
         return view('pages.buku_kia.show', compact('bukuKia'));
     }
 

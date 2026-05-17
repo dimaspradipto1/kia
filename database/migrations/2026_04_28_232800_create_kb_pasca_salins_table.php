@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('fasilitas_kesehatan_id')->constrained()->cascadeOnDelete();
             $table->string('metode_kb');
             $table->date('tanggal_mulai');
-            $table->text('catatan');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

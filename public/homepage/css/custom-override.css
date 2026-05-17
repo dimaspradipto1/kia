@@ -554,8 +554,17 @@ p { color: var(--ve-text); }
    GLOBAL STYLE.CSS OVERRIDES (Ensures everything is Pink)
    ============================================================ */
 
-.preloader { background: linear-gradient(135deg, var(--ve-dark) 0%, var(--ve-primary) 100%) !important; }
-.preloader .lds-ellipsis div { background: var(--ve-accent) !important; }
+.preloader { 
+  background: linear-gradient(-45deg, #FF80AB, #FF9A9E, #F06292, #FECFEF) !important; 
+  background-size: 400% 400% !important;
+  animation: gradientBG 8s ease infinite !important;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 
 #scrollUp { 
   background: linear-gradient(135deg, var(--ve-primary), var(--ve-secondary)) !important; 

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('payudara_bengkak');
             $table->string('gangguan_jiwa');
             $table->string('gangguan_bak');
-            $table->text('catatan');
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

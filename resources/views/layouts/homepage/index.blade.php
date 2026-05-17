@@ -234,24 +234,67 @@
         /* Maternity Preloader */
         .preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff; z-index: 999999; flex-direction: column;
-            transition: opacity 0.8s ease-out, visibility 0.8s;
+            z-index: 999999; 
+            display: flex;
+            align-items: center; 
+            justify-content: center;
+            transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.8s;
+            background: linear-gradient(-45deg, #FF80AB, #FF9A9E, #F06292, #FECFEF) !important; 
+            background-size: 400% 400% !important;
+            animation: gradientBG 6s ease infinite !important;
         }
         .preloader.fade-out { opacity: 0; visibility: hidden; }
-        .maternity-loader { text-align: center; }
+        
+        .maternity-loader { 
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 50px 70px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(236, 30, 136, 0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: floatLoader 4s ease-in-out infinite;
+        }
+        
         .heart-pulse {
-            width: 100px; height: 100px; background: var(--magenta-soft);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; color: var(--brand-p);
-            animation: heartbeat 1.5s ease-in-out infinite;
+            width: 90px; height: 90px; 
+            background: linear-gradient(135deg, #EC1E88, #FF80AB);
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 2.8rem; 
+            color: #fff;
+            animation: heartbeat 1.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
             position: relative;
+            box-shadow: 0 10px 25px rgba(236, 30, 136, 0.35);
+        }
+        .heart-pulse i {
+            filter: drop-shadow(0 2px 5px rgba(236, 30, 136, 0.3));
         }
         .heart-pulse::after {
-            content: ''; position: absolute; width: 100%; height: 100%;
-            border: 2px solid var(--brand-p); border-radius: 50%;
-            animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+            content: ''; 
+            position: absolute; 
+            width: 100%; 
+            height: 100%;
+            border: 2px solid rgba(236, 30, 136, 0.6); 
+            border-radius: 50%;
+            animation: pulse-ring 1.8s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
         }
-        .loader-text { color: var(--brand-dark); font-size: 1.1rem; letter-spacing: 1px; }
+        
+        .loader-text { 
+            color: #EC1E88 !important; 
+            font-size: 1.15rem; 
+            letter-spacing: 2px; 
+            font-weight: 800;
+            margin-top: 25px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            animation: textPulse 2s ease-in-out infinite;
+        }
 
         @keyframes heartbeat {
             0% { transform: scale(0.95); }
@@ -262,8 +305,21 @@
             100% { transform: scale(0.9); }
         }
         @keyframes pulse-ring {
-            0% { transform: scale(0.33); opacity: 0.8; }
-            80%, 100% { transform: scale(1.5); opacity: 0; }
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.8); opacity: 0; }
+        }
+        @keyframes floatLoader {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Tech-Savvy Typography */

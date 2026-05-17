@@ -15,6 +15,8 @@ use App\Http\Controllers\BukuKiaController;
 use App\Http\Controllers\PembiayaanController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\WilayaDinkesController;
+use App\Http\Controllers\KbPascaSalinController;
+use App\Http\Controllers\PemantauanNifasController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -43,4 +45,6 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('dokumen', DokumenController::class)->parameters(['dokumen' => 'dokumen']);
     Route::patch('dokumen/{dokumen}/status', [DokumenController::class, 'updateStatus'])->name('dokumen.update-status');
     Route::resource('wilaya-dinkes', WilayaDinkesController::class)->parameters(['wilaya-dinkes' => 'wilayaDinke']);
+    Route::resource('kb-pasca-salin', KbPascaSalinController::class)->parameters(['kb-pasca-salin' => 'kbPascaSalin']);
+    Route::resource('pemantauan-nifas', PemantauanNifasController::class)->parameters(['pemantauan-nifas' => 'pemantauanNifas']);
 }); 

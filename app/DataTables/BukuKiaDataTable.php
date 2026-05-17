@@ -19,15 +19,21 @@ class BukuKiaDataTable extends DataTable
             ->addColumn('DT_RowIndex', '')
             ->addColumn('action', function ($row) {
                 return '<div class="d-flex justify-content-center gap-1">
-                    <a href="' . route('buku-kia.show', $row->id) . '" class="btn btn-info btn-sm text-white" title="Detail">
-                        <i class="bi bi-eye"></i>
+                    <a href="' . route('buku-kia.show', $row->id) . '" class="btn btn-info btn-sm text-white shadow-xs" style="border-radius:20px; padding: 4px 10px;" title="Detail">
+                        <i class="bi bi-eye"></i> Detail
                     </a>
-                    <a href="' . route('buku-kia.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Edit">
+                    <a href="' . route('pemantauan-nifas.create', ['buku_kia_id' => $row->id]) . '" class="btn btn-sm text-white shadow-xs" style="background-color: #16B3AC; border-radius:20px; padding: 4px 10px;" title="Input Nifas">
+                        <i class="bi bi-activity"></i> +Nifas
+                    </a>
+                    <a href="' . route('kb-pasca-salin.create', ['buku_kia_id' => $row->id]) . '" class="btn btn-sm text-white shadow-xs" style="background-color: #EC1E88; border-radius:20px; padding: 4px 10px;" title="Input KB">
+                        <i class="bi bi-heart-pulse-fill"></i> +KB
+                    </a>
+                    <a href="' . route('buku-kia.edit', $row->id) . '" class="btn btn-warning btn-sm text-white shadow-xs" style="border-radius:20px; padding: 4px 8px;" title="Edit">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     <form action="' . route('buku-kia.destroy', $row->id) . '" method="POST" class="d-inline delete-form">
                         ' . csrf_field() . method_field('DELETE') . '
-                        <button type="button" class="btn btn-danger btn-sm btn-delete" title="Hapus">
+                        <button type="button" class="btn btn-danger btn-sm btn-delete shadow-xs" style="border-radius:20px; padding: 4px 8px;" title="Hapus">
                             <i class="bi bi-trash"></i>
                         </button>
                     </form>
@@ -80,7 +86,7 @@ class BukuKiaDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(120)
+                ->width(320)
                 ->addClass('text-center'),
         ];
     }
