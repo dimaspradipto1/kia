@@ -12,6 +12,8 @@ use App\Http\Controllers\ProfilIbuController;
 use App\Http\Controllers\ProfilSuamiController;
 use App\Http\Controllers\ProfilAnakController;
 use App\Http\Controllers\BukuKiaController;
+use App\Http\Controllers\PembiayaanController;
+use App\Http\Controllers\DokumenController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -35,4 +37,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('profil-suami', ProfilSuamiController::class)->parameters(['profil-suami' => 'profilSuami']);
     Route::resource('profil-anak', ProfilAnakController::class)->parameters(['profil-anak' => 'profilAnak']);
     Route::resource('buku-kia', BukuKiaController::class)->parameters(['buku-kia' => 'bukuKia']);
+    Route::resource('pembiayaan', PembiayaanController::class);
+    Route::resource('dokumen', DokumenController::class)->parameters(['dokumen' => 'dokumen']);
+    Route::patch('dokumen/{dokumen}/status', [DokumenController::class, 'updateStatus'])->name('dokumen.update-status');
 }); 

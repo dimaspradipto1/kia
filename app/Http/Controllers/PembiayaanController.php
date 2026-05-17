@@ -3,63 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembiayaan;
-use Illuminate\Http\Request;
+use App\Models\ProfilIbu;
+use App\Http\Requests\PembiayaanRequest;
+use App\DataTables\PembiayaanDataTable;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PembiayaanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(PembiayaanDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.pembiayaan.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $ibu = ProfilIbu::orderBy('nama_lengkap')->get();
+        return view('pages.pembiayaan.create', compact('ibu'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(PembiayaanRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        Pembiayaan::create($data);
+
+        Alert::success('Berhasil', 'Data pembiayaan berhasil ditambahkan.');
+        return redirect()->route('pembiayaan.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Pembiayaan $pembiayaan)
     {
-        //
+        return view('pages.pembiayaan.show', compact('pembiayaan'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Pembiayaan $pembiayaan)
     {
-        //
+        $ibu = ProfilIbu::orderBy('nama_lengkap')->get();
+        return view('pages.pembiayaan.edit', compact('pembiayaan', 'ibu'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Pembiayaan $pembiayaan)
+    public function update(PembiayaanRequest $request, Pembiayaan $pembiayaan)
     {
-        //
+        $data = $request->validated();
+        $data['is_active'] = $request->has('is_active') ? 1 : 0;
+
+        $pembiayaan->update($data);
+
+        Alert::success('Berhasil', 'Data pembiayaan berhasil diperbarui.');
+        return redirect()->route('pembiayaan.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Pembiayaan $pembiayaan)
     {
-        //
+        $pembiayaan->delete();
+        Alert::success('Berhasil', 'Data pembiayaan berhasil dihapus.');
+        return redirect()->route('pembiayaan.index');
     }
 }

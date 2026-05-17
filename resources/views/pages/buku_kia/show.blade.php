@@ -48,6 +48,12 @@
                             <li class="nav-item">
                                 <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-anak">Profil Anak</button>
                             </li>
+                            <li class="nav-item">
+                                <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-pembiayaan">Pembiayaan</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-dokumen">Dokumen</button>
+                            </li>
                         </ul>
 
                         <div class="tab-content pt-3">
@@ -155,6 +161,98 @@
                                 @endif
                             </div>
 
+                            {{-- Tab Pembiayaan --}}
+                            <div class="tab-pane fade" id="tab-pembiayaan">
+                                <h5 class="fw-bold mb-3">Data Pembiayaan</h5>
+                                @if($bukuKia->pembiayaans->count() > 0)
+                                    @foreach($bukuKia->pembiayaans as $pem)
+                                        <div class="mb-3">
+                                            <div class="fw-bold text-white px-3 py-2 mb-0 rounded-top d-flex justify-content-between align-items-center" style="background:#EC1E88;">
+                                                <span>{{ $pem->jenis_pembiayaan }}</span>
+                                                @if($pem->is_active)
+                                                    <span class="badge bg-success border border-white">Aktif</span>
+                                                @else
+                                                    <span class="badge bg-secondary border border-white">Tidak Aktif</span>
+                                                @endif
+                                            </div>
+                                            <table class="table table-bordered table-sm align-middle mb-0">
+                                                <tbody>
+                                                    <tr><th class="bg-light w-40">Nama Asuransi / BPJS</th><td>{{ $pem->nama_asuransi ?? '-' }}</td></tr>
+                                                    <tr><th class="bg-light">Nomor Polis / Kartu</th><td>{{ $pem->nomor_polis ?? '-' }}</td></tr>
+                                                    <tr><th class="bg-light">Tanggal Berlaku</th><td>{{ $pem->tanggal_berlaku ? $pem->tanggal_berlaku->translatedFormat('d F Y') : '-' }}</td></tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="text-center text-muted py-4">
+                                        <i class="bi bi-credit-card fs-1"></i>
+                                        <p class="mt-2">Belum ada data pembiayaan.</p>
+                                    </div>
+                                @endif
+                            </div>
+
+                            {{-- Tab Dokumen --}}
+                            <div class="tab-pane fade" id="tab-dokumen">
+                                <h5 class="fw-bold mb-3">Dokumen Pendukung</h5>
+                                @if($bukuKia->dokumens->count() > 0)
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-sm align-middle">
+                                            <thead class="bg-light text-center">
+                                                <tr>
+                                                    <th>Jenis Dokumen</th>
+                                                    <th>Status</th>
+                                                    <th>Berkas</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($bukuKia->dokumens as $dok)
+                                                    <tr>
+                                                        <td>{{ $dok->jenis_dokumen }}</td>
+                                                        <td class="text-center">
+                                                            @php
+                                                                $badgeClass = [
+                                                                    'pending'  => 'bg-warning text-dark',
+                                                                    'verified' => 'bg-success',
+                                                                    'rejected' => 'bg-danger'
+                                                                ];
+                                                            @endphp
+                                                            <span class="badge {{ $badgeClass[$dok->status_verifikasi] ?? 'bg-secondary' }}" id="status-badge-{{ $dok->id }}">
+                                                                {{ ucfirst($dok->status_verifikasi) }}
+                                                            </span>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="{{ asset('storage/' . $dok->file) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-eye"></i>
+                                                            </a>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex gap-1 justify-content-center">
+                                                                @if((Auth::user()->role->nama_role == 'nakes' || Auth::user()->role->nama_role == 'administrator') && $dok->status_verifikasi == 'pending')
+                                                                    <button type="button" class="btn btn-xs btn-success btn-update-status" data-id="{{ $dok->id }}" data-status="verified" title="Verifikasi"><i class="bi bi-check-lg"></i></button>
+                                                                    <button type="button" class="btn btn-xs btn-outline-danger btn-update-status" data-id="{{ $dok->id }}" data-status="rejected" title="Tolak"><i class="bi bi-x-lg"></i></button>
+                                                                @endif
+                                                                <a href="{{ route('dokumen.edit', $dok->id) }}" class="btn btn-xs btn-warning text-white" title="Edit"><i class="bi bi-pencil"></i></a>
+                                                                <form action="{{ route('dokumen.destroy', $dok->id) }}" method="POST" class="delete-form d-inline">
+                                                                    @csrf @method('DELETE')
+                                                                    <button type="button" class="btn btn-xs btn-danger btn-delete" title="Hapus"><i class="bi bi-trash"></i></button>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <div class="text-center text-muted py-4">
+                                        <i class="bi bi-file-earmark-x fs-1"></i>
+                                        <p class="mt-2">Belum ada dokumen yang diunggah.</p>
+                                    </div>
+                                @endif
+                            </div>
+
                         </div>{{-- end tab-content --}}
                     </div>
                     <div class="card-footer bg-white border-0 p-4 pt-0">
@@ -171,4 +269,52 @@
     <style>
         .w-40 { width: 40%; }
     </style>
+    @push('scripts')
+        <script>
+            // JS untuk Tab Dokumen
+            $(document).on('click', '.btn-delete', function () {
+                const form = $(this).closest('.delete-form');
+                Swal.fire({
+                    title: 'Hapus Dokumen?',
+                    text: 'File dokumen akan dihapus permanen!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EC1E88',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) form.submit();
+                });
+            });
+
+            $(document).on('click', '.btn-update-status', function () {
+                const id = $(this).data('id');
+                const status = $(this).data('status');
+                const btnContainer = $(this).closest('.d-flex');
+                
+                Swal.fire({
+                    title: status === 'verified' ? 'Verifikasi Dokumen?' : 'Tolak Dokumen?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: status === 'verified' ? '#198754' : '#dc3545',
+                    confirmButtonText: 'Ya, Lanjutkan!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `/dokumen/${id}/status`,
+                            type: 'PATCH',
+                            data: { _token: '{{ csrf_token() }}', status: status },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire('Berhasil!', response.message, 'success');
+                                    location.reload(); // Reload untuk memperbarui tampilan tab
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+    @endpush
 @endsection

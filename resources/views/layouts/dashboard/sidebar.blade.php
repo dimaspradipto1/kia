@@ -26,7 +26,8 @@
             <li><a href="{{ route('roles.index') }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
             <li><a href="{{ route('fasilitas-kesehatan.index') }}"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>Jenis Pembiayaan</span></a></li>
+            <li><a href="{{ route('pembiayaan.index') }}"><i class="bi bi-circle"></i><span>Pembiayaan</span></a></li>
+            <li><a href="{{ route('dokumen.index') }}"><i class="bi bi-circle"></i><span>Dokumen Pasien</span></a></li>
             <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
@@ -58,6 +59,14 @@
             <li><a href="{{ route('profil-suami.index') }}"><i class="bi bi-circle"></i><span>Profil Suami</span></a></li>
             <li><a href="{{ route('profil-anak.index') }}"><i class="bi bi-circle"></i><span>Profil Anak</span></a></li>
           </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('pembiayaan.index') }}"><i class="bi bi-credit-card"></i><span>Pembiayaan</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('dokumen.index') }}"><i class="bi bi-file-earmark-pdf"></i><span>Manajemen Dokumen</span></a>
         </li>
 
         <li class="nav-item">
@@ -106,6 +115,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="{{ route('profil-anak.index') }}"><i class="bi bi-person-hearts"></i><span>Profil Anak</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="{{ route('pembiayaan.index') }}"><i class="bi bi-credit-card"></i><span>Pembiayaan Saya</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link collapsed" href="#"><i class="bi bi-calendar-check"></i><span>Riwayat Pemeriksaan</span></a>

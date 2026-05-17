@@ -54,4 +54,14 @@ class BukuKia extends Model
     {
         return $this->belongsTo(FasilitasKesehatan::class, 'fasilitas_kesehatan_id');
     }
+
+    public function pembiayaans()
+    {
+        return $this->hasMany(Pembiayaan::class, 'profil_ibu_id', 'profil_ibu_id');
+    }
+
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class, 'buku_kia_id');
+    }
 }

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('jenis_pembiayaan');
             $table->string('nama_asuransi')->nullable();
             $table->string('nomor_polis')->nullable();
-            $table->string('atas_nama')->nullable();
             $table->date('tanggal_berlaku')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
