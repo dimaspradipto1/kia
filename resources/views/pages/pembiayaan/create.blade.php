@@ -41,7 +41,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Jenis Pembiayaan <span class="text-danger">*</span></label>
-                                    <select name="jenis_pembiayaan" class="form-select select2 @error('jenis_pembiayaan') is-invalid @enderror" data-placeholder="Pilih Jenis" required>
+                                    <select name="jenis_pembiayaan" class="form-select @error('jenis_pembiayaan') is-invalid @enderror" data-placeholder="Pilih Jenis" required>
                                         <option value=""></option>
                                         @foreach(['BPJS Kesehatan', 'Asuransi Swasta', 'Umum / Mandiri', 'Jampersal', 'Lainnya'] as $j)
                                             <option value="{{ $j }}" {{ old('jenis_pembiayaan') == $j ? 'selected' : '' }}>{{ $j }}</option>
@@ -57,9 +57,6 @@
                                            placeholder="-">
                                     @error('nama_asuransi') <div class="invalid-feedback">{{ $message }}</div> @enderror
                                 </div>
-                            </div>
-
-                            <div class="row mb-3">
                                 <div class="col-md-6 mb-3" id="field-nomor-polis">
                                     <label class="form-label fw-bold">Nomor Polis</label>
                                     <input type="text" name="nomor_polis" class="form-control @error('nomor_polis') is-invalid @enderror"

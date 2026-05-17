@@ -66,7 +66,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">Golongan Darah</label>
-                                    <select name="golongan_darah" class="form-select select2" data-placeholder="Pilih">
+                                    <select name="golongan_darah" class="form-select" data-placeholder="Pilih">
                                         <option value="">Pilih</option>
                                         @foreach(['A', 'B', 'AB', 'O'] as $g)
                                             <option value="{{ $g }}" {{ old('golongan_darah') == $g ? 'selected' : '' }}>{{ $g }}</option>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">Pendidikan Terakhir</label>
-                                    <select name="pendidikan" class="form-select select2" data-placeholder="Pilih Pendidikan">
+                                    <select name="pendidikan" class="form-select" data-placeholder="Pilih Pendidikan">
                                         <option value="">Pilih Pendidikan</option>
                                         @foreach(['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3'] as $p)
                                             <option value="{{ $p }}" {{ old('pendidikan') == $p ? 'selected' : '' }}>{{ $p }}</option>

@@ -171,5 +171,47 @@
                 }
             });
         });
+
+        $(document).on('click', '.btn-toggle-status', function() {
+            const id = $(this).data('id');
+            const url = "{{ route('users.toggle-status', ':id') }}".replace(':id', id);
+            
+            Swal.fire({
+                title: 'Ubah Status?',
+                text: "Apakah Anda yakin ingin mengubah status pengguna ini?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#EC1E88',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Ubah!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        type: 'POST',
+                        data: {
+                            _method: 'PATCH',
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil!',
+                                    text: response.message,
+                                    timer: 1500,
+                                    showConfirmButton: false
+                                });
+                                $('#user-table').DataTable().ajax.reload(null, false);
+                            }
+                        },
+                        error: function() {
+                            Swal.fire('Error!', 'Terjadi kesalahan saat mengubah status.', 'error');
+                        }
+                    });
+                }
+            });
+        });
     </script>
 @endpush

@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label fw-bold">Jenis Kelamin</label>
-                                    <select name="jenis_kelamin" class="form-select select2 @error('jenis_kelamin') is-invalid @enderror" data-placeholder="Pilih" required>
+                                    <select name="jenis_kelamin" class="form-select" data-placeholder="Pilih" required>
                                         <option value="">Pilih</option>
                                         <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
                                         <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
@@ -74,7 +74,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">Golongan Darah</label>
-                                    <select name="golongan_darah" class="form-select select2" data-placeholder="Pilih">
+                                    <select name="golongan_darah" class="form-select" data-placeholder="Pilih">
                                         <option value="">Pilih</option>
                                         @foreach(['A', 'B', 'AB', 'O'] as $g)
                                             <option value="{{ $g }}" {{ old('golongan_darah') == $g ? 'selected' : '' }}>{{ $g }}</option>

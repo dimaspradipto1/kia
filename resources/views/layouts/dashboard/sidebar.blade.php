@@ -25,6 +25,7 @@
             <li><a href="{{ route('buku-kia.index') }}"><i class="bi bi-circle"></i><span>Buku KIA</span></a></li>
             <li><a href="{{ route('roles.index') }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
             <li><a href="{{ route('fasilitas-kesehatan.index') }}"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
+            <li><a href="{{ route('wilaya-dinkes.index') }}"><i class="bi bi-circle"></i><span>Wilayah Dinkes</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="{{ route('pembiayaan.index') }}"><i class="bi bi-circle"></i><span>Pembiayaan</span></a></li>
             <li><a href="{{ route('dokumen.index') }}"><i class="bi bi-circle"></i><span>Dokumen Pasien</span></a></li>

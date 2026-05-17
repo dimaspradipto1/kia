@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfilAnakController;
 use App\Http\Controllers\BukuKiaController;
 use App\Http\Controllers\PembiayaanController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\WilayaDinkesController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -29,6 +30,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('users/export-template', [UserController::class, 'exportTemplate'])->name('users.export-template');
     Route::post('users/import', [UserController::class, 'import'])->name('users.import');
     Route::post('users/{user}/update-password', [UserController::class, 'updatePassword'])->name('users.update-password');
+    Route::patch('users/{user}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggle-status');
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('faqs', FaqController::class);
@@ -40,4 +42,5 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('pembiayaan', PembiayaanController::class);
     Route::resource('dokumen', DokumenController::class)->parameters(['dokumen' => 'dokumen']);
     Route::patch('dokumen/{dokumen}/status', [DokumenController::class, 'updateStatus'])->name('dokumen.update-status');
+    Route::resource('wilaya-dinkes', WilayaDinkesController::class)->parameters(['wilaya-dinkes' => 'wilayaDinke']);
 }); 

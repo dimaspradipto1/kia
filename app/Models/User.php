@@ -23,6 +23,8 @@ class User extends Authenticatable
         'email',
         'password',
         'roles_id',
+        'wilaya_dinkes_id',
+        'fasilitas_kesehatan_id',
         'is_active',
         'photo',
     ];
@@ -51,5 +53,15 @@ class User extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'roles_id');
+    }
+
+    public function wilayaDinkes()
+    {
+        return $this->belongsTo(WilayaDinkes::class, 'wilaya_dinkes_id');
+    }
+
+    public function fasilitasKesehatan()
+    {
+        return $this->belongsTo(FasilitasKesehatan::class, 'fasilitas_kesehatan_id');
     }
 }

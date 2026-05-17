@@ -63,12 +63,46 @@
                                 <select name="roles_id" class="form-select @error('roles_id') is-invalid @enderror" required>
                                     <option value="">Pilih Role</option>
                                     @foreach($roles as $role)
-                                        <option value="{{ $role->id }}" {{ old('roles_id', $user->roles_id) == $role->id ? 'selected' : '' }}>
+                                        <option value="{{ $role->id }}" data-name="{{ strtolower($role->nama_role) }}" {{ old('roles_id', $user->roles_id) == $role->id ? 'selected' : '' }}>
                                             {{ ucfirst($role->nama_role) }}
                                         </option>
                                     @endforeach
                                 </select>
                                 @error('roles_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 d-none" id="nakes-fields-1">
+                            <label for="wilaya_dinkes_id" class="col-sm-2 col-form-label fw-bold">Wilayah Dinkes</label>
+                            <div class="col-sm-10">
+                                <select name="wilaya_dinkes_id" id="wilaya_dinkes_id" class="form-select @error('wilaya_dinkes_id') is-invalid @enderror">
+                                    <option value="">Pilih Wilayah Dinkes</option>
+                                    @foreach($wilayaDinkes as $dinkes)
+                                        <option value="{{ $dinkes->id }}" {{ old('wilaya_dinkes_id', $user->wilaya_dinkes_id) == $dinkes->id ? 'selected' : '' }}>
+                                            {{ $dinkes->nama_dinkes }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('wilaya_dinkes_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 d-none" id="nakes-fields-2">
+                            <label for="fasilitas_kesehatan_id" class="col-sm-2 col-form-label fw-bold">Fasilitas Kesehatan</label>
+                            <div class="col-sm-10">
+                                <select name="fasilitas_kesehatan_id" id="fasilitas_kesehatan_id" class="form-select @error('fasilitas_kesehatan_id') is-invalid @enderror">
+                                    <option value="">Pilih Fasilitas Kesehatan</option>
+                                    @foreach($fasilitasKesehatan as $faskes)
+                                        <option value="{{ $faskes->id }}" {{ old('fasilitas_kesehatan_id', $user->fasilitas_kesehatan_id) == $faskes->id ? 'selected' : '' }}>
+                                            {{ $faskes->nama_faskes }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('fasilitas_kesehatan_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -155,6 +189,39 @@
             }
         });
     });
+
+    // Handle role change for nakes fields
+    const rolesSelect = document.querySelector('select[name="roles_id"]');
+    const nakesField1 = document.getElementById('nakes-fields-1');
+    const nakesField2 = document.getElementById('nakes-fields-2');
+    const dinkesSelect = document.getElementById('wilaya_dinkes_id');
+    const faskesSelect = document.getElementById('fasilitas_kesehatan_id');
+
+    function checkNakesFields() {
+        const selectedOption = rolesSelect.options[rolesSelect.selectedIndex];
+        if (!selectedOption) return;
+        
+        const roleName = selectedOption.getAttribute('data-name');
+        
+        if (roleName === 'nakes' || roleName === 'tenaga kesehatan') {
+            nakesField1.classList.remove('d-none');
+            nakesField2.classList.remove('d-none');
+            dinkesSelect.setAttribute('required', 'required');
+            faskesSelect.setAttribute('required', 'required');
+        } else {
+            nakesField1.classList.add('d-none');
+            nakesField2.classList.add('d-none');
+            dinkesSelect.removeAttribute('required');
+            faskesSelect.removeAttribute('required');
+            dinkesSelect.value = '';
+            faskesSelect.value = '';
+        }
+    }
+
+    rolesSelect.addEventListener('change', checkNakesFields);
+    
+    // Trigger on page load to handle old() or existing database values
+    checkNakesFields();
 </script>
 @endpush
 @endsection

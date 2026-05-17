@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('roles_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('wilaya_dinkes_id')->nullable();
+            $table->unsignedBigInteger('fasilitas_kesehatan_id')->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('photo')->nullable();
             $table->rememberToken();

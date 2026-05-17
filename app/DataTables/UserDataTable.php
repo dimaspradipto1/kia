@@ -47,9 +47,9 @@ class UserDataTable extends DataTable
                 return $btn;
             })
             ->editColumn('is_active', function ($row) {
-                return $row->is_active
-                    ? '<span class="badge bg-success">Aktif</span>'
-                    : '<span class="badge bg-danger">Non-Aktif</span>';
+                $statusClass = $row->is_active ? 'bg-success' : 'bg-danger';
+                $statusText = $row->is_active ? 'Aktif' : 'Non-Aktif';
+                return '<span class="badge ' . $statusClass . ' btn-toggle-status" data-id="' . $row->id . '" style="cursor: pointer;" title="Klik untuk mengubah status">' . $statusText . '</span>';
             })
             ->editColumn('role', function ($row) {
                 return $row->role->nama_role ?? '-';
