@@ -69,6 +69,9 @@
                                 <button class="nav-link active fw-bold" data-bs-toggle="tab" data-bs-target="#tab-buku"><i class="bi bi-book me-1"></i> Buku KIA</button>
                             </li>
                             <li class="nav-item">
+                                <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-anc"><i class="bi bi-clipboard2-pulse me-1"></i> Kunjungan ANC</button>
+                            </li>
+                            <li class="nav-item">
                                 <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-ibu"><i class="bi bi-person-heart me-1"></i> Ibu</button>
                             </li>
                             <li class="nav-item">
@@ -111,6 +114,67 @@
                                         <tr><th>Diterbitkan Oleh</th><td>{{ $bukuKia->diterbitkan_oleh }}</td></tr>
                                     </tbody>
                                 </table>
+                            </div>
+
+                            {{-- Tab Kunjungan ANC --}}
+                            <div class="tab-pane fade" id="tab-anc">
+                                <h5 class="fw-bold text-dark mb-3 d-flex align-items-center"><i class="bi bi-clipboard2-pulse-fill text-pink me-2"></i> Riwayat Kunjungan Antenatal Care (ANC)</h5>
+                                @if($bukuKia->kunjunganAncs->count() > 0)
+                                    @foreach($bukuKia->kunjunganAncs->sortBy('tanggal_kunjungan') as $anc)
+                                        <div class="mb-4 card shadow-none border" style="border-radius: 12px; overflow:hidden;">
+                                            <div class="fw-bold text-white px-3 py-2.5 mb-0 d-flex justify-content-between align-items-center" style="background: linear-gradient(90deg, #16B3AC 0%, #0d8d87 100%);">
+                                                <span><i class="bi bi-heart-pulse-fill me-1.5"></i> Trimester: <strong>Trimester {{ $anc->trimester }} (Kunjungan Ke-{{ $anc->kunjungan_ke }})</strong></span>
+                                                <span class="badge bg-white text-teal shadow-sm">Tanggal ANC: {{ \Carbon\Carbon::parse($anc->tanggal_kunjungan)->translatedFormat('d F Y') }}</span>
+                                            </div>
+                                            <table class="table table-bordered table-hover align-middle mb-0 table-custom-detail">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="w-40">Pemeriksa / Faskes</th>
+                                                        <td>{{ $anc->nakes->name ?? '-' }} ({{ $anc->fasilitasKesehatan->nama_faskes ?? '-' }})</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Parameter Fisik Ibu</th>
+                                                        <td>
+                                                            Berat Badan: <strong>{{ $anc->berat_badan }} kg</strong> | 
+                                                            LiLA: <strong>{{ $anc->lila_cm }} cm</strong> | 
+                                                            Tensi: <strong>{{ $anc->tekanan_darah_sistolik }}/{{ $anc->tekanan_darah_diastolik }} mmHg</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Kondisi Kandungan</th>
+                                                        <td>
+                                                            Tinggi Fundus (TFU): <strong>{{ $anc->tinggi_fundus_cm ? $anc->tinggi_fundus_cm . ' cm' : 'Belum teraba' }}</strong> | 
+                                                            DJJ Janin: <strong>{{ $anc->denyut_jantung_janin ?? '-' }}</strong> | 
+                                                            Letak Janin: <strong>{{ $anc->letak_janin ?? '-' }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>USG & Status TT</th>
+                                                        <td>
+                                                            Imunisasi TT: <strong>{{ $anc->status_tt ?? '-' }}</strong> | 
+                                                            Pemeriksaan USG: <strong>{{ $anc->usg_dilakukan === 'Ya' ? 'Dilakukan (' . ($anc->hasil_usg ?? 'Normal') . ')' : 'Tidak' }}</strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Skrining Jiwa & Catatan</th>
+                                                        <td>
+                                                            Skrining Mental: <span class="badge bg-light text-dark">{{ $anc->skrining_jiwa ?? 'Sehat / Normal' }}</span><br>
+                                                            <div class="mt-2 text-muted small"><strong>Catatan Bidan:</strong> {{ $anc->catatan ?? '-' }}</div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="text-center text-muted py-5">
+                                        <div class="d-inline-flex justify-content-center align-items-center mb-3 shadow-xs" style="width: 70px; height: 70px; border-radius: 50%; background: #e0f2f1;">
+                                            <i class="bi bi-clipboard2-pulse fs-2 text-teal"></i>
+                                        </div>
+                                        <p class="mt-2 fw-medium text-dark">Belum ada riwayat kunjungan ANC.</p>
+                                        <small class="text-muted">Catatan riwayat pemeriksaan berkala ibu hamil akan muncul di sini.</small>
+                                    </div>
+                                @endif
                             </div>
 
                             {{-- Tab Profil Ibu --}}

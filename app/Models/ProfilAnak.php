@@ -28,4 +28,9 @@ class ProfilAnak extends Model
     {
         return $this->belongsTo(BukuKia::class, 'buku_kia_id');
     }
+
+    public function bayiBaruLahir()
+    {
+        return $this->hasOne(BayiBaruLahir::class, 'profil_anak_id');
+    }
 }

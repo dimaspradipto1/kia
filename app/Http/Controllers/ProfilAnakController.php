@@ -30,6 +30,7 @@ class ProfilAnakController extends Controller
 
     public function show(ProfilAnak $profilAnak)
     {
+        $profilAnak->load(['bukuKia.profilIbu', 'bayiBaruLahir.nakes']);
         return view('pages.profil_anak.show', compact('profilAnak'));
     }
 

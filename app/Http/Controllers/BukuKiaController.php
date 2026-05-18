@@ -43,6 +43,8 @@ class BukuKiaController extends Controller
             'kbPascaSalins.nakes',
             'kbPascaSalins.fasilitasKesehatan',
             'pemantauanNifas.nakes',
+            'kunjunganAncs.nakes',
+            'kunjunganAncs.fasilitasKesehatan',
         ]);
         return view('pages.buku_kia.show', compact('bukuKia'));
     }

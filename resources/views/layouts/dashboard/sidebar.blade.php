@@ -31,6 +31,9 @@
             <li><a href="{{ route('dokumen.index') }}"><i class="bi bi-circle"></i><span>Dokumen Pasien</span></a></li>
             <li><a href="{{ route('kb-pasca-salin.index') }}" class="{{ request()->routeIs('kb-pasca-salin.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>KB Pasca Salin</span></a></li>
             <li><a href="{{ route('pemantauan-nifas.index') }}" class="{{ request()->routeIs('pemantauan-nifas.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Pemantauan Nifas</span></a></li>
+            <li><a href="{{ route('kunjungan-anc.index') }}" class="{{ request()->routeIs('kunjungan-anc.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kunjungan ANC</span></a></li>
+            <li><a href="{{ route('hasil-lab-ibu.index') }}" class="{{ request()->routeIs('hasil-lab-ibu.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
+            <li><a href="{{ route('bayi-baru-lahir.index') }}" class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
             <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
@@ -73,12 +76,12 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#pemeriksaan-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link {{ request()->routeIs('kunjungan-anc.*') || request()->routeIs('hasil-lab-ibu.*') ? '' : 'collapsed' }}" data-bs-target="#pemeriksaan-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-clipboard2-pulse"></i><span>Pemeriksaan Ibu</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="pemeriksaan-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li><a href="#"><i class="bi bi-circle"></i><span>Kunjungan ANC</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
+          <ul id="pemeriksaan-nav" class="nav-content collapse {{ request()->routeIs('kunjungan-anc.*') || request()->routeIs('hasil-lab-ibu.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+            <li><a href="{{ route('kunjungan-anc.index') }}" class="{{ request()->routeIs('kunjungan-anc.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kunjungan ANC</span></a></li>
+            <li><a href="{{ route('hasil-lab-ibu.index') }}" class="{{ request()->routeIs('hasil-lab-ibu.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Pencatatan TTD</span></a></li>
           </ul>
         </li>
@@ -95,11 +98,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link collapsed" data-bs-target="#anak-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link {{ request()->routeIs('bayi-baru-lahir.*') ? '' : 'collapsed' }}" data-bs-target="#anak-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-child"></i><span>Kesehatan Anak</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
-          <ul id="anak-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li><a href="#"><i class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
+          <ul id="anak-nav" class="nav-content collapse {{ request()->routeIs('bayi-baru-lahir.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+            <li><a href="{{ route('bayi-baru-lahir.index') }}" class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
             <li><a href="#"><i class="bi bi-circle"></i><span>Imunisasi Anak</span></a></li>
           </ul>
         </li>

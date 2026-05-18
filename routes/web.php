@@ -17,6 +17,9 @@ use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\WilayaDinkesController;
 use App\Http\Controllers\KbPascaSalinController;
 use App\Http\Controllers\PemantauanNifasController;
+use App\Http\Controllers\KunjunganAncController;
+use App\Http\Controllers\HasilLabIbuController;
+use App\Http\Controllers\BayiBaruLahirController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -47,4 +50,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('wilaya-dinkes', WilayaDinkesController::class)->parameters(['wilaya-dinkes' => 'wilayaDinke']);
     Route::resource('kb-pasca-salin', KbPascaSalinController::class)->parameters(['kb-pasca-salin' => 'kbPascaSalin']);
     Route::resource('pemantauan-nifas', PemantauanNifasController::class)->parameters(['pemantauan-nifas' => 'pemantauanNifas']);
+    Route::resource('kunjungan-anc', KunjunganAncController::class)->parameters(['kunjungan-anc' => 'kunjunganAnc']);
+    Route::resource('hasil-lab-ibu', HasilLabIbuController::class)->parameters(['hasil-lab-ibu' => 'hasilLabIbu']);
+    Route::resource('bayi-baru-lahir', BayiBaruLahirController::class)->parameters(['bayi-baru-lahir' => 'bayiBaruLahir']);
 }); 
