@@ -30,7 +30,16 @@ class ProfilAnakController extends Controller
 
     public function show(ProfilAnak $profilAnak)
     {
-        $profilAnak->load(['bukuKia.profilIbu', 'bayiBaruLahir.nakes']);
+        $profilAnak->load([
+            'bukuKia.profilIbu',
+            'bayiBaruLahir.nakes',
+            'imunisasiAnaks.fasilitasKesehatan',
+            'imunisasiAnaks.nakes',
+            'tumbuhKembangs.fasilitasKesehatan',
+            'tumbuhKembangs.nakes',
+            'perkembanganSidtks.nakes',
+            'mpasis.nakes',
+        ]);
         return view('pages.profil_anak.show', compact('profilAnak'));
     }
 

@@ -20,6 +20,10 @@ use App\Http\Controllers\PemantauanNifasController;
 use App\Http\Controllers\KunjunganAncController;
 use App\Http\Controllers\HasilLabIbuController;
 use App\Http\Controllers\BayiBaruLahirController;
+use App\Http\Controllers\ImunisasiAnakController;
+use App\Http\Controllers\TumbuhKembangController;
+use App\Http\Controllers\PerkembanganSidtkController;
+use App\Http\Controllers\MpasiController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -53,4 +57,8 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('kunjungan-anc', KunjunganAncController::class)->parameters(['kunjungan-anc' => 'kunjunganAnc']);
     Route::resource('hasil-lab-ibu', HasilLabIbuController::class)->parameters(['hasil-lab-ibu' => 'hasilLabIbu']);
     Route::resource('bayi-baru-lahir', BayiBaruLahirController::class)->parameters(['bayi-baru-lahir' => 'bayiBaruLahir']);
+    Route::resource('imunisasi-anak', ImunisasiAnakController::class)->parameters(['imunisasi-anak' => 'imunisasiAnak']);
+    Route::resource('tumbuh-kembang', TumbuhKembangController::class)->parameters(['tumbuh-kembang' => 'tumbuhKembang']);
+    Route::resource('perkembangan-sidtk', PerkembanganSidtkController::class)->parameters(['perkembangan-sidtk' => 'perkembanganSidtk']);
+    Route::resource('mpasi', MpasiController::class);
 }); 

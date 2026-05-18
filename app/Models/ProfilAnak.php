@@ -33,4 +33,24 @@ class ProfilAnak extends Model
     {
         return $this->hasOne(BayiBaruLahir::class, 'profil_anak_id');
     }
+
+    public function imunisasiAnaks()
+    {
+        return $this->hasMany(ImunisasiAnak::class, 'profil_anak_id');
+    }
+
+    public function tumbuhKembangs()
+    {
+        return $this->hasMany(TumbuhKembang::class, 'profil_anak_id');
+    }
+
+    public function perkembanganSidtks()
+    {
+        return $this->hasMany(PerkembanganSidtk::class, 'profil_anak_id');
+    }
+
+    public function mpasis()
+    {
+        return $this->hasMany(Mpasi::class, 'profil_anak_id');
+    }
 }

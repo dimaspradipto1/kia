@@ -14,19 +14,19 @@
 
     <section class="section profile">
         <div class="row">
-            <div class="col-xl-4">
+            <div class="col-xl-3">
                 <div class="card shadow-sm border-0" style="border-radius: 12px; border-top: 5px solid #EC1E88 !important;">
-                    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <div class="icon-circle bg-light d-flex align-items-center justify-content-center mb-3" style="width: 100px; height: 100px; border-radius: 50%;">
-                            <i class="bi bi-person-badge text-magenta" style="font-size: 3rem;"></i>
+                    <div class="card-body profile-card pt-3 d-flex flex-column align-items-center">
+                        <div class="d-flex align-items-center justify-content-center mb-2" style="width:72px;height:72px;border-radius:50%;background:#fce4f1;">
+                            <i class="bi bi-person-badge" style="font-size:2rem;color:#EC1E88;"></i>
                         </div>
-                        <h2 class="fw-bold text-center">{{ $profilSuami->nama_lengkap }}</h2>
-                        <h3>NIK: {{ $profilSuami->nik }}</h3>
+                        <h5 class="fw-bold text-center mb-0">{{ $profilSuami->nama_lengkap }}</h5>
+                        <p class="text-muted small mb-1">NIK: {{ $profilSuami->nik }}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-xl-8">
+            <div class="col-xl-9">
                 <div class="card shadow-sm border-0" style="border-radius: 12px;">
                     <div class="card-body pt-3">
                         <ul class="nav nav-tabs nav-tabs-bordered">

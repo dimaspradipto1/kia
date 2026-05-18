@@ -5,25 +5,35 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ImunisasiAnak extends Model
+class TumbuhKembang extends Model
 {
     use HasFactory;
 
-    protected $table = 'imunisasi_anaks';
+    protected $table = 'tumbuh_kembangs';
 
     protected $fillable = [
         'profil_anak_id',
         'fasilitas_kesehatan_id',
         'nakes_id',
-        'jenis_imunisasi',
-        'dosis_ke',
-        'tanggal_pemberian',
-        'batch_vaksin',
-        'efek_samping',
+        'tanggal_ukur',
+        'usia_bulan',
+        'berat_badan',
+        'tinggi_badan',
+        'lingkar_kepala',
+        'lila_cm',
+        'status_gizi_bb_u',
+        'status_gizi_tb_u',
+        'status_gizi_bb_tb',
+        'status_stunting',
+        'catatan',
     ];
 
     protected $casts = [
-        'tanggal_pemberian' => 'date',
+        'tanggal_ukur'   => 'date',
+        'berat_badan'    => 'decimal:2',
+        'tinggi_badan'   => 'decimal:2',
+        'lingkar_kepala' => 'decimal:2',
+        'lila_cm'        => 'decimal:2',
     ];
 
     public function profilAnak()

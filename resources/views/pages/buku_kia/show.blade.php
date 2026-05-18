@@ -15,20 +15,20 @@
     <section class="section animate__animated animate__fadeIn">
         <div class="row">
             {{-- Card Kiri: Maternal Passport Style --}}
-            <div class="col-xl-4 col-lg-5 mb-4">
+            <div class="col-xl-3 col-lg-4 mb-4">
                 <div class="card shadow-sm border-0 h-100" style="border-radius:16px; overflow:hidden; background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 100%);">
-                    <div class="card-body pt-5 d-flex flex-column align-items-center position-relative">
+                    <div class="card-body pt-4 d-flex flex-column align-items-center position-relative">
                         <div class="position-absolute top-0 end-0 p-3 opacity-25">
-                            <i class="bi bi-heart-fill" style="font-size: 6rem; color:#EC1E88;"></i>
+                            <i class="bi bi-heart-fill" style="font-size: 4rem; color:#EC1E88;"></i>
                         </div>
-                        <div class="d-flex align-items-center justify-content-center mb-4 shadow-sm"
-                             style="width:120px; height:120px; border-radius:50%; background:white; border: 5px solid #FFF;">
-                            <i class="bi bi-journal-medical" style="font-size:4rem; color:#EC1E88;"></i>
+                        <div class="d-flex align-items-center justify-content-center mb-3 shadow-sm"
+                             style="width:80px; height:80px; border-radius:50%; background:white; border: 4px solid #FFF;">
+                            <i class="bi bi-journal-medical" style="font-size:2.5rem; color:#EC1E88;"></i>
                         </div>
-                        <h4 class="fw-bold text-center mb-1 text-dark" style="font-family: 'Outfit', sans-serif; letter-spacing: 0.5px;">
+                        <h5 class="fw-bold text-center mb-1 text-dark" style="font-family: 'Outfit', sans-serif;">
                             {{ $bukuKia->profilIbu->nama_lengkap ?? 'Nama Ibu Hamil' }}
-                        </h4>
-                        <p class="text-muted small mb-3">No. Kohort: <span class="badge bg-white text-dark border shadow-xs px-2.5 py-1">{{ $bukuKia->no_reg_kohort_ibu ?? '-' }}</span></p>
+                        </h5>
+                        <p class="text-muted small mb-3">No. Kohort: <span class="badge bg-white text-dark border shadow-xs px-2">{{ $bukuKia->no_reg_kohort_ibu ?? '-' }}</span></p>
                         
                         <div class="w-100 p-3 bg-white mb-3 shadow-xs" style="border-radius: 14px; border-left: 5px solid #EC1E88;">
                             <div class="d-flex justify-content-between mb-2">
@@ -61,7 +61,7 @@
             </div>
 
             {{-- Card Kanan: Tabbed Information --}}
-            <div class="col-xl-8 col-lg-7 mb-4">
+            <div class="col-xl-9 col-lg-8 mb-4">
                 <div class="card shadow-sm border-0 h-100" style="border-radius:16px; overflow: hidden;">
                     <div class="card-body p-4 pt-3">
                         <ul class="nav nav-tabs nav-tabs-bordered mb-4" id="maternityTabs" role="tablist">
