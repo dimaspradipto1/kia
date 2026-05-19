@@ -10,7 +10,7 @@
         </a>
       </li><!-- End Dashboard Nav -->
 
-      @if(Auth::user()->role->nama_role == 'administrator')
+      @if(optional(Auth::user()->role)->nama_role == 'administrator')
         <li class="nav-heading">Administrator</li>
 
         <li class="nav-item">
@@ -41,19 +41,65 @@
             <li><a href="{{ route('faqs.index') }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
+
+        <li class="nav-heading">Laporan & Monitoring</li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.statistik') ? '' : 'collapsed' }}" href="{{ route('laporan.statistik') }}">
+            <i class="bi bi-graph-up-arrow"></i><span>Statistik KIA Wilayah</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-faskes') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-faskes') }}">
+            <i class="bi bi-building"></i><span>Monitoring Faskes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-buku-kia') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-buku-kia') }}">
+            <i class="bi bi-book"></i><span>Monitoring Buku KIA</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-imunisasi') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-imunisasi') }}">
+            <i class="bi bi-shield-plus"></i><span>Monitoring Imunisasi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-gizi-balita') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-gizi-balita') }}">
+            <i class="bi bi-heart-pulse"></i><span>Monitoring Gizi Balita</span>
+          </a>
+        </li>
       @endif
 
-      @if(Auth::user()->role->nama_role == 'dinas kesehatan')
+      @if(optional(Auth::user()->role)->nama_role == 'dinas kesehatan')
         <li class="nav-heading">Dinas Kesehatan</li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#"><i class="bi bi-graph-up-arrow"></i><span>Statistik KIA Wilayah</span></a>
+          <a class="nav-link {{ request()->routeIs('laporan.statistik') ? '' : 'collapsed' }}" href="{{ route('laporan.statistik') }}">
+            <i class="bi bi-graph-up-arrow"></i><span>Statistik KIA Wilayah</span>
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link collapsed" href="#"><i class="bi bi-building"></i><span>Monitoring Faskes</span></a>
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-faskes') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-faskes') }}">
+            <i class="bi bi-building"></i><span>Monitoring Faskes</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-buku-kia') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-buku-kia') }}">
+            <i class="bi bi-book"></i><span>Monitoring Buku KIA</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-imunisasi') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-imunisasi') }}">
+            <i class="bi bi-shield-plus"></i><span>Monitoring Imunisasi</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('laporan.monitoring-gizi-balita') ? '' : 'collapsed' }}" href="{{ route('laporan.monitoring-gizi-balita') }}">
+            <i class="bi bi-heart-pulse"></i><span>Monitoring Gizi Balita</span>
+          </a>
         </li>
       @endif
 
-      @if(Auth::user()->role->nama_role == 'nakes')
+      @if(optional(Auth::user()->role)->nama_role == 'nakes')
         <li class="nav-heading">Tenaga Kesehatan</li>
 
         {{-- Manajemen Buku KIA --}}
@@ -120,7 +166,7 @@
         </li>
       @endif
 
-      @if(Auth::user()->role->nama_role == 'ibu hamil')
+      @if(optional(Auth::user()->role)->nama_role == 'ibu hamil')
         <li class="nav-heading">Ibu Hamil</li>
 
         {{-- Buku KIA --}}
@@ -197,9 +243,10 @@
       <li class="nav-heading">Layanan</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#">
+        <a class="nav-link {{ request()->routeIs('konsultasi-online.*') ? '' : 'collapsed' }}" href="{{ route('konsultasi-online.index') }}">
           <i class="bi bi-chat-dots"></i>
           <span>Konsultasi Online</span>
+          <span id="konsultasi-unread-badge" class="badge bg-danger rounded-pill ms-auto d-none" style="font-size: 10px; padding: 3px 6px;">0</span>
         </a>
       </li>
 

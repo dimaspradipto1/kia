@@ -79,7 +79,15 @@ class ImunisasiAnakDataTable extends DataTable
      */
     public function query(ImunisasiAnak $model): QueryBuilder
     {
-        return $model->newQuery()->with(['profilAnak', 'fasilitasKesehatan', 'nakes']);
+        $query = $model->newQuery()->with(['profilAnak', 'fasilitasKesehatan', 'nakes']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('profilAnak.bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     /**

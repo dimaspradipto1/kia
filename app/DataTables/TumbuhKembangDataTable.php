@@ -77,7 +77,15 @@ class TumbuhKembangDataTable extends DataTable
 
     public function query(TumbuhKembang $model): QueryBuilder
     {
-        return $model->newQuery()->with(['profilAnak', 'fasilitasKesehatan', 'nakes']);
+        $query = $model->newQuery()->with(['profilAnak', 'fasilitasKesehatan', 'nakes']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('profilAnak.bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     public function html(): HtmlBuilder

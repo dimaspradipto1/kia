@@ -57,7 +57,16 @@ class BukuKiaDataTable extends DataTable
 
     public function query(BukuKia $model): QueryBuilder
     {
-        return $model->newQuery()->with(['profilIbu', 'fasilitasKesehatan']);
+        $query = $model->newQuery()->with(['profilIbu', 'fasilitasKesehatan']);
+
+        // Jika login sebagai ibu hamil, hanya tampilkan data milik sendiri
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     public function html(): HtmlBuilder

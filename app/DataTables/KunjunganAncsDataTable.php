@@ -83,7 +83,15 @@ class KunjunganAncsDataTable extends DataTable
      */
     public function query(KunjunganAnc $model): QueryBuilder
     {
-        return $model->newQuery()->with(['bukuKia.profilIbu', 'nakes', 'fasilitasKesehatan']);
+        $query = $model->newQuery()->with(['bukuKia.profilIbu', 'nakes', 'fasilitasKesehatan']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     /**

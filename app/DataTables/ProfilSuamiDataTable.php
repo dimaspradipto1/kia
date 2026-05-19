@@ -44,7 +44,15 @@ class ProfilSuamiDataTable extends DataTable
 
     public function query(ProfilSuami $model): QueryBuilder
     {
-        return $model->newQuery()->with('profilIbu');
+        $query = $model->newQuery()->with('profilIbu');
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     public function html(): HtmlBuilder

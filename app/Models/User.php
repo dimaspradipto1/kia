@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(FasilitasKesehatan::class, 'fasilitas_kesehatan_id');
     }
+
+    public function profilIbu()
+    {
+        return $this->hasOne(ProfilIbu::class);
+    }
 }

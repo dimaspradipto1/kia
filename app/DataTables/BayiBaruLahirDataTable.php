@@ -76,7 +76,15 @@ class BayiBaruLahirDataTable extends DataTable
      */
     public function query(BayiBaruLahir $model): QueryBuilder
     {
-        return $model->newQuery()->with(['profilAnak', 'nakes']);
+        $query = $model->newQuery()->with(['profilAnak', 'nakes']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('profilAnak.bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     /**

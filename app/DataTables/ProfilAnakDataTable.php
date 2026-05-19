@@ -43,7 +43,15 @@ class ProfilAnakDataTable extends DataTable
 
     public function query(ProfilAnak $model): QueryBuilder
     {
-        return $model->newQuery()->with(['bukuKia.profilIbu']);
+        $query = $model->newQuery()->with(['bukuKia.profilIbu']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     public function html(): HtmlBuilder

@@ -24,6 +24,8 @@ use App\Http\Controllers\ImunisasiAnakController;
 use App\Http\Controllers\TumbuhKembangController;
 use App\Http\Controllers\PerkembanganSidtkController;
 use App\Http\Controllers\MpasiController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\KonsultasiOnlineController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 
@@ -61,4 +63,15 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('tumbuh-kembang', TumbuhKembangController::class)->parameters(['tumbuh-kembang' => 'tumbuhKembang']);
     Route::resource('perkembangan-sidtk', PerkembanganSidtkController::class)->parameters(['perkembangan-sidtk' => 'perkembanganSidtk']);
     Route::resource('mpasi', MpasiController::class);
+    Route::get('konsultasi-online/check-updates', [KonsultasiOnlineController::class, 'checkUpdates'])->name('konsultasi-online.check-updates');
+    Route::post('konsultasi-online/{konsultasiOnline}/reply', [KonsultasiOnlineController::class, 'reply'])->name('konsultasi-online.reply');
+    Route::resource('konsultasi-online', KonsultasiOnlineController::class)->parameters(['konsultasi-online' => 'konsultasiOnline']);
+
+    // Laporan & Monitoring Routes
+    Route::get('/laporan/statistik', [LaporanController::class, 'statistik'])->name('laporan.statistik');
+    Route::get('/laporan/monitoring-faskes', [LaporanController::class, 'monitoringFaskes'])->name('laporan.monitoring-faskes');
+    Route::get('/laporan/monitoring-buku-kia', [LaporanController::class, 'monitoringBukuKia'])->name('laporan.monitoring-buku-kia');
+    Route::get('/laporan/monitoring-imunisasi', [LaporanController::class, 'monitoringImunisasi'])->name('laporan.monitoring-imunisasi');
+    Route::get('/laporan/monitoring-gizi-balita', [LaporanController::class, 'monitoringGiziBalita'])->name('laporan.monitoring-gizi-balita');
+    Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export-excel');
 }); 

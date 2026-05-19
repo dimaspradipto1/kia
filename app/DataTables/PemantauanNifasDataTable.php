@@ -70,7 +70,15 @@ class PemantauanNifasDataTable extends DataTable
      */
     public function query(PemantauanNifas $model): QueryBuilder
     {
-        return $model->newQuery()->with(['bukuKia.profilIbu', 'nakes']);
+        $query = $model->newQuery()->with(['bukuKia.profilIbu', 'nakes']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query;
     }
 
     /**

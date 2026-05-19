@@ -110,6 +110,140 @@
         });
     </script>
 
+    @auth
+    <script>
+        $(document).ready(function () {
+            // Real-time Chat Notification Service
+            function checkChatNotifications() {
+                $.ajax({
+                    url: "{{ route('konsultasi-online.check-updates') }}",
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success && response.updates) {
+                            var unreadCount = 0;
+                            var currentUserId = response.user_id;
+                            
+                            // Check if user is currently inside a chat window
+                            var activeChatWrapper = $('#chat-window-wrapper');
+                            var activeChatId = activeChatWrapper.length ? activeChatWrapper.data('chat-id') : null;
+
+                            response.updates.forEach(function (upd) {
+                                var key = 'chat_last_seen_' + upd.session_id;
+                                var lastSeenId = localStorage.getItem(key);
+
+                                // If no record yet, seed it with the current latest to prevent spam on first load
+                                if (!lastSeenId) {
+                                    localStorage.setItem(key, upd.last_message_id);
+                                    lastSeenId = upd.last_message_id;
+                                }
+
+                                lastSeenId = parseInt(lastSeenId);
+                                var latestId = parseInt(upd.last_message_id);
+
+                                // If the message is new, and not sent by the logged-in user
+                                if (latestId > lastSeenId && parseInt(upd.sender_id) !== parseInt(currentUserId)) {
+                                    unreadCount++;
+
+                                    // If we are NOT currently viewing this specific chat, trigger Toast
+                                    if (parseInt(activeChatId) !== parseInt(upd.session_id)) {
+                                        localStorage.setItem(key, latestId); // Update seen id so toast doesn't trigger repeatedly
+                                        
+                                        // Play visual SweetAlert2 toast notification
+                                        Swal.fire({
+                                            toast: true,
+                                            position: 'top-end',
+                                            icon: 'info',
+                                            title: 'Pesan Baru',
+                                            html: '<b>' + upd.partner_name + '</b>: ' + upd.message,
+                                            showConfirmButton: true,
+                                            confirmButtonText: 'Buka Chat',
+                                            confirmButtonColor: '#10B981',
+                                            showCancelButton: true,
+                                            cancelButtonText: 'Tutup',
+                                            timer: 10000,
+                                            timerProgressBar: true
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = "{{ route('konsultasi-online.index') }}?chat_id=" + upd.session_id;
+                                            }
+                                        });
+                                    } else {
+                                        // If we are currently in this chat room, automatically update seen ID
+                                        localStorage.setItem(key, latestId);
+                                        // Seamless dynamic reload of ONLY the message bubbles container
+                                        if ($('#chat-messages-container').length) {
+                                            $('#chat-messages-container').load(window.location.href + ' #chat-messages-container > *', function () {
+                                                // Smooth scroll to bottom
+                                                var container = document.getElementById('chat-messages-container');
+                                                if (container) {
+                                                    container.scrollTop = container.scrollHeight;
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+                            });
+
+                            // Update Sidebar & Header Bell Badges
+                            var $sidebarBadge = $('#konsultasi-unread-badge');
+                            var $headerBadge = $('#header-notification-badge');
+                            var $headerText = $('#header-notification-text');
+                            
+                            var headerListHtml = '';
+
+                            response.updates.forEach(function (upd) {
+                                var key = 'chat_last_seen_' + upd.session_id;
+                                var lastSeenId = parseInt(localStorage.getItem(key) || 0);
+                                var latestId = parseInt(upd.last_message_id);
+
+                                if (latestId > lastSeenId && parseInt(upd.sender_id) !== parseInt(currentUserId)) {
+                                    headerListHtml += `
+                                        <li class="notification-item" style="cursor: pointer; padding: 12px 15px; transition: background 0.15s;" 
+                                            onclick="window.location.href='${"{{ route('konsultasi-online.index') }}?chat_id=" + upd.session_id}'"
+                                            onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+                                          <div class="d-flex align-items-start gap-2">
+                                            <i class="bi bi-chat-dots-fill text-success fs-5"></i>
+                                            <div class="flex-grow-1" style="min-width: 0;">
+                                              <h4 class="mb-0 text-dark fw-bold" style="font-size: 12.5px; margin: 0;">${upd.partner_name}</h4>
+                                              <p class="mb-0 text-muted" style="font-size: 11.5px; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${upd.message}</p>
+                                              <p class="mb-0 text-secondary" style="font-size: 9px; margin-top: 2px;">${upd.time}</p>
+                                            </div>
+                                          </div>
+                                        </li>
+                                        <li>
+                                          <hr class="dropdown-divider">
+                                        </li>
+                                    `;
+                                }
+                            });
+
+                            if (unreadCount > 0) {
+                                $sidebarBadge.text(unreadCount).removeClass('d-none');
+                                $headerBadge.text(unreadCount).removeClass('d-none');
+                                $headerText.text('Anda memiliki ' + unreadCount + ' notifikasi baru');
+                                $('#header-notifications-list').html(headerListHtml);
+                            } else {
+                                $sidebarBadge.addClass('d-none');
+                                $headerBadge.addClass('d-none');
+                                $headerText.text('Anda tidak memiliki notifikasi baru');
+                                $('#header-notifications-list').html('<li class="text-center py-4 text-muted small"><i class="bi bi-bell-slash me-1"></i> Tidak ada notifikasi baru</li>');
+                            }
+                        }
+                    },
+                    error: function (err) {
+                        console.log('Error polling notifications:', err);
+                    }
+                });
+            }
+
+            // Run check on load, and then every 8 seconds
+            checkChatNotifications();
+            setInterval(checkChatNotifications, 8000);
+        });
+    </script>
+    @endauth
+
     @stack('scripts')
     @stack('styles')
 
