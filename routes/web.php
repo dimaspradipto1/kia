@@ -35,6 +35,10 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout', 'logout')->name('logout');
 });
 
+// Akses Publik Telemedisin (Guest)
+Route::get('/konsultasi-publik', [KonsultasiOnlineController::class, 'guestForm'])->name('konsultasi-publik.form');
+Route::post('/konsultasi-publik', [KonsultasiOnlineController::class, 'guestLogin'])->name('konsultasi-publik.login');
+
 Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     

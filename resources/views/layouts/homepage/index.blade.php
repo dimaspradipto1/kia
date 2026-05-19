@@ -698,15 +698,17 @@
                         <h2 class="sora fw-bold text-white mb-4" style="font-size: 4rem; line-height: 1;">Konsultasi <br><span style="color: var(--brand-p);">Cepat & Akurat.</span></h2>
                         <p class="text-white opacity-50 fs-4 mb-5">Terhubung langsung dengan dokter spesialis anak dan obgyn melalui integrasi WhatsApp Medis.</p>
                         <div class="d-flex gap-4">
-                            <a href="#" class="btn-p">Chat Sekarang</a>
-                            <a href="#" class="btn-s-white">Jadwalkan Temu</a>
+                            <a href="{{ route('konsultasi-publik.form') }}" class="btn-p">Chat Sekarang</a>
+                            <button type="button" class="btn-s-white" data-toggle="modal" data-target="#jadwalTemuModal">Jadwalkan Temu</button>
                         </div>
                     </div>
-                    <div class="col-lg-5 text-center" style="z-index: 2;">
-                        <div class="bg-white p-4 rounded-5 shadow-lg d-inline-block">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/628123456789" style="width: 200px;">
-                            <p class="mt-4 mb-0 text-dark fw-bold small" style="letter-spacing: 3px;">SCAN UNTUK CHAT</p>
+                    <div class="col-lg-5 text-center position-relative" style="z-index: 2;">
+                        <!-- Floating Badge -->
+                        <div class="position-absolute bg-white rounded-pill shadow-sm px-3 py-2 d-flex align-items-center gap-2" style="top: -20px; right: 20px; z-index: 3; color: var(--brand-p);">
+                            <i class="bi bi-patch-check-fill fs-5"></i>
+                            <span class="fw-bold small">Dokter Spesialis</span>
                         </div>
+                        <img src="{{ asset('assets/img/telemedisin-hero.png') }}" class="rounded-5 shadow-lg w-100" style="height: 300px; object-fit: cover; border: 6px solid rgba(255,255,255,0.1);">
                     </div>
                 </div>
                 <!-- Abstract Glow -->
@@ -1117,6 +1119,69 @@
             setTimeout(function() {
                 $('.preloader').hide();
             }, 800);
+        });
+    </script>
+
+    <!-- Modal Jadwal Temu -->
+    <div class="modal fade" id="jadwalTemuModal" tabindex="-1" role="dialog" aria-labelledby="jadwalTemuModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center" style="background: var(--brand-p); color: white; border-radius: 15px 15px 0 0; padding: 25px;">
+                    <h5 class="modal-title fw-bold" id="jadwalTemuModalLabel"><i class="fa fa-calendar-check-o me-2"></i> Jadwalkan Temu Dokter</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1; text-shadow: none;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-4">Silakan lengkapi form berikut untuk membuat janji temu dengan dokter spesialis di fasilitas kesehatan kami.</p>
+                    <form id="formJadwalTemu">
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold small text-dark">Nama Lengkap Pasien</label>
+                            <input type="text" class="form-control rounded-3" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold small text-dark">Nomor WhatsApp</label>
+                            <input type="tel" class="form-control rounded-3" placeholder="Contoh: 08123456789" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="form-label fw-bold small text-dark">Pilih Layanan Poli</label>
+                            <select class="form-control rounded-3" required>
+                                <option value="">-- Pilih Poli --</option>
+                                <option value="Kandungan (Obgyn)">Kandungan (Obgyn)</option>
+                                <option value="Anak (Pediatri)">Anak (Pediatri)</option>
+                                <option value="Gizi">Konsultasi Gizi</option>
+                                <option value="Umum">Dokter Umum</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="form-label fw-bold small text-dark">Rencana Tanggal Kunjungan</label>
+                            <input type="date" class="form-control rounded-3" required>
+                        </div>
+                        <button type="submit" class="btn-p w-100 p-3" style="border-radius: 12px; font-size: 1rem;">Kirim Permintaan Jadwal</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById('formJadwalTemu').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Tutup modal bootstrap menggunakan jQuery (kompatibel BS4 & BS5)
+            $('#jadwalTemuModal').modal('hide');
+
+            // Tampilkan notifikasi sukses
+            Swal.fire({
+                title: 'Permintaan Berhasil!',
+                text: 'Jadwal temu Anda sedang diproses. Petugas kami akan segera menghubungi Anda melalui WhatsApp untuk konfirmasi jam kehadiran.',
+                icon: 'success',
+                confirmButtonColor: '#EC1E88',
+                confirmButtonText: 'Tutup'
+            }).then(() => {
+                this.reset();
+            });
         });
     </script>
 </body>

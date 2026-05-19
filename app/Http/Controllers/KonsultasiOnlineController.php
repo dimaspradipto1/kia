@@ -12,6 +12,63 @@ use Illuminate\Support\Str;
 class KonsultasiOnlineController extends Controller
 {
     /**
+     * Tampilkan formulir identitas untuk akses publik (tanpa login manual)
+     */
+    public function guestForm()
+    {
+        // Jika sudah login, arahkan ke telemedisin
+        if (auth()->check()) {
+            return redirect()->route('konsultasi-online.index');
+        }
+
+        $faskes = FasilitasKesehatan::all();
+        return view('pages.konsultasi_online.guest', compact('faskes'));
+    }
+
+    /**
+     * Proses identitas publik, auto-create/login user, lalu redirect ke chat
+     */
+    public function guestLogin(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nik' => 'required|numeric|digits:16',
+            'faskes_id' => 'required|exists:fasilitas_kesehatans,id'
+        ]);
+
+        $email = $request->nik . '@telemedisin.kia';
+
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => $email],
+            [
+                'name' => $request->nama,
+                'password' => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(12)),
+                'roles_id' => 4, // Ibu Hamil
+                'is_active' => true
+            ]
+        );
+
+        if ($user->wasRecentlyCreated || !$user->profilIbu) {
+            \App\Models\ProfilIbu::create([
+                'user_id' => $user->id,
+                'fasilitas_kesehatan_id' => $request->faskes_id,
+                'nik' => $request->nik,
+                'nama_lengkap' => $request->nama,
+                'tempat_lahir' => 'Sistem Medis',
+                'tanggal_lahir' => '2000-01-01',
+            ]);
+        } else {
+            if($user->profilIbu) {
+               $user->profilIbu->update(['fasilitas_kesehatan_id' => $request->faskes_id]);
+            }
+        }
+
+        \Illuminate\Support\Facades\Auth::login($user);
+
+        return redirect()->route('konsultasi-online.index');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index(Request $request)

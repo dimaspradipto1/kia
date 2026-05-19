@@ -1,7 +1,64 @@
 @extends('layouts.dashboard.template')
 
 @section('content')
-<div class="pagetitle d-flex justify-content-between align-items-center">
+<style>
+    @media (max-width: 767px) {
+        /* Hide Dashboard Elements for Full Screen Chat App Experience */
+        #header, #sidebar, #footer, .back-to-top {
+            display: none !important;
+        }
+        #main {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 100dvh !important;
+            overflow: hidden !important;
+            display: flex;
+            flex-direction: column;
+        }
+        body, html {
+            background-color: #efeae2 !important;
+            overflow: hidden !important;
+            height: 100dvh !important;
+            width: 100%;
+            position: fixed;
+        }
+
+        .chat-container-card {
+            height: 100dvh !important;
+            min-height: 100dvh !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+        }
+        .chat-sidebar {
+            width: 100% !important;
+            min-width: 100% !important;
+            height: 100% !important;
+            border-right: none !important;
+            display: {{ request()->has('chat_id') ? 'none' : 'flex' }} !important;
+        }
+        .chat-window {
+            width: 100% !important;
+            height: 100% !important;
+            display: {{ request()->has('chat_id') ? 'flex' : 'none' }} !important;
+        }
+        #chat-messages-container {
+            height: calc(100dvh - 140px) !important;
+            max-height: calc(100dvh - 140px) !important;
+            overflow-y: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        .mobile-back-btn {
+            display: flex !important;
+        }
+    }
+    @media (min-width: 768px) {
+        .mobile-back-btn {
+            display: none !important;
+        }
+    }
+</style>
+
+<div class="pagetitle d-none d-md-flex justify-content-between align-items-center">
     <div>
         <h1 class="fw-bold text-dark">Layanan Telemedisin</h1>
         <nav>
@@ -34,11 +91,11 @@
 @endif
 
 <section class="section animate__animated animate__fadeIn">
-    <div class="row">
-        <div class="col-12">
+    <div class="row m-0">
+        <div class="col-12 p-0">
             
             <!-- Immersive WhatsApp Chat Container -->
-            <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 20px; height: 700px; display: flex; flex-direction: row; background-color: #ffffff;">
+            <div class="card border-0 shadow-sm overflow-hidden chat-container-card" style="border-radius: 20px; display: flex; flex-direction: row; background-color: #ffffff;">
                 
                 {{-- 1. LEFT PANEL: Conversations Sidebar (32% width) --}}
                 <div class="chat-sidebar border-end d-flex flex-column" style="width: 32%; background-color: #ffffff; min-width: 280px;">
@@ -117,45 +174,50 @@
 
                 {{-- 2. RIGHT PANEL: Interactive Chat Workspace (68% width) --}}
                 @if($konsultasiOnline)
-                    <div class="chat-window d-flex flex-column" id="chat-window-wrapper" data-chat-id="{{ $konsultasiOnline->id }}" style="width: 68%; background-color: #efeae2; position: relative; height: 100%;">
+                    <div class="chat-window d-flex flex-column" id="chat-window-wrapper" data-chat-id="{{ $konsultasiOnline->id }}" style="width: 68%; background-color: #efeae2; position: relative; height: 100%; overflow: hidden;">
                         
                         <!-- Chat Header -->
-                        <div class="p-3 d-flex align-items-center justify-content-between" style="background-color: #f0f2f5; height: 65px; border-bottom: 1px solid #e3e3e3; z-index: 10;">
-                            <div class="d-flex align-items-center">
-                                <div class="rounded-circle d-flex align-items-center justify-content-center text-white me-3" 
-                                     style="width: 40px; height: 40px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);">
+                        <div class="p-2 p-md-3 d-flex align-items-center justify-content-between flex-shrink-0" style="background-color: #f0f2f5; min-height: 65px; border-bottom: 1px solid #e3e3e3; z-index: 10;">
+                            <div class="d-flex align-items-center flex-grow-1" style="min-width: 0;">
+                                <!-- Mobile Back Button -->
+                                <a href="{{ route('konsultasi-online.index') }}" class="mobile-back-btn text-dark text-decoration-none me-2 me-md-3 align-items-center justify-content-center">
+                                    <i class="bi bi-arrow-left fs-4"></i>
+                                </a>
+                                
+                                <div class="rounded-circle d-flex align-items-center justify-content-center text-white me-2 me-md-3" 
+                                     style="width: 40px; height: 40px; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); flex-shrink: 0;">
                                     <i class="bi bi-person-circle fs-4"></i>
                                 </div>
-                                <div>
-                                    <h6 class="fw-bold text-dark mb-0" style="font-size: 14px;">
+                                <div class="flex-grow-1 text-truncate pe-2">
+                                    <h6 class="fw-bold text-dark mb-0 text-truncate" style="font-size: 14px;">
                                         @if(auth()->user()->role->nama_role === 'ibu hamil')
                                             {{ optional($konsultasiOnline->fasilitasKesehatan)->nama_faskes ?? 'Tenaga Kesehatan' }}
                                         @else
                                             {{ optional($konsultasiOnline->user)->name ?? 'Ibu Hamil (Pasien)' }}
                                         @endif
                                     </h6>
-                                    <span class="text-muted" style="font-size: 11px;">
+                                    <span class="text-muted text-truncate d-block" style="font-size: 11px;">
                                         <i class="bi bi-journals me-1"></i>Topik: <strong class="text-primary">{{ $konsultasiOnline->topik }}</strong>
                                     </span>
                                 </div>
                             </div>
 
                             <!-- Header Actions -->
-                            <div class="d-flex align-items-center gap-2">
-                                <span class="badge text-secondary bg-white border border-light-subtle rounded-pill px-3 py-1 fw-bold small">
+                            <div class="d-flex align-items-center gap-1 gap-md-2 flex-shrink-0">
+                                <span class="badge text-secondary bg-white border border-light-subtle rounded-pill px-2 px-md-3 py-1 fw-bold small d-none d-md-inline-block">
                                     NIK: {{ optional($konsultasiOnline->user->profilIbu)->nik ?? '-' }}
                                 </span>
                                 
                                 @if(in_array(auth()->user()->role->nama_role, ['administrator', 'nakes']) || (auth()->user()->role->nama_role === 'ibu hamil' && $konsultasiOnline->status === 'pending'))
-                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 btn-delete shadow-xs fw-bold small" data-id="{{ $konsultasiOnline->id }}">
-                                        <i class="bi bi-trash me-1"></i> Hapus
+                                    <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2 px-md-3 py-1 btn-delete shadow-xs fw-bold small d-flex align-items-center" data-id="{{ $konsultasiOnline->id }}">
+                                        <i class="bi bi-trash"></i> <span class="d-none d-md-inline ms-1">Hapus</span>
                                     </button>
                                 @endif
                             </div>
                         </div>
 
                         <!-- Chat Messages Space -->
-                        <div class="flex-grow-1 overflow-y-auto px-4 py-3" id="chat-messages-container" style="min-height: 0; background-image: radial-gradient(circle, #efeae2 20%, transparent 20%), radial-gradient(circle, #efeae2 20%, transparent 20%); background-size: 15px 15px; background-position: 0 0, 7.5px 7.5px; background-color: #efeae2;">
+                        <div class="flex-grow-1 overflow-y-auto px-4 py-3" id="chat-messages-container" style="min-height: 0; background-image: radial-gradient(circle, #efeae2 20%, transparent 20%), radial-gradient(circle, #efeae2 20%, transparent 20%); background-size: 15px 15px; background-position: 0 0, 7.5px 7.5px; background-color: #efeae2; -webkit-overflow-scrolling: touch;">
                             
                             <!-- Initial System Pill -->
                             <div class="d-flex justify-content-center mb-4">
@@ -218,7 +280,7 @@
                         </div>
 
                         <!-- Chat Bottom Input Bar -->
-                        <div class="p-3 border-top d-flex align-items-center" style="background-color: #f0f2f5; height: 75px; z-index: 10;">
+                        <div class="p-3 border-top d-flex align-items-center flex-shrink-0" style="background-color: #f0f2f5; min-height: 75px; z-index: 10;">
                             
                             @if($konsultasiOnline->status !== 'rejected')
                                 <!-- Dynamic Reply Form -->
