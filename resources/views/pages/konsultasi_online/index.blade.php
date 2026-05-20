@@ -2,6 +2,9 @@
 
 @section('content')
 <style>
+    #footer {
+        display: none !important;
+    }
     @media (max-width: 767px) {
         /* Hide Dashboard Elements for Full Screen Chat App Experience */
         #header, #sidebar, #footer, .back-to-top {
@@ -42,8 +45,8 @@
             display: {{ request()->has('chat_id') ? 'flex' : 'none' }} !important;
         }
         #chat-messages-container {
-            height: calc(100dvh - 140px) !important;
-            max-height: calc(100dvh - 140px) !important;
+            height: calc(100dvh - 120px) !important;
+            max-height: calc(100dvh - 120px) !important;
             overflow-y: auto !important;
             -webkit-overflow-scrolling: touch !important;
         }
@@ -54,6 +57,10 @@
     @media (min-width: 768px) {
         .mobile-back-btn {
             display: none !important;
+        }
+        .chat-container-card {
+            height: calc(100vh - 200px) !important;
+            max-height: calc(100vh - 200px) !important;
         }
     }
 </style>
@@ -78,7 +85,7 @@
 </div>
 
 @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 p-3 shadow-sm mb-4" role="alert">
+    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 p-3 shadow-sm mb-4 d-none d-md-block" role="alert">
         <div class="d-flex align-items-center">
             <i class="bi bi-check-circle-fill fs-4 me-3 text-success"></i>
             <div>
@@ -100,8 +107,12 @@
                 {{-- 1. LEFT PANEL: Conversations Sidebar (32% width) --}}
                 <div class="chat-sidebar border-end d-flex flex-column" style="width: 32%; background-color: #ffffff; min-width: 280px;">
                     <!-- Sidebar User Profile Header -->
-                    <div class="p-3 d-flex align-items-center justify-content-between" style="background-color: #f0f2f5; height: 65px; border-bottom: 1px solid #e3e3e3;">
+                    <div class="px-3 py-2 d-flex align-items-center justify-content-between" style="background-color: #f0f2f5; height: 52px; border-bottom: 1px solid #e3e3e3;">
                         <div class="d-flex align-items-center">
+                            <!-- Mobile Exit to Dashboard -->
+                            <a href="{{ route('dashboard') }}" class="d-flex d-md-none text-dark text-decoration-none me-2 align-items-center justify-content-center">
+                                <i class="bi bi-arrow-left fs-4"></i>
+                            </a>
                             <div class="bg-primary text-white rounded-circle p-2 me-2 d-flex align-items-center justify-content-center fw-bold" style="width: 38px; height: 38px; font-size: 14px;">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 2)) }}
                             </div>
@@ -113,7 +124,7 @@
                     </div>
 
                     <!-- Search Input -->
-                    <div class="p-2 border-bottom" style="background-color: #fcffff;">
+                    <div class="px-3 py-1 border-bottom" style="background-color: #fcffff;">
                         <div class="input-group">
                             <span class="input-group-text bg-white border-end-0 border-light-subtle rounded-start-pill py-1"><i class="bi bi-search text-muted small"></i></span>
                             <input type="text" class="form-control border-start-0 border-light-subtle rounded-end-pill py-1 small" placeholder="Cari percakapan..." id="chat-search" style="font-size: 13px;">
@@ -124,7 +135,7 @@
                     <div class="flex-grow-1 overflow-y-auto" id="chat-list-container">
                         @forelse($otherConsultations as $item)
                             <a href="{{ route('konsultasi-online.index', ['chat_id' => $item->id]) }}" 
-                               class="d-flex align-items-center p-3 border-bottom text-decoration-none transition-all hover-chat-item {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? 'active-chat-item' : '' }}"
+                               class="d-flex align-items-center py-2 px-3 border-bottom text-decoration-none transition-all hover-chat-item {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? 'active-chat-item' : '' }}"
                                style="border-left: 4px solid {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? '#128C7E' : 'transparent' }};">
                                 
                                 <div class="position-relative me-3">
@@ -177,7 +188,7 @@
                     <div class="chat-window d-flex flex-column" id="chat-window-wrapper" data-chat-id="{{ $konsultasiOnline->id }}" style="width: 68%; background-color: #efeae2; position: relative; height: 100%; overflow: hidden;">
                         
                         <!-- Chat Header -->
-                        <div class="p-2 p-md-3 d-flex align-items-center justify-content-between flex-shrink-0" style="background-color: #f0f2f5; min-height: 65px; border-bottom: 1px solid #e3e3e3; z-index: 10;">
+                        <div class="px-3 py-2 d-flex align-items-center justify-content-between flex-shrink-0" style="background-color: #f0f2f5; min-height: 52px; border-bottom: 1px solid #e3e3e3; z-index: 10;">
                             <div class="d-flex align-items-center flex-grow-1" style="min-width: 0;">
                                 <!-- Mobile Back Button -->
                                 <a href="{{ route('konsultasi-online.index') }}" class="mobile-back-btn text-dark text-decoration-none me-2 me-md-3 align-items-center justify-content-center">
@@ -220,9 +231,9 @@
                         <div class="flex-grow-1 overflow-y-auto px-4 py-3" id="chat-messages-container" style="min-height: 0; background-image: radial-gradient(circle, #efeae2 20%, transparent 20%), radial-gradient(circle, #efeae2 20%, transparent 20%); background-size: 15px 15px; background-position: 0 0, 7.5px 7.5px; background-color: #efeae2; -webkit-overflow-scrolling: touch;">
                             
                             <!-- Initial System Pill -->
-                            <div class="d-flex justify-content-center mb-4">
-                                <div class="bg-white rounded-3 shadow-xs px-3 py-2 border text-center text-dark" style="max-width: 80%; font-size: 11px; border-radius: 12px !important;">
-                                    <div class="fw-bold text-success mb-1 uppercase"><i class="bi bi-shield-plus me-1"></i>SESI TELEMEDIS AKTIF</div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <div class="bg-white rounded-3 shadow-xs px-3 py-1 border text-center text-dark" style="max-width: 80%; font-size: 10px; border-radius: 12px !important;">
+                                    <div class="fw-bold text-success mb-1 uppercase" style="font-size: 10.5px;"><i class="bi bi-shield-plus me-1"></i>SESI TELEMEDIS AKTIF</div>
                                     <span class="text-muted">Dibuka pada:</span> <strong>{{ $konsultasiOnline->created_at ? $konsultasiOnline->created_at->translatedFormat('d F Y H:i') : '' }}</strong>
                                 </div>
                             </div>
@@ -234,28 +245,27 @@
                                 @endphp
                                 @if($isMe)
                                     <!-- Logged-in User's own sent message (Right / Green) -->
-                                    <div class="d-flex justify-content-end mb-3">
-                                        <div class="rounded-4 shadow-sm p-3 text-dark position-relative" style="max-width: 75%; background-color: #d9fdd3; border-top-right-radius: 4px !important; border: 1px solid #C1E9BA;">
-                                            <div class="fw-bold text-primary small mb-1"><i class="bi bi-person-fill-check me-1"></i>Anda</div>
-                                            <div style="font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;">{{ $msg->message }}</div>
-                                            <div class="text-end text-muted mt-2 d-flex align-items-center justify-content-end" style="font-size: 9px;">
+                                    <div class="d-flex justify-content-end mb-2">
+                                        <div class="rounded-4 shadow-sm py-2 px-3 text-dark position-relative" style="max-width: 75%; background-color: #d9fdd3; border-top-right-radius: 4px !important; border: 1px solid #C1E9BA;">
+                                            <div class="fw-bold text-primary mb-1" style="font-size: 11px;"><i class="bi bi-person-fill-check me-1"></i>Anda</div>
+                                            <div style="font-size: 12.5px; line-height: 1.5; white-space: pre-wrap;">{{ $msg->message }}</div>
+                                            <div class="text-end text-muted mt-1 d-flex align-items-center justify-content-end" style="font-size: 9px;">
                                                 <span>{{ $msg->created_at ? $msg->created_at->translatedFormat('d F Y H:i') : '' }}</span>
-                                                <i class="bi bi-check2-all text-success ms-1" style="font-size: 12px;"></i>
+                                                <i class="bi bi-check2-all {{ $msg->is_read ? 'text-success' : 'text-secondary' }} ms-1" style="font-size: 11px;"></i>
                                             </div>
                                         </div>
                                     </div>
                                 @else
                                     <!-- Incoming partner response (Left / White) -->
-                                    <div class="d-flex justify-content-start mb-3">
-                                        <div class="bg-white rounded-4 shadow-sm p-3 text-dark position-relative border-light" style="max-width: 75%; border-top-left-radius: 4px !important; border: 1px solid #E2E8F0;">
-                                            <div class="fw-bold text-success small mb-1">
+                                    <div class="d-flex justify-content-start mb-2">
+                                        <div class="bg-white rounded-4 shadow-sm py-2 px-3 text-dark position-relative border-light" style="max-width: 75%; border-top-left-radius: 4px !important; border: 1px solid #E2E8F0;">
+                                            <div class="fw-bold text-success mb-1" style="font-size: 11px;">
                                                 <i class="bi bi-shield-fill-check me-1"></i>
                                                 {{ $msg->sender->name }} ({{ strtoupper($msg->sender->role->nama_role) }})
                                             </div>
-                                            <div style="font-size: 13.5px; line-height: 1.6; white-space: pre-wrap;">{{ $msg->message }}</div>
-                                            <div class="text-end text-muted mt-2 d-flex align-items-center justify-content-end" style="font-size: 9px;">
+                                            <div style="font-size: 12.5px; line-height: 1.5; white-space: pre-wrap;">{{ $msg->message }}</div>
+                                            <div class="text-end text-muted mt-1 d-flex align-items-center justify-content-end" style="font-size: 9px;">
                                                 <span>{{ $msg->created_at ? $msg->created_at->translatedFormat('d F Y H:i') : '' }}</span>
-                                                <i class="bi bi-check2-all text-primary ms-1" style="font-size: 12px;"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -280,25 +290,25 @@
                         </div>
 
                         <!-- Chat Bottom Input Bar -->
-                        <div class="p-3 border-top d-flex align-items-center flex-shrink-0" style="background-color: #f0f2f5; min-height: 75px; z-index: 10;">
+                        <div class="px-3 py-2 border-top d-flex align-items-center flex-shrink-0" style="background-color: #f0f2f5; min-height: 56px; z-index: 10;">
                             
                             @if($konsultasiOnline->status !== 'rejected')
                                 <!-- Dynamic Reply Form -->
                                 <form action="{{ route('konsultasi-online.reply', $konsultasiOnline->id) }}" method="POST" class="w-100 d-flex align-items-center gap-2 m-0" id="reply-form">
                                     @csrf
                                     
-                                    <div class="d-flex text-secondary fs-4 px-2" style="cursor: pointer;">
-                                        <i class="bi bi-emoji-smile me-3" title="Emoji"></i>
+                                    <div class="d-flex text-secondary fs-5 px-2" style="cursor: pointer;">
+                                        <i class="bi bi-emoji-smile me-2" title="Emoji"></i>
                                         <i class="bi bi-paperclip" title="Lampiran"></i>
                                     </div>
 
                                     <div class="flex-grow-1 position-relative">
-                                        <input type="text" name="message" class="form-control border-0 rounded-pill px-4" placeholder="Ketik pesan Anda di sini untuk membalas..." style="font-size: 13.5px; height: 44px;" required autocomplete="off" id="reply-input">
+                                        <input type="text" name="message" class="form-control border-0 rounded-pill px-3" placeholder="Ketik pesan Anda di sini untuk membalas..." style="font-size: 12.5px; height: 38px;" required autocomplete="off" id="reply-input">
                                     </div>
 
                                     <button type="submit" class="btn btn-success rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" 
-                                            style="width: 44px; height: 44px; background-color: #128C7E; border-color: #128C7E;">
-                                        <i class="bi bi-send-fill text-white fs-5" style="margin-left: 3px;"></i>
+                                            style="width: 38px; height: 38px; background-color: #128C7E; border-color: #128C7E;">
+                                        <i class="bi bi-send-fill text-white fs-6" style="margin-left: 2px;"></i>
                                     </button>
                                 </form>
                             @else

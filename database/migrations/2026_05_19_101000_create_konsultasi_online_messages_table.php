@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('konsultasi_online_id')->constrained('konsultasi_onlines')->cascadeOnDelete();
             $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
             $table->text('message');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
 
@@ -29,6 +30,7 @@ return new class extends Migration
                     'konsultasi_online_id' => $chat->id,
                     'sender_id' => $chat->user_id,
                     'message' => $chat->pesan,
+                    'is_read' => !empty($chat->respons),
                     'created_at' => $chat->created_at ?? now(),
                     'updated_at' => $chat->created_at ?? now(),
                 ]);
@@ -53,6 +55,7 @@ return new class extends Migration
                     'konsultasi_online_id' => $chat->id,
                     'sender_id' => $senderId,
                     'message' => $chat->respons,
+                    'is_read' => true,
                     'created_at' => $chat->direspons_pada ?? $chat->updated_at ?? now(),
                     'updated_at' => $chat->direspons_pada ?? $chat->updated_at ?? now(),
                 ]);

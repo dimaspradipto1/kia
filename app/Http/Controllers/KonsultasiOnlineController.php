@@ -121,6 +121,14 @@ class KonsultasiOnlineController extends Controller
             $konsultasiOnline = $otherConsultations->first();
             $konsultasiOnline->load('messages.sender');
         }
+
+        if ($konsultasiOnline) {
+            // Mark all incoming messages in this chat as read
+            $konsultasiOnline->messages()
+                ->where('sender_id', '!=', $user->id)
+                ->where('is_read', false)
+                ->update(['is_read' => true]);
+        }
         
         // Fetch health facilities and user's default faskes for the integrated new chat form
         $faskesList = FasilitasKesehatan::all();
