@@ -97,43 +97,42 @@
 
     <!-- ===== HERO: Split layout — left text, right image panel ===== -->
     <section class="ve-hero">
-        <!-- Left Panel -->
-        <div class="ve-hero-left">
-            <span class="ve-hero-badge">Pendamping Setia Ibu & Anak &nbsp;·&nbsp; Terpercaya di Indonesia</span>
-            <h1>Jaga Kesehatan <span class="ve-highlight">Ibu & Buah Hati</span><br>Dengan Cinta</h1>
-            <p>KIA Care menyediakan panduan kesehatan lengkap, jadwal imunisasi, dan tips kehamilan untuk memastikan tumbuh kembang buah hati yang optimal.</p>
-            <div class="ve-hero-btns">
-                <a href="services.html" class="ve-btn-primary">Layanan Kami</a>
-                <a href="about.html" class="ve-btn-ghost">Pelajari Selengkapnya</a>
-            </div>
-            <!-- Quick Stats Row -->
-            <div class="ve-hero-stats">
-                <div class="ve-stat">
-                    <strong>15rb+</strong>
-                    <span>Ibu Terdaftar</span>
+        <div class="container-tight">
+            <div class="ve-hero-inner">
+                <!-- Left Panel -->
+                <div class="ve-hero-left">
+                    <span class="ve-hero-badge">Pendamping Setia Ibu & Anak · Terpercaya di Indonesia</span>
+                    <h1>Jaga Kesehatan <span class="ve-highlight">Ibu & Buah Hati</span><br>Dengan Cinta</h1>
+                    <p>KIA Care menyediakan panduan kesehatan lengkap, jadwal imunisasi, dan tips kehamilan untuk memastikan tumbuh kembang buah hati yang optimal.</p>
+                    <div class="ve-hero-btns">
+                        <a href="services.html" class="ve-btn-primary">Layanan Kami</a>
+                        <a href="about.html" class="ve-btn-ghost">Pelajari Selengkapnya</a>
+                    </div>
+                    <!-- Quick Stats Row -->
+                    <div class="ve-hero-stats">
+                        <div class="ve-stat">
+                            <strong>15rb+</strong>
+                            <span>Ibu Terdaftar</span>
+                        </div>
+                        <div class="ve-stat-divider"></div>
+                        <div class="ve-stat">
+                            <strong>98%</strong>
+                            <span>Kepuasan Ibu</span>
+                        </div>
+                        <div class="ve-stat-divider"></div>
+                        <div class="ve-stat">
+                            <strong>250+</strong>
+                            <span>Tenaga Medis</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="ve-stat-divider"></div>
-                <div class="ve-stat">
-                    <strong>98%</strong>
-                    <span>Kepuasan Ibu</span>
-                </div>
-                <div class="ve-stat-divider"></div>
-                <div class="ve-stat">
-                    <strong>250+</strong>
-                    <span>Tenaga Medis</span>
-                </div>
-            </div>
-        </div>
-        <!-- Right Panel: overlapping image cards -->
-        <div class="ve-hero-right">
-            <div class="ve-hero-img-main bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_baby_hero.png') }});"></div>
-            <div class="ve-hero-img-accent bg-img" style="background-image:url({{ asset('homepage/img/bg-img/pediatrician_accent.png') }});"></div>
-            <!-- Floating card -->
-            <div class="ve-float-card">
-                <i class="fa fa-heart"></i>
-                <div>
-                    <strong>100% Aman</strong>
-                    <span>Ibu & Anak Sehat</span>
+
+                <!-- Right Panel: image card -->
+                <div class="ve-hero-right">
+                    <div class="ve-hero-media">
+                        <img src="{{ asset('homepage/img/bg-img/mother_baby_hero.png') }}" alt="Ibu dan bayi" class="ve-hero-img-main">
+                        <div class="ve-hero-img-accent" style="background-image:url({{ asset('homepage/img/bg-img/pediatrician_accent.png') }});"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -183,96 +182,139 @@
 
         /* Homepage Hero Layout */
         .ve-hero {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            padding: 120px 0 80px;
             position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 90px 0 60px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .ve-hero-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            width: 100%;
+            max-width: 1320px;
         }
         .ve-hero-left {
+            flex: 1 1 620px;
+            min-width: 320px;
+            max-width: 740px;
+            z-index: 2;
+        }
+        .ve-hero-right {
             flex: 1 1 520px;
             min-width: 320px;
             max-width: 640px;
-        }
-        .ve-hero-right {
-            flex: 1 1 420px;
-            min-width: 320px;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+            z-index: 1;
+        }
+        .ve-hero-media {
+            position: relative;
+            width: 100%;
+            max-width: 640px;
+        }
+        .ve-hero-img-main {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 42px;
+            object-fit: cover;
+            box-shadow: 0 40px 100px rgba(15, 23, 42, 0.16);
+            position: relative;
+            z-index: 1;
+        }
+        .ve-hero-img-accent {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 180px;
+            height: 220px;
+            border-radius: 30px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+            z-index: 2;
+        }
+        .ve-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            background: rgba(236, 30, 136, 0.08);
+            border: 1px solid rgba(236, 30, 136, 0.18);
+            color: var(--brand-p);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.01em;
+            margin-bottom: 28px;
         }
         .ve-hero h1 {
-            font-size: clamp(2.8rem, 5vw, 4.5rem);
-            line-height: 1.05;
+            font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+            line-height: 1.02;
+            letter-spacing: -0.04em;
             margin-bottom: 24px;
-            max-width: 11ch;
+            color: var(--brand-dark);
+            max-width: 100%;
         }
         .ve-hero p {
-            font-size: clamp(1rem, 1.1vw, 1.25rem);
-            line-height: 1.8;
-            max-width: 680px;
-            margin-bottom: 32px;
+            font-size: clamp(1rem, 1.05vw, 1.18rem);
+            line-height: 1.85;
+            max-width: 100%;
+            margin-bottom: 30px;
+            color: #64748B;
         }
         .ve-hero-btns {
             display: flex;
             flex-wrap: wrap;
-            gap: 18px;
-            margin-bottom: 30px;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .ve-hero-btns a {
+            min-width: 170px;
+            padding: 16px 34px;
+        }
+        @media (min-width: 992px) {
+            .ve-hero-btns { flex-wrap: nowrap; }
+            .ve-hero-btns a { width: auto; }
         }
         .ve-hero-stats {
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
-            margin-top: 30px;
+            margin-top: 28px;
         }
         .ve-stat {
             flex: 1 1 150px;
             min-width: 150px;
             background: #fff;
-            border-radius: 24px;
-            padding: 20px 22px;
-            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.05);
+            border-radius: 26px;
+            padding: 22px 24px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.07);
             display: flex;
             flex-direction: column;
             gap: 8px;
         }
-        .ve-stat strong { font-size: 1.4rem; }
-
-        .ve-hero-img-main {
-            width: 100%;
-            max-width: 520px;
-            min-height: 420px;
-            border-radius: 36px;
-            background-size: cover;
-            background-position: center;
-        }
-        .ve-hero-img-accent {
-            position: absolute;
-            top: 20px;
-            right: -20px;
-            width: 220px;
-            height: 220px;
-            border-radius: 32px;
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
-        }
+        .ve-stat strong { font-size: 1.45rem; }
         .ve-float-card {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            transform: translateY(40%);
+            bottom: 18px;
+            left: 22px;
             display: inline-flex;
             align-items: center;
             gap: 14px;
-            padding: 16px 22px;
+            padding: 18px 24px;
             border-radius: 40px;
             background: #fff;
-            box-shadow: 0 35px 80px rgba(15, 23, 42, 0.12);
-            z-index: 2;
-            min-width: 240px;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.14);
+            min-width: 250px;
+            z-index: 3;
         }
         .ve-float-card i {
             color: var(--brand-p);
