@@ -145,22 +145,38 @@
                                 if (latestId > lastSeenId && parseInt(upd.sender_id) !== parseInt(currentUserId)) {
                                     unreadCount++;
 
+                                    // Mark sidebar thread with a WhatsApp-style new message indicator
+                                    var chatItem = $('#chat-list-container [data-chat-id="' + upd.session_id + '"]');
+                                    if (chatItem.length) {
+                                        chatItem.find('.chat-item-preview').text(upd.message);
+                                        chatItem.find('.chat-item-time').text(upd.time);
+                                        if (parseInt(activeChatId) !== parseInt(upd.session_id)) {
+                                            chatItem.find('.chat-unread-indicator').removeClass('d-none');
+                                        } else {
+                                            chatItem.find('.chat-unread-indicator').addClass('d-none');
+                                        }
+                                    }
+
                                     // If we are NOT currently viewing this specific chat, trigger Toast
                                     if (parseInt(activeChatId) !== parseInt(upd.session_id)) {
                                         localStorage.setItem(key, latestId); // Update seen id so toast doesn't trigger repeatedly
                                         
-                                        // Play visual SweetAlert2 toast notification
+                                        // WA-like visual SweetAlert2 toast notification
                                         Swal.fire({
                                             toast: true,
                                             position: 'top-end',
-                                            icon: 'info',
-                                            title: 'Pesan Baru',
-                                            html: '<b>' + upd.partner_name + '</b>: ' + upd.message,
+                                            icon: 'success',
+                                            title: '<strong>' + upd.partner_name + '</strong>',
+                                            html: '<div style="font-size: 13px; color: #111;">' + upd.message + '</div>',
                                             showConfirmButton: true,
                                             confirmButtonText: 'Buka Chat',
                                             confirmButtonColor: '#10B981',
                                             showCancelButton: true,
                                             cancelButtonText: 'Tutup',
+                                            background: '#f5fffb',
+                                            customClass: {
+                                                popup: 'shadow-sm border border-success-subtle rounded-4'
+                                            },
                                             timer: 10000,
                                             timerProgressBar: true
                                         }).then((result) => {
@@ -171,10 +187,11 @@
                                     } else {
                                         // If we are currently in this chat room, automatically update seen ID
                                         localStorage.setItem(key, latestId);
-                                        // Seamless dynamic reload of ONLY the message bubbles container
-                                        if ($('#chat-messages-container').length) {
+                                        if (typeof window.refreshActiveChatMessages === 'function') {
+                                            window.refreshActiveChatMessages(upd.session_id, latestId);
+                                        } else if ($('#chat-messages-container').length) {
+                                            // Fallback partial reload if page-specific live chat is not available
                                             $('#chat-messages-container').load(window.location.href + ' #chat-messages-container > *', function () {
-                                                // Smooth scroll to bottom
                                                 var container = document.getElementById('chat-messages-container');
                                                 if (container) {
                                                     container.scrollTop = container.scrollHeight;
@@ -199,21 +216,21 @@
 
                                 if (latestId > lastSeenId && parseInt(upd.sender_id) !== parseInt(currentUserId)) {
                                     headerListHtml += `
-                                        <li class="notification-item" style="cursor: pointer; padding: 12px 15px; transition: background 0.15s;" 
+                                        <div class="notification-item dropdown-item p-2 rounded-3 mb-2" style="cursor: pointer; transition: background 0.15s;" 
                                             onclick="window.location.href='${"{{ route('konsultasi-online.index') }}?chat_id=" + upd.session_id}'"
                                             onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
                                           <div class="d-flex align-items-start gap-2">
-                                            <i class="bi bi-chat-dots-fill text-success fs-5"></i>
+                                            <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                              <i class="bi bi-chat-dots-fill fs-5"></i>
+                                            </div>
                                             <div class="flex-grow-1" style="min-width: 0;">
                                               <h4 class="mb-0 text-dark fw-bold" style="font-size: 12.5px; margin: 0;">${upd.partner_name}</h4>
                                               <p class="mb-0 text-muted" style="font-size: 11.5px; margin: 2px 0 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px;">${upd.message}</p>
                                               <p class="mb-0 text-secondary" style="font-size: 9px; margin-top: 2px;">${upd.time}</p>
                                             </div>
                                           </div>
-                                        </li>
-                                        <li>
-                                          <hr class="dropdown-divider">
-                                        </li>
+                                        </div>
+                                        <hr class="dropdown-divider">
                                     `;
                                 }
                             });
@@ -221,13 +238,13 @@
                             if (unreadCount > 0) {
                                 $sidebarBadge.text(unreadCount).removeClass('d-none');
                                 $headerBadge.text(unreadCount).removeClass('d-none');
-                                $headerText.text('Anda memiliki ' + unreadCount + ' notifikasi baru');
+                                $headerText.text('Anda memiliki ' + unreadCount + ' pesan baru');
                                 $('#header-notifications-list').html(headerListHtml);
                             } else {
                                 $sidebarBadge.addClass('d-none');
                                 $headerBadge.addClass('d-none');
-                                $headerText.text('Anda tidak memiliki notifikasi baru');
-                                $('#header-notifications-list').html('<li class="text-center py-4 text-muted small"><i class="bi bi-bell-slash me-1"></i> Tidak ada notifikasi baru</li>');
+                                $headerText.text('Tidak ada pesan baru');
+                                $('#header-notifications-list').html('<div class="text-center py-4 text-muted small"><i class="bi bi-bell-slash me-1"></i> Tidak ada pesan baru</div>');
                             }
                         }
                     },

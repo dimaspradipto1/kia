@@ -274,13 +274,12 @@ class KonsultasiOnlineController extends Controller
                 'pesan'                  => $request->pesan,
             ]);
 
-            // Update the first message in the conversation log
-            $firstMessage = $konsultasiOnline->messages()->first();
-            if ($firstMessage) {
-                $firstMessage->update([
-                    'message' => $request->pesan,
-                ]);
-            }
+            // Create a new chat message so the updated patient message is delivered as a new incoming item.
+            \App\Models\KonsultasiOnlineMessage::create([
+                'konsultasi_online_id' => $konsultasiOnline->id,
+                'sender_id'            => $user->id,
+                'message'              => $request->pesan,
+            ]);
 
             return redirect()->route('konsultasi-online.index', ['chat_id' => $konsultasiOnline->id])
                 ->with('success', 'Pertanyaan konsultasi online Anda berhasil diperbarui.');
@@ -401,6 +400,47 @@ class KonsultasiOnlineController extends Controller
             'success' => true,
             'updates' => $updates,
             'user_id' => $user->id
+        ]);
+    }
+
+    public function fetchMessages(Request $request, KonsultasiOnline $konsultasiOnline)
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized.'], 401);
+        }
+
+        if ($user->role->nama_role === 'ibu hamil' && $konsultasiOnline->user_id !== $user->id) {
+            return response()->json(['success' => false, 'message' => 'Akses ditolak.'], 403);
+        }
+
+        if ($user->role->nama_role === 'nakes' && $user->fasilitas_kesehatan_id && $konsultasiOnline->fasilitas_kesehatan_id !== $user->fasilitas_kesehatan_id) {
+            return response()->json(['success' => false, 'message' => 'Akses ditolak.'], 403);
+        }
+
+        $sinceId = $request->query('since_id');
+
+        $query = $konsultasiOnline->messages()->with('sender')->orderBy('id', 'asc');
+        if ($sinceId) {
+            $query->where('id', '>', $sinceId);
+        }
+
+        $messages = $query->get()->map(function ($msg) {
+            return [
+                'id' => $msg->id,
+                'message' => $msg->message,
+                'sender_id' => $msg->sender_id,
+                'sender_name' => $msg->sender->name ?? 'Pengguna',
+                'sender_role' => $msg->sender->role->nama_role ?? '',
+                'created_at' => $msg->created_at ? $msg->created_at->translatedFormat('d F Y H:i') : '',
+                'is_me' => $msg->sender_id === auth()->id(),
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'messages' => $messages,
+            'latest_message_id' => optional($messages->last())['id'] ?? (int) $sinceId,
         ]);
     }
 }

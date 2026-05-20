@@ -68,6 +68,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('perkembangan-sidtk', PerkembanganSidtkController::class)->parameters(['perkembangan-sidtk' => 'perkembanganSidtk']);
     Route::resource('mpasi', MpasiController::class);
     Route::get('konsultasi-online/check-updates', [KonsultasiOnlineController::class, 'checkUpdates'])->name('konsultasi-online.check-updates');
+    Route::get('konsultasi-online/{konsultasiOnline}/messages', [KonsultasiOnlineController::class, 'fetchMessages'])->name('konsultasi-online.messages');
     Route::post('konsultasi-online/{konsultasiOnline}/reply', [KonsultasiOnlineController::class, 'reply'])->name('konsultasi-online.reply');
     Route::resource('konsultasi-online', KonsultasiOnlineController::class)->parameters(['konsultasi-online' => 'konsultasiOnline']);
 

@@ -178,8 +178,141 @@
         .sora { font-family: 'Sora', sans-serif; }
         
         /* Modern Container */
-        .container-tight { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .section-gap { padding: 160px 0; }
+        .container-tight { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+        .section-gap { padding: 140px 0; }
+
+        /* Homepage Hero Layout */
+        .ve-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 120px 0 80px;
+            position: relative;
+        }
+        .ve-hero-left {
+            flex: 1 1 520px;
+            min-width: 320px;
+            max-width: 640px;
+        }
+        .ve-hero-right {
+            flex: 1 1 420px;
+            min-width: 320px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .ve-hero h1 {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.05;
+            margin-bottom: 24px;
+            max-width: 11ch;
+        }
+        .ve-hero p {
+            font-size: clamp(1rem, 1.1vw, 1.25rem);
+            line-height: 1.8;
+            max-width: 680px;
+            margin-bottom: 32px;
+        }
+        .ve-hero-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        .ve-hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 30px;
+        }
+        .ve-stat {
+            flex: 1 1 150px;
+            min-width: 150px;
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px 22px;
+            box-shadow: 0 24px 50px rgba(15, 23, 42, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .ve-stat strong { font-size: 1.4rem; }
+
+        .ve-hero-img-main {
+            width: 100%;
+            max-width: 520px;
+            min-height: 420px;
+            border-radius: 36px;
+            background-size: cover;
+            background-position: center;
+        }
+        .ve-hero-img-accent {
+            position: absolute;
+            top: 20px;
+            right: -20px;
+            width: 220px;
+            height: 220px;
+            border-radius: 32px;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 30px 60px rgba(15, 23, 42, 0.12);
+        }
+        .ve-float-card {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transform: translateY(40%);
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 22px;
+            border-radius: 40px;
+            background: #fff;
+            box-shadow: 0 35px 80px rgba(15, 23, 42, 0.12);
+            z-index: 2;
+            min-width: 240px;
+        }
+        .ve-float-card i {
+            color: var(--brand-p);
+            font-size: 1.3rem;
+            background: rgba(236, 30, 136, 0.08);
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 18px;
+        }
+
+        .btn-p, .btn-s, .btn-s-white {
+            padding: 18px 36px;
+            font-size: 0.98rem;
+        }
+
+        .ve-cta-banner .ve-cta-content { padding: 80px 0; }
+
+        .ve-nav-wrap {
+            align-items: center;
+            gap: 24px;
+        }
+        .ve-header { padding: 24px 0; }
+
+        .ve-section-header h2 { line-height: 1.12; }
+
+        .ve-newsletter-section .ve-newsletter-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: 30px;
+            border-radius: 30px;
+            background: #fff;
+            box-shadow: 0 30px 70px rgba(15, 23, 42, 0.08);
+        }
+        .ve-newsletter-right input {
+            min-width: 300px;
+        }
 
         /* Infinite Trust Bar Loop */
         .ve-trust-bar {
@@ -487,74 +620,63 @@
 
         /* Responsive Fixes */
         @media (max-width: 1200px) {
-            .container-tight { padding: 0 40px; }
+            .container-tight { padding: 0 32px; }
+            .ve-hero { padding: 100px 0 60px; gap: 32px; }
         }
 
         @media (max-width: 1024px) {
-            .hero-title-main { font-size: 3.5rem; }
-            .bento-card.tall, .bento-card.wide, .bento-card.normal { grid-column: span 6; grid-row: span 1; }
-            .bento-card { padding: 35px; border-radius: 30px; height: auto !important; }
-            .mockup-wrap { padding: 80px 40px; border-radius: 60px; }
+            .container-tight { padding: 0 28px; }
+            .ve-hero { flex-direction: column; align-items: flex-start; padding: 90px 0 50px; }
+            .ve-hero-right { width: 100%; min-width: auto; order: -1; margin-bottom: 30px; }
+            .ve-hero-left { width: 100%; }
+            .ve-hero h1 { font-size: 3rem; max-width: 100%; }
+            .ve-hero p { font-size: 1.1rem; margin-bottom: 26px; }
+            .ve-hero-btns { gap: 14px; }
+            .ve-hero-stats { gap: 14px; }
+            .bento-card { padding: 40px; border-radius: 32px; }
+            .mockup-wrap { padding: 70px 32px; border-radius: 50px; }
             .section-gap { padding: 100px 0; }
+            .ve-cta-banner .ve-cta-content { padding: 60px 0; }
         }
 
         @media (max-width: 768px) {
-            .hero-title-main { font-size: 2.5rem; line-height: 1.2; }
-            .hero-subtitle { font-size: 1.1rem; }
-            .bento-grid { grid-template-columns: 1fr; margin-top: 40px; }
-            .bento-card.tall, .bento-card.wide, .bento-card.normal { grid-column: span 12; grid-row: auto; }
-            .bento-card { padding: 30px; border-radius: 30px; min-height: auto !important; }
-            .mockup-wrap { padding: 60px 24px; border-radius: 40px; }
-            .section-gap { padding: 60px 0; }
-            
-            /* Stacking buttons on mobile */
-            .mockup-wrap .d-flex.gap-4 { flex-direction: column; width: 100%; gap: 20px !important; }
-            .btn-p, .btn-s, .btn-s-white { 
-                padding: 18px 30px; font-size: 1rem; width: 100%; 
-                justify-content: center; text-align: center;
-            }
-            
-            .faskes-card-light { padding: 30px; border-radius: 30px; }
-            .faq-v2-trigger { padding: 25px 30px; }
-            .faq-v2-trigger h4 { font-size: 1.1rem; }
-            .faq-v2-body { padding: 0 30px 25px 30px; font-size: 1rem; }
-            
-            .icon-circle { width: 55px; height: 55px; font-size: 1.4rem; margin-bottom: 25px; }
-            
-            /* Section Titles */
+            .container-tight { padding: 0 18px; }
+            .ve-header { padding: 18px 0; }
+            .ve-logo-text span { font-size: 1rem; }
+            .ve-hero { padding: 60px 0 40px; gap: 24px; }
+            .ve-hero h1 { font-size: 2.5rem; margin-bottom: 18px; }
+            .ve-hero p { font-size: 1rem; margin-bottom: 24px; }
+            .ve-hero-btns { flex-direction: column; width: 100%; }
+            .ve-hero-btns a { width: 100%; }
+            .ve-hero-stats { flex-direction: column; gap: 16px; }
+            .ve-stat { min-width: auto; }
+            .ve-hero-right { order: -1; margin-bottom: 24px; }
+            .ve-float-card { position: static; transform: none; margin-top: 24px; width: auto; }
+            .bento-grid { grid-template-columns: 1fr; margin-top: 30px; }
+            .bento-card { padding: 28px; border-radius: 30px; }
+            .mockup-wrap { padding: 48px 24px; border-radius: 32px; }
+            .btn-p, .btn-s, .btn-s-white { width: 100%; padding: 16px 18px; font-size: 1rem; }
+            .faskes-card-light { padding: 28px; border-radius: 30px; }
+            .faq-v2-trigger { padding: 22px 24px; }
+            .faq-v2-body { padding: 0 24px 24px 24px; font-size: 0.95rem; }
+            .icon-circle { width: 55px; height: 55px; font-size: 1.4rem; margin-bottom: 22px; }
             .hero-title-main { font-size: 2.2rem; }
-
-            /* Spacing for reordered mockup columns */
-            .mockup-wrap .order-2 { margin-top: 120px; text-align: center; }
-            .mockup-wrap .order-1 { margin-bottom: 40px; }
-            .mockup-wrap h2 { font-size: 2rem !important; margin-top: 15px; }
+            .mockup-wrap h2 { font-size: 2rem !important; }
             .mockup-wrap .badge-pill { margin: 0 auto 15px auto; }
-            .mockup-wrap .d-flex.mb-4, .mockup-wrap .d-flex.mb-5 { justify-content: center; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
-            .mockup-wrap .d-flex.gap-4 { flex-direction: column; align-items: center; gap: 20px !important; margin-top: 30px; }
-            
-            /* Konsultasi Section Mobile */
-            .konsultasi-online { border-radius: 40px !important; padding: 40px 24px !important; text-align: center; }
-            .konsultasi-online h2 { font-size: 2.5rem !important; }
-            .konsultasi-online p { font-size: 1.1rem !important; }
-            .konsultasi-online .d-flex.gap-4 { flex-direction: column; align-items: center; gap: 15px !important; }
-            .konsultasi-online .col-lg-5 { margin-top: 50px; }
-
-            /* Tablet horizontal button gap fix */
-            @media (min-width: 768px) {
-                .mockup-wrap .d-flex.gap-4 { flex-direction: row; justify-content: center; gap: 30px !important; }
-                .konsultasi-online { text-align: left; padding: 60px !important; }
-                .konsultasi-online .d-flex.gap-4 { flex-direction: row; align-items: center; }
-                .konsultasi-online .col-lg-5 { margin-top: 0; }
-            }
-
-            /* Hide non-essential decorative elements on mobile */
+            .mockup-wrap .d-flex.mb-4, .mockup-wrap .d-flex.mb-5 { justify-content: center; text-align: left; max-width: 100%; margin: 0 auto; }
+            .mockup-wrap .d-flex.gap-4 { flex-direction: column; align-items: stretch; gap: 20px !important; margin-top: 30px; }
+            .konsultasi-online { border-radius: 36px !important; padding: 36px 20px !important; text-align: center; }
+            .konsultasi-online h2 { font-size: 2.4rem !important; }
+            .konsultasi-online p { font-size: 1rem !important; }
+            .konsultasi-online .d-flex.gap-4 { flex-direction: column; align-items: center; gap: 16px !important; }
+            .konsultasi-online .col-lg-5 { margin-top: 40px; }
+            .ve-cta-banner .ve-cta-content { padding: 40px 0; }
+            .ve-newsletter-wrap { flex-direction: column; align-items: stretch; gap: 20px; padding: 24px; }
+            .ve-newsletter-right input { width: 100%; }
+            .section-gap { padding: 60px 0; }
             .ve-nav-cta { display: none !important; }
             .ve-hero-badge { display: none !important; }
-            .badge-pill { margin-bottom: 30px; font-size: 0.8rem; }
-            
-            /* Tighten header for mobile */
-            .ve-header { padding: 15px 0 !important; }
-            .ve-logo-text span { font-size: 1.1rem !important; }
+            .badge-pill { margin-bottom: 24px; font-size: 0.82rem; }
         }
     </style>
 

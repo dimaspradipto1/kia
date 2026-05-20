@@ -40,10 +40,12 @@
             <li>
               <hr class="dropdown-divider">
             </li>
-            
-            <div id="header-notifications-list">
-              <!-- Dynamic notifications populated via AJAX -->
-            </div>
+
+            <li id="header-notifications-list">
+              <div class="text-center py-4 text-muted small">
+                <i class="bi bi-bell-slash me-1"></i> Tidak ada notifikasi baru
+              </div>
+            </li>
 
             <li class="dropdown-footer">
               <a href="{{ route('konsultasi-online.index') }}">Tampilkan Semua Konsultasi</a>

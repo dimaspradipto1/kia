@@ -61,6 +61,17 @@
         .chat-container-card {
             height: calc(100vh - 200px) !important;
             max-height: calc(100vh - 200px) !important;
+            overflow: hidden !important;
+        }
+        .chat-sidebar,
+        .chat-window {
+            min-height: 0 !important;
+            height: 100% !important;
+        }
+        #chat-messages-container {
+            min-height: 0 !important;
+            max-height: calc(100% - 118px) !important;
+            overflow-y: auto !important;
         }
     }
 </style>
@@ -83,19 +94,6 @@
         </a>
     @endif
 </div>
-
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show border-0 rounded-4 p-3 shadow-sm mb-4 d-none d-md-block" role="alert">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-check-circle-fill fs-4 me-3 text-success"></i>
-            <div>
-                <strong class="text-success d-block">Berhasil!</strong>
-                <span class="small text-secondary">{{ session('success') }}</span>
-            </div>
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
 
 <section class="section animate__animated animate__fadeIn">
     <div class="row m-0">
@@ -135,8 +133,9 @@
                     <div class="flex-grow-1 overflow-y-auto" id="chat-list-container">
                         @forelse($otherConsultations as $item)
                             <a href="{{ route('konsultasi-online.index', ['chat_id' => $item->id]) }}" 
-                               class="d-flex align-items-center py-2 px-3 border-bottom text-decoration-none transition-all hover-chat-item {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? 'active-chat-item' : '' }}"
-                               style="border-left: 4px solid {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? '#128C7E' : 'transparent' }};">
+                               class="d-flex align-items-center py-2 px-3 border-bottom text-decoration-none transition-all hover-chat-item {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? 'active-chat-item' : '' }} position-relative chat-list-item"
+                               style="border-left: 4px solid {{ ($konsultasiOnline && $item->id === $konsultasiOnline->id) ? '#128C7E' : 'transparent' }};"
+                               data-chat-id="{{ $item->id }}">
                                 
                                 <div class="position-relative me-3">
                                     <div class="rounded-circle d-flex align-items-center justify-content-center text-white" 
@@ -159,14 +158,17 @@
                                                 {{ optional($item->user)->name ?? 'Ibu Hamil' }}
                                             @endif
                                         </h6>
-                                        <span class="text-muted" style="font-size: 10px;">
+                                        <span class="text-muted chat-item-time" style="font-size: 10px;">
                                             {{ $item->updated_at ? $item->updated_at->format('H:i') : '' }}
                                         </span>
                                     </div>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        <p class="text-muted text-truncate mb-0 small" style="font-size: 12px; max-width: 150px;">
-                                            <strong>{{ $item->topik }}</strong>: {{ $item->respons ?? $item->pesan }}
-                                        </p>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <p class="text-muted text-truncate mb-0 small chat-item-preview" style="font-size: 12px; max-width: 130px;">
+                                                <strong>{{ $item->topik }}</strong>: {{ $item->respons ?? $item->pesan }}
+                                            </p>
+                                        </div>
+                                        <span class="chat-unread-indicator badge bg-danger text-white d-none">1</span>
                                         @if($item->status === 'pending')
                                             <span class="badge bg-warning-subtle text-warning" style="font-size: 9px; border-radius: 10px;">Pending</span>
                                         @elseif($item->status === 'accepted')
@@ -185,7 +187,7 @@
 
                 {{-- 2. RIGHT PANEL: Interactive Chat Workspace (68% width) --}}
                 @if($konsultasiOnline)
-                    <div class="chat-window d-flex flex-column" id="chat-window-wrapper" data-chat-id="{{ $konsultasiOnline->id }}" style="width: 68%; background-color: #efeae2; position: relative; height: 100%; overflow: hidden;">
+                    <div class="chat-window d-flex flex-column" id="chat-window-wrapper" data-chat-id="{{ $konsultasiOnline->id }}" style="width: 68%; background-color: #efeae2; position: relative; height: 100%; overflow: hidden; min-height: 0;">
                         
                         <!-- Chat Header -->
                         <div class="px-3 py-2 d-flex align-items-center justify-content-between flex-shrink-0" style="background-color: #f0f2f5; min-height: 52px; border-bottom: 1px solid #e3e3e3; z-index: 10;">
@@ -273,13 +275,7 @@
                             @endforeach
 
                             <!-- Session Status System Indicator -->
-                            @if($konsultasiOnline->status === 'pending')
-                                <div class="d-flex justify-content-center my-4">
-                                    <span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-3 py-2 small fw-semibold">
-                                        <i class="bi bi-clock-history me-1"></i> Menunggu Tanggapan Medis dari Tenaga Kesehatan...
-                                    </span>
-                                </div>
-                            @elseif($konsultasiOnline->status === 'rejected')
+                            @if($konsultasiOnline->status === 'rejected')
                                 <div class="d-flex justify-content-center my-4">
                                     <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-3 py-2 small fw-semibold">
                                         <i class="bi bi-exclamation-octagon-fill me-1"></i> Konsultasi ditutup / Rujuk Segera
@@ -297,9 +293,23 @@
                                 <form action="{{ route('konsultasi-online.reply', $konsultasiOnline->id) }}" method="POST" class="w-100 d-flex align-items-center gap-2 m-0" id="reply-form">
                                     @csrf
                                     
-                                    <div class="d-flex text-secondary fs-5 px-2" style="cursor: pointer;">
-                                        <i class="bi bi-emoji-smile me-2" title="Emoji"></i>
+                                    <div class="position-relative d-flex text-secondary fs-5 px-2" style="cursor: pointer;">
+                                        <button type="button" id="emoji-toggle" class="btn btn-link text-secondary p-0 me-2" style="font-size: 1.2rem; line-height: 1;" title="Pilih emoji">
+                                            <i class="bi bi-emoji-smile"></i>
+                                        </button>
                                         <i class="bi bi-paperclip" title="Lampiran"></i>
+
+                                        <div id="emoji-picker" class="position-absolute bg-white border rounded-3 shadow-sm p-2 d-none" style="width: 320px; max-height: 280px; bottom: 48px; left: 0; z-index: 20; overflow-y: auto;">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <strong class="small text-dark">Pilih Emoji</strong>
+                                                <button type="button" class="btn-close btn-close-sm" aria-label="Tutup"></button>
+                                            </div>
+                                            <div class="emoji-grid d-grid gap-1" style="grid-template-columns: repeat(8, minmax(0, 1fr));">
+                                                @foreach(['😀','😅','😍','😘','😎','🤗','🥰','🤩','🧐','😇','😢','😭','😡','😱','🤯','😴','😷','🤒','🤕','🤢','🤮','🤧','🥳','🥶','🫠','❤️','🧡','💛','💚','💙','💜','🤍','🖤','💔','✨','🔥','🌈','🎉','🎈','💤','👍','👎','👏','🙏','🤝','💪','👀','👋','🤟','👏','🧑‍⚕️','🧑‍🌾','👨‍👩‍👧‍👦','🐶','🐱','🦁','🐮','🐷','🐸','🐵','🍏','🍕','🍔','🍟','🍣','☕','🍺','🏆','🎁','🎵','📱','💡','🚑','✈️','🚗','🏡','⏰','🧸'] as $emoji)
+                                                    <button type="button" class="emoji-item btn btn-sm btn-light rounded-circle p-0" style="width: 36px; height: 36px; font-size: 18px;">{{ $emoji }}</button>
+                                                @endforeach
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div class="flex-grow-1 position-relative">
@@ -372,33 +382,190 @@
     .transition-all {
         transition: all 0.25s ease-in-out;
     }
+    .chat-unread-indicator {
+        position: absolute;
+        top: 8px;
+        right: 14px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 6px;
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 18px;
+        border-radius: 999px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .chat-list-item {
+        position: relative;
+    }
+    .chat-list-notification {
+        font-size: 11px;
+        font-weight: 700;
+        color: #25D366;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background: rgba(37, 217, 102, 0.12);
+    }
+    #emoji-picker {
+        min-width: 320px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+    .emoji-item {
+        min-width: 36px;
+        min-height: 36px;
+        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+    .emoji-item:hover {
+        background-color: #f8f9fa;
+    }
 </style>
 
 @push('scripts')
 <script>
-    // Smooth scrolling auto-scroll to the bottom of the active conversation thread
-    $(document).ready(function() {
+    var currentChatId = $('#chat-window-wrapper').data('chat-id');
+    var currentChatLastSeenKey = currentChatId ? 'chat_last_seen_' + currentChatId : null;
+    var currentChatLatestId = {{ isset($konsultasiOnline) ? optional($konsultasiOnline->messages->last())->id : 0 }};
+
+    function renderChatMessage(message) {
+        var bubble = document.createElement('div');
+        if (message.is_me) {
+            bubble.className = 'd-flex justify-content-end mb-2';
+            bubble.innerHTML = `
+                <div class="rounded-4 shadow-sm py-2 px-3 text-dark position-relative" style="max-width: 75%; background-color: #d9fdd3; border-top-right-radius: 4px !important; border: 1px solid #C1E9BA;">
+                    <div class="fw-bold text-primary mb-1" style="font-size: 11px;"><i class="bi bi-person-fill-check me-1"></i>Anda</div>
+                    <div style="font-size: 12.5px; line-height: 1.5; white-space: pre-wrap;">${message.message}</div>
+                    <div class="text-end text-muted mt-1 d-flex align-items-center justify-content-end" style="font-size: 9px;">
+                        <span>${message.created_at}</span>
+                    </div>
+                </div>
+            `;
+        } else {
+            bubble.className = 'd-flex justify-content-start mb-2';
+            bubble.innerHTML = `
+                <div class="bg-white rounded-4 shadow-sm py-2 px-3 text-dark position-relative border-light" style="max-width: 75%; border-top-left-radius: 4px !important; border: 1px solid #E2E8F0;">
+                    <div class="fw-bold text-success mb-1" style="font-size: 11px;"><i class="bi bi-shield-fill-check me-1"></i>${message.sender_name} (${message.sender_role.toUpperCase()})</div>
+                    <div style="font-size: 12.5px; line-height: 1.5; white-space: pre-wrap;">${message.message}</div>
+                    <div class="text-end text-muted mt-1 d-flex align-items-center justify-content-end" style="font-size: 9px;">
+                        <span>${message.created_at}</span>
+                    </div>
+                </div>
+            `;
+        }
+        return bubble;
+    }
+
+    function scrollChatToBottom() {
         var container = document.getElementById('chat-messages-container');
         if (container) {
             container.scrollTop = container.scrollHeight;
         }
-    });
+    }
 
-    // Real-time live dynamic search filtering for sidebar chats
-    $('#chat-search').on('keyup', function() {
-        var query = $(this).val().toLowerCase();
-        $('#chat-list-container a').each(function() {
-            var title = $(this).find('h6').text().toLowerCase();
-            var body = $(this).find('p').text().toLowerCase();
-            if (title.indexOf(query) !== -1 || body.indexOf(query) !== -1) {
-                $(this).removeClass('d-none').addClass('d-flex');
-            } else {
-                $(this).removeClass('d-flex').addClass('d-none');
+    function ensureChatLastSeenSeed() {
+        if (!currentChatId || !currentChatLastSeenKey) {
+            return;
+        }
+        var stored = localStorage.getItem(currentChatLastSeenKey);
+        if (!stored || parseInt(stored) < currentChatLatestId) {
+            localStorage.setItem(currentChatLastSeenKey, currentChatLatestId);
+        }
+    }
+
+    window.refreshActiveChatMessages = function (sessionId, latestIdFromUpdate) {
+        if (!currentChatId || parseInt(sessionId) !== parseInt(currentChatId)) {
+            return;
+        }
+
+        var seenId = parseInt(localStorage.getItem(currentChatLastSeenKey) || 0);
+        var targetUrl = "{{ url('konsultasi-online') }}" + "/" + currentChatId + "/messages";
+        var query = '?since_id=' + (seenId > 0 ? seenId : 0);
+
+        $.ajax({
+            url: targetUrl + query,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (!response.success || !response.messages || !response.messages.length) {
+                    return;
+                }
+
+                var container = document.getElementById('chat-messages-container');
+                if (!container) {
+                    return;
+                }
+
+                response.messages.forEach(function (msg) {
+                    var messageNode = renderChatMessage(msg);
+                    container.appendChild(messageNode);
+                    currentChatLatestId = Math.max(currentChatLatestId, msg.id);
+                });
+
+                localStorage.setItem(currentChatLastSeenKey, response.latest_message_id || currentChatLatestId);
+                scrollChatToBottom();
+            },
+            error: function () {
+                // ignore silently
             }
         });
+    };
+
+    $(document).ready(function() {
+        ensureChatLastSeenSeed();
+        scrollChatToBottom();
+
+        if (currentChatId) {
+            setInterval(function () {
+                window.refreshActiveChatMessages(currentChatId);
+            }, 5000);
+        }
+
+        var searchInput = $('#chat-search');
+        if (searchInput.length) {
+            searchInput.on('keyup', function() {
+                var query = $(this).val().toLowerCase();
+                $('#chat-list-container a').each(function() {
+                    var title = $(this).find('h6').text().toLowerCase();
+                    var body = $(this).find('p').text().toLowerCase();
+                    if (title.indexOf(query) !== -1 || body.indexOf(query) !== -1) {
+                        $(this).removeClass('d-none').addClass('d-flex');
+                    } else {
+                        $(this).removeClass('d-flex').addClass('d-none');
+                    }
+                });
+            });
+        }
     });
 
-    // AJAX Delete Confirmation Flow
+    $('#emoji-toggle').on('click', function (e) {
+        e.preventDefault();
+        $('#emoji-picker').toggleClass('d-none');
+        $('#reply-input').focus();
+    });
+
+    $(document).on('click', '#emoji-picker .btn-close', function () {
+        $('#emoji-picker').addClass('d-none');
+    });
+
+    $(document).on('click', '.emoji-item', function () {
+        var emoji = $(this).text();
+        var $input = $('#reply-input');
+        $input.val($input.val() + emoji).focus();
+        $('#emoji-picker').addClass('d-none');
+    });
+
+    $(document).on('click', function (e) {
+        if ($(e.target).closest('#emoji-picker, #emoji-toggle').length === 0) {
+            $('#emoji-picker').addClass('d-none');
+        }
+    });
+
     $(document).on('click', '.btn-delete', function () {
         var id = $(this).data('id');
         Swal.fire({
