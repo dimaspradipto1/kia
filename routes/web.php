@@ -26,8 +26,14 @@ use App\Http\Controllers\PerkembanganSidtkController;
 use App\Http\Controllers\MpasiController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KonsultasiOnlineController;
+use App\Http\Controllers\ArtikelEdukasiController;
+use App\Http\Controllers\KategoriArtikelController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
+Route::get('/about', [HomepageController::class,'about'])->name('homepage.about');
+Route::get('/layanan', [HomepageController::class,'layanan'])->name('homepage.layanan');
+Route::get('/contact', [HomepageController::class,'contact'])->name('homepage.contact');
+Route::get('/artikel', [HomepageController::class,'artikel'])->name('homepage.artikel');
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
@@ -71,6 +77,10 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('konsultasi-online/{konsultasiOnline}/messages', [KonsultasiOnlineController::class, 'fetchMessages'])->name('konsultasi-online.messages');
     Route::post('konsultasi-online/{konsultasiOnline}/reply', [KonsultasiOnlineController::class, 'reply'])->name('konsultasi-online.reply');
     Route::resource('konsultasi-online', KonsultasiOnlineController::class)->parameters(['konsultasi-online' => 'konsultasiOnline']);
+
+    // Manajemen Homepage
+    Route::resource('artikel-edukasi', ArtikelEdukasiController::class)->parameters(['artikel-edukasi' => 'artikelEdukasi']);
+    Route::resource('kategori-artikel', KategoriArtikelController::class)->parameters(['kategori-artikel' => 'kategoriArtikel']);
 
     // Laporan & Monitoring Routes
     Route::get('/laporan/statistik', [LaporanController::class, 'statistik'])->name('laporan.statistik');

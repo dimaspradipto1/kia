@@ -14,15 +14,16 @@
         <li class="nav-heading">Administrator</li>
 
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? '' : 'collapsed' }}" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? '' : 'collapsed' }}" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-database"></i><span>Data Master</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
           </a>
-          <ul id="master-nav" class="nav-content collapse {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <ul id="master-nav" class="nav-content collapse {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
             <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Data User</span></a></li>
             <li><a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
             <li><a href="{{ route('fasilitas-kesehatan.index') }}" class="{{ request()->routeIs('fasilitas-kesehatan.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
             <li><a href="{{ route('wilaya-dinkes.index') }}" class="{{ request()->routeIs('wilaya-dinkes.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Wilayah Dinkes</span></a></li>
-            <li><a href="#"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
+            <li><a href="{{ route('kategori-artikel.index') }}" class="{{ request()->routeIs('kategori-artikel.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
+            <li><a href="{{ route('artikel-edukasi.index') }}" class="{{ request()->routeIs('artikel-edukasi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel Edukasi</span></a></li>
             <li><a href="{{ route('hasil-lab-ibu.index') }}" class="{{ request()->routeIs('hasil-lab-ibu.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
             <li><a href="{{ route('bayi-baru-lahir.index') }}" class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
             <li><a href="{{ route('imunisasi-anak.index') }}" class="{{ request()->routeIs('imunisasi-anak.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Imunisasi Anak</span></a></li>
@@ -65,6 +66,24 @@
           </ul>
         </li>
 
+        {{-- Homepage Management Dropdown --}}
+        <li class="nav-item">
+          <a class="nav-link {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('konsultasi-publik.*') ? '' : 'collapsed' }}"
+             data-bs-target="#homepage-nav" data-bs-toggle="collapse" href="#">
+            <i class="bi bi-globe"></i><span>Kelola Homepage</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
+          </a>
+          <ul id="homepage-nav" class="nav-content collapse {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('konsultasi-publik.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+            <li><a href="{{ route('homepage') }}" class="{{ request()->routeIs('homepage') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Beranda</span></a></li>
+            <li><a href="{{ route('homepage.about') }}" class="{{ request()->routeIs('homepage.about') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tentang</span></a></li>
+            <li><a href="{{ route('homepage.artikel') }}" class="{{ request()->routeIs('homepage.artikel') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel</span></a></li>
+            <li><a href="{{ route('homepage.contact') }}" class="{{ request()->routeIs('homepage.contact') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kontak</span></a></li>
+            <li><a href="{{ route('artikel-edukasi.index') }}" class="{{ request()->routeIs('artikel-edukasi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel Edukasi</span></a></li>
+            <li><a href="{{ route('kategori-artikel.index') }}" class="{{ request()->routeIs('kategori-artikel.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
+            <li><a href="{{ route('faqs.index') }}" class="{{ request()->routeIs('faqs.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>FAQ</span></a></li>
+            <li><a href="{{ route('konsultasi-publik.form') }}" class="{{ request()->routeIs('konsultasi-publik.form') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Konsultasi Publik</span></a></li>
+          </ul>
+        </li>
+
         <li class="nav-heading">Laporan & Monitoring</li>
         <li class="nav-item">
           <a class="nav-link {{ request()->routeIs('laporan.statistik') ? '' : 'collapsed' }}" href="{{ route('laporan.statistik') }}">
@@ -93,7 +112,7 @@
         </li>
       @endif
 
-      @if(optional(Auth::user()->role)->nama_role == 'dinas kesehatan')
+      @if(in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'dinas kesehatan']))
         <li class="nav-heading">Dinas Kesehatan</li>
         <li class="nav-item">
           <a class="nav-link {{ request()->routeIs('laporan.statistik') ? '' : 'collapsed' }}" href="{{ route('laporan.statistik') }}">
@@ -122,7 +141,7 @@
         </li>
       @endif
 
-      @if(optional(Auth::user()->role)->nama_role == 'nakes')
+      @if(in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'nakes']))
         <li class="nav-heading">Tenaga Kesehatan</li>
 
         {{-- Buku KIA Dropdown --}}
@@ -186,7 +205,7 @@
         </li>
       @endif
 
-      @if(optional(Auth::user()->role)->nama_role == 'ibu hamil')
+      @if(in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'ibu hamil']))
         <li class="nav-heading">Ibu Hamil</li>
 
         {{-- Buku KIA Saya Dropdown --}}
