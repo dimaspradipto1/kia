@@ -620,3 +620,359 @@ p { color: var(--ve-text); }
   background: var(--ve-primary); border-radius: 2px;
 }
 
+/* ============================================================
+   PAGE HERO (About, Layanan, Kontak, Artikel)
+   ============================================================ */
+.ve-page-hero {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 80px; /* navbar height offset */
+  overflow: hidden;
+}
+
+.ve-page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(69, 6, 46, 0.82) 0%,
+    rgba(233, 30, 99, 0.55) 60%,
+    rgba(69, 6, 46, 0.75) 100%
+  );
+  z-index: 1;
+}
+
+.ve-page-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 80px 0 70px;
+  text-align: center;
+}
+
+.ve-page-hero-content .ve-section-tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
+}
+
+.ve-page-hero-content h1 {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: #ffffff !important;
+  line-height: 1.15;
+  margin-bottom: 24px;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  letter-spacing: -0.03em;
+}
+
+.ve-page-hero-content h1 span {
+  color: var(--ve-highlight) !important;
+}
+
+/* ============================================================
+   BREADCRUMB — Homepage Hero Pages
+   ============================================================ */
+.ve-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+}
+
+.ve-breadcrumb li {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.ve-breadcrumb li::before {
+  display: none;
+}
+
+.ve-breadcrumb li + li::before {
+  content: '›';
+  font-size: 1.2rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.4);
+  margin: 0 10px;
+  line-height: 1;
+}
+
+.ve-breadcrumb li a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ve-breadcrumb li a::before {
+  content: '\f015';
+  font-family: 'FontAwesome';
+  font-size: 11px;
+}
+
+.ve-breadcrumb li a:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.ve-breadcrumb li.active {
+  color: var(--ve-highlight);
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(255, 128, 171, 0.2);
+}
+
+/* ============================================================
+   MVV CARDS (Misi, Visi, Nilai)
+   ============================================================ */
+.ve-mvv-section {
+  background: var(--ve-light);
+  padding: 100px 0;
+}
+
+.ve-mvv-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.ve-mvv-card {
+  background: #fff;
+  border-radius: 30px;
+  padding: 50px 40px;
+  text-align: center;
+  border: 1px solid var(--ve-border);
+  transition: var(--ve-trans);
+}
+
+.ve-mvv-card:hover {
+  border-color: var(--ve-primary);
+  transform: translateY(-10px);
+  box-shadow: var(--ve-shadow-lg);
+}
+
+.ve-mvv-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--ve-light);
+  color: var(--ve-primary);
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin: 0 auto 25px;
+  transition: var(--ve-trans);
+}
+
+.ve-mvv-card:hover .ve-mvv-icon {
+  background: var(--ve-primary);
+  color: #fff;
+}
+
+.ve-mvv-card h4 {
+  font-size: 1.3rem;
+  color: var(--ve-dark);
+  margin-bottom: 15px;
+}
+
+.ve-mvv-card p {
+  color: var(--ve-text-light);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ============================================================
+   TEAM CARDS
+   ============================================================ */
+.ve-team-section { background: #fff; }
+
+.ve-team-card {
+  background: var(--ve-light);
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid var(--ve-border);
+  transition: var(--ve-trans);
+  margin-bottom: 30px;
+}
+
+.ve-team-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--ve-shadow-lg);
+  border-color: var(--ve-primary);
+}
+
+.ve-team-img {
+  height: 260px;
+  background-size: cover;
+  background-position: top center;
+}
+
+.ve-team-info {
+  padding: 25px;
+  text-align: center;
+  background: #fff;
+}
+
+.ve-team-info h5 {
+  font-size: 1.1rem;
+  color: var(--ve-dark);
+  margin-bottom: 5px;
+}
+
+.ve-team-info span {
+  font-size: 0.85rem;
+  color: var(--ve-primary);
+  font-weight: 700;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.ve-team-social { display: flex; justify-content: center; gap: 10px; }
+.ve-team-social a {
+  width: 34px; height: 34px;
+  background: var(--ve-light);
+  color: var(--ve-primary);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; transition: var(--ve-trans);
+  text-decoration: none;
+}
+.ve-team-social a:hover { background: var(--ve-primary); color: #fff; }
+
+/* ============================================================
+   ABOUT IMAGE STACK
+   ============================================================ */
+.ve-about-img-stack {
+  position: relative;
+  padding: 0 30px 30px 0;
+  margin-bottom: 40px;
+}
+
+.ve-about-img-1 {
+  height: 420px;
+  border-radius: 30px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--ve-shadow-lg);
+}
+
+.ve-about-img-2 {
+  position: absolute;
+  bottom: -20px;
+  right: -10px;
+  width: 55%;
+  height: 200px;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  border: 5px solid #fff;
+  box-shadow: var(--ve-shadow-lg);
+  z-index: 2;
+}
+
+.ve-about-ribbon {
+  position: absolute;
+  top: 30px;
+  right: -10px;
+  background: linear-gradient(135deg, var(--ve-primary), var(--ve-secondary));
+  color: #fff;
+  padding: 18px 22px;
+  border-radius: 18px;
+  text-align: center;
+  z-index: 3;
+  box-shadow: 0 10px 30px rgba(233, 30, 99, 0.35);
+}
+.ve-about-ribbon strong { display: block; font-size: 1.8rem; font-weight: 900; line-height: 1; }
+.ve-about-ribbon span { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; opacity: 0.9; }
+
+.ve-about-text { padding: 40px 0 40px 30px; }
+.ve-about-text h2 { font-size: 2.5rem; color: var(--ve-dark); margin-bottom: 20px; line-height: 1.2; }
+.ve-about-text h2 span { color: var(--ve-primary); }
+.ve-lead { font-size: 1.15rem; color: var(--ve-text); margin-bottom: 20px; line-height: 1.8; }
+
+.ve-about-features { display: flex; flex-direction: column; gap: 14px; margin: 30px 0; }
+.ve-af-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 18px; border-radius: 12px;
+  background: var(--ve-light); border: 1px solid var(--ve-border);
+}
+.ve-af-item i { color: var(--ve-primary); font-size: 0.95rem; }
+.ve-af-item span { font-weight: 600; color: var(--ve-dark); font-size: 0.95rem; }
+
+/* ============================================================
+   WHY US SECTION
+   ============================================================ */
+.ve-whyus-section { background: #fff; padding: 120px 0; }
+.ve-whyus-content { padding: 0 0 0 50px; }
+.ve-whyus-content > h2 { font-size: 2.8rem; line-height: 1.2; color: var(--ve-dark); margin-bottom: 20px; }
+.ve-whyus-content > h2 span { color: var(--ve-primary); }
+.ve-whyus-content > p { font-size: 1.05rem; color: var(--ve-text-light); margin-bottom: 35px; line-height: 1.8; }
+
+/* ============================================================
+   HERO — HOMEPAGE IMPROVEMENTS
+   ============================================================ */
+/* Ensure hero right panel image fits when src-based img tag */
+.ve-hero-right img.ve-hero-img-main {
+  position: static;
+  width: 100%;
+  height: auto;
+  min-height: 480px;
+  object-fit: cover;
+  border-radius: 42px;
+  box-shadow: 0 40px 100px rgba(15, 23, 42, 0.16);
+}
+
+/* Remove conflicting inset for img-based hero */
+img.ve-hero-img-main { position: static !important; }
+
+/* Counters light variant */
+.ve-counter-section[style*="F8FAFC"] .ve-counter-item i { color: var(--ve-primary); }
+.ve-counter-section[style*="F8FAFC"] .ve-counter-item strong { color: var(--ve-dark); }
+.ve-counter-section[style*="F8FAFC"] .ve-counter-item span { color: var(--ve-secondary); }
+.ve-counter-section[style*="F8FAFC"] .ve-counter-item p { color: var(--ve-text-light); }
+
+/* ============================================================
+   RESPONSIVE — PAGE HERO & BREADCRUMB
+   ============================================================ */
+@media (max-width: 768px) {
+  .ve-page-hero { min-height: 320px; }
+  .ve-page-hero-content { padding: 60px 0 50px; }
+  .ve-page-hero-content h1 { font-size: 1.9rem; }
+  .ve-mvv-grid { grid-template-columns: 1fr; }
+  .ve-about-text { padding: 30px 0 0; }
+  .ve-about-img-2 { display: none; }
+  .ve-whyus-content { padding: 0; }
+  .ve-whyus-content > h2 { font-size: 2rem; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ve-mvv-grid { grid-template-columns: repeat(2, 1fr); }
+}

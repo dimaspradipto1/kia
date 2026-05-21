@@ -57,13 +57,19 @@ h6 {
 --------------------------------------------------------------*/
 .pagetitle {
   margin-bottom: 10px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #fff0f8 0%, #fff5fb 100%);
+  border-radius: 12px;
+  border-left: 4px solid #EC1E88;
+  box-shadow: 0 2px 12px rgba(236, 30, 136, 0.08);
 }
 
 .pagetitle h1 {
-  font-size: 24px;
-  margin-bottom: 0;
-  font-weight: 600;
-  color: #012970;
+  font-size: 22px;
+  margin-bottom: 2px;
+  font-weight: 700;
+  color: #c0166f;
+  letter-spacing: -0.3px;
 }
 
 /*--------------------------------------------------------------
@@ -321,28 +327,59 @@ h6 {
 
 /* Breadcrumbs */
 .breadcrumb {
-  font-size: 14px;
+  font-size: 13px;
   font-family: "Nunito", sans-serif;
-  color: #899bbd;
+  color: #c4779e;
   font-weight: 600;
+  margin-bottom: 0;
+  align-items: center;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
 }
 
 .breadcrumb a {
-  color: #899bbd;
-  transition: 0.3s;
+  color: #c4779e;
+  transition: all 0.25s ease;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(236, 30, 136, 0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .breadcrumb a:hover {
-  color: #51678f;
+  color: #EC1E88;
+  background: rgba(236, 30, 136, 0.12);
+  text-decoration: none;
 }
 
-.breadcrumb .breadcrumb-item::before {
-  color: #899bbd;
+.breadcrumb .breadcrumb-item:first-child a::before {
+  content: '\f015';
+  font-family: 'bootstrap-icons';
+  font-size: 11px;
+  line-height: 1;
+  margin-right: 2px;
+}
+
+.breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+  color: #e8a0c0;
+  content: "\F285";
+  font-family: 'bootstrap-icons';
+  font-size: 10px;
+  padding: 0 4px;
+  line-height: 1.5;
 }
 
 .breadcrumb .active {
-  color: #51678f;
-  font-weight: 600;
+  color: #EC1E88;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(236, 30, 136, 0.1);
 }
 
 /* Bordered Tabs */
