@@ -28,6 +28,10 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KonsultasiOnlineController;
 use App\Http\Controllers\ArtikelEdukasiController;
 use App\Http\Controllers\KategoriArtikelController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\VisiMisiController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 Route::get('/about', [HomepageController::class,'about'])->name('homepage.about');
@@ -85,6 +89,14 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     // Manajemen Homepage
     Route::resource('artikel-edukasi', ArtikelEdukasiController::class)->parameters(['artikel-edukasi' => 'artikelEdukasi']);
     Route::resource('kategori-artikel', KategoriArtikelController::class)->parameters(['kategori-artikel' => 'kategoriArtikel']);
+    Route::resource('contacts', ContactController::class);
+    Route::resource('abouts', AboutController::class);
+    Route::resource('teams', TeamController::class);
+    Route::resource('kelola/visi-misi', VisiMisiController::class)
+        ->parameters(['visi-misi' => 'visiMisi'])
+        ->names('visi-misi');
+    Route::delete('abouts/images/{aboutImage}', [AboutController::class, 'destroyImage'])->name('abouts.images.destroy');
+    Route::patch('abouts/images/{aboutImage}/set-default', [AboutController::class, 'setDefaultImage'])->name('abouts.images.set-default');
 
     // Laporan & Monitoring Routes
     Route::get('/laporan/statistik', [LaporanController::class, 'statistik'])->name('laporan.statistik');

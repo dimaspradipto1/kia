@@ -1230,6 +1230,89 @@
         @yield('content')
     </main>
 
+    <!-- ===== FOOTER ===== -->
+    <footer class="ve-footer">
+        <div class="container">
+            <div class="row">
+                <!-- Col 1: Brand -->
+                <div class="col-12 col-sm-6 col-lg-4 mb-50">
+                    <div class="ve-footer-brand">
+                        <a href="{{ route('homepage') }}" class="ve-footer-logo d-flex align-items-center mb-4">
+                            <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="height: 50px;" class="me-2">
+                            <span class="ve-logo-text" style="font-size: 1.5rem; font-weight: 700; color: #fff;">Buku <strong>KIA</strong></span>
+                        </a>
+                        <p>Pendamping terpercaya dalam menjaga kesehatan Ibu dan Anak dengan informasi medis terkini dan layanan penuh kasih.</p>
+                        <div class="ve-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-whatsapp"></i></a>
+                            <a href="#"><i class="fa fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Col 2: Quick Links -->
+                <div class="col-12 col-sm-6 col-lg-2 mb-50">
+                    <h5 class="ve-footer-title">Tautan Cepat</h5>
+                    <ul class="ve-footer-links">
+                        <li><a href="{{ route('homepage') }}">Beranda</a></li>
+                        <li><a href="{{ route('homepage.about') }}">Tentang Kami</a></li>
+                        <li><a href="{{ route('homepage.layanan') }}">Layanan</a></li>
+                        <li><a href="{{ route('homepage.artikel') }}">Artikel</a></li>
+                        <li><a href="{{ route('homepage.contact') }}">Kontak</a></li>
+                    </ul>
+                </div>
+                <!-- Col 3: Services -->
+                <div class="col-12 col-sm-6 col-lg-3 mb-50">
+                    <h5 class="ve-footer-title">Layanan Utama</h5>
+                    <ul class="ve-footer-links">
+                        <li><a href="{{ route('homepage.layanan') }}">Panduan Kehamilan</a></li>
+                        <li><a href="{{ route('homepage.layanan') }}">Jadwal Imunisasi</a></li>
+                        <li><a href="{{ route('homepage.layanan') }}">Konsultasi Gizi</a></li>
+                        <li><a href="{{ route('homepage.layanan') }}">Tumbuh Kembang</a></li>
+                        <li><a href="{{ route('homepage.layanan') }}">Kesehatan Ibu</a></li>
+                    </ul>
+                </div>
+                <!-- Col 4: Contact — DINAMIS dari database -->
+                <div class="col-12 col-sm-6 col-lg-3 mb-50">
+                    <h5 class="ve-footer-title">Hubungi Kami</h5>
+                    <ul class="ve-footer-contact">
+                        @if($footerContact)
+                            <li><i class="fa fa-map-marker"></i> {{ $footerContact->alamat }}</li>
+                            @if($footerContact->telepon)
+                                <li><i class="fa fa-phone"></i> {{ $footerContact->telepon }}</li>
+                            @endif
+                            @if($footerContact->email)
+                                <li><i class="fa fa-envelope"></i> {{ $footerContact->email }}</li>
+                            @endif
+                            @if($footerContact->jam_operasional)
+                                <li><i class="fa fa-clock-o"></i> {{ $footerContact->jam_operasional }}</li>
+                            @endif
+                        @else
+                            <li><i class="fa fa-map-marker"></i> Jl. Kesehatan No. 123, Jakarta Pusat</li>
+                            <li><i class="fa fa-phone"></i> +62 21 5555 0001</li>
+                            <li><i class="fa fa-envelope"></i> info@kiacare.id</li>
+                            <li><i class="fa fa-clock-o"></i> Senin–Jumat, 08:00–17:00</li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom Bar -->
+        <div class="ve-footer-bottom">
+            <div class="container">
+                <div class="ve-footer-bottom-inner">
+                    <p>Copyright &copy; {{ date('Y') }} KIA Care. All Rights Reserved</p>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <!-- Scripts -->
     <script src="{{ asset('homepage/js/jquery/jquery-2.2.4.min.js') }}"></script>
     <script src="{{ asset('homepage/js/bootstrap/popper.min.js') }}"></script>

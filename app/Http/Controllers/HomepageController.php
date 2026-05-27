@@ -3,25 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
+use App\Models\About;
 use App\Models\Faq;
+use App\Models\Contact;
+use App\Models\Team;
+use App\Models\VisiMisi;
 
 class HomepageController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::where('is_active', true)->get();
-        return view('layouts.homepage.index', compact('faqs'));
+        $faqs = Faq::query()->where('is_active', true)->get();
+        $visiMisi = VisiMisi::where('is_active', true)->first();
+        return view('layouts.homepage.index', compact('faqs', 'visiMisi'));
     }
 
     public function about()
     {
-        return view('layouts.homepage.about');
+        $about = About::where('is_active', true)
+            ->with(['defaultImage', 'images'])
+            ->first();
+        $teams = Team::where('is_active', true)
+            ->orderBy('urutan')
+            ->get();
+        return view('layouts.homepage.about', compact('about', 'teams'));
     }
 
     public function contact()
     {
-        return view('layouts.homepage.contact');
+        // Ambil data kontak aktif pertama dari database
+        $contact = Contact::where('is_active', true)->first();
+        return view('layouts.homepage.contact', compact('contact'));
     }
 
     private function getMockArticles()
@@ -165,19 +179,36 @@ class HomepageController extends Controller
         $search = $request->get('search');
         $category = $request->get('category');
 
-        $articles = $allArticles;
+        // Filter articles
+        $filtered = $allArticles;
 
         if ($search) {
-            $articles = $articles->filter(function($item) use ($search) {
+            $filtered = $filtered->filter(function ($item) use ($search) {
                 return stripos($item['judul'], $search) !== false || stripos($item['snippet'], $search) !== false;
             });
         }
 
         if ($category) {
-            $articles = $articles->filter(function($item) use ($category) {
+            $filtered = $filtered->filter(function ($item) use ($category) {
                 return $item['kategori_slug'] === $category;
             });
         }
+
+        // Sort by newest first (by index, since mock data is already ordered newest-first)
+        $filtered = $filtered->values();
+
+        // Paginate manually (4 per page – change to 10 for production)
+        $perPage = 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $pageItems = $filtered->slice(($currentPage - 1) * $perPage, $perPage)->values();
+
+        $articles = new LengthAwarePaginator(
+            $pageItems,
+            $filtered->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         // Get category counts
         $categories = [
@@ -189,7 +220,7 @@ class HomepageController extends Controller
             ['nama' => 'Tumbuh Kembang', 'slug' => 'tumbuh-kembang', 'count' => $allArticles->where('kategori_slug', 'tumbuh-kembang')->count()],
         ];
 
-        // Recent posts (always the first 3 from allArticles)
+        // Recent posts (always the first 3 from allArticles, newest first)
         $recentArticles = $allArticles->take(3);
 
         return view('layouts.homepage.artikel', compact('articles', 'categories', 'recentArticles', 'search', 'category'));
@@ -228,11 +259,7 @@ class HomepageController extends Controller
 
     public function visimisi()
     {
-        $missions = [
-            'Meningkatkan akses informasi kesehatan ibu dan anak di seluruh Indonesia.',
-            'Menghadirkan teknologi pemantauan kesehatan digital yang mudah dan ramah pengguna.',
-            'Menjadi platform yang dapat diandalkan dan dipercaya oleh setiap keluarga.'
-        ];
-        return view('layouts.homepage.visimisi', compact('missions'));
+        $visiMisi = VisiMisi::where('is_active', true)->first();
+        return view('layouts.homepage.visimisi', compact('visiMisi'));
     }
 }

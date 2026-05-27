@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(cd c:\\\\laragon\\\\www\\\\kia; php artisan tinker --execute=\"$a = App\\\\Models\\\\About::with\\('images'\\)->first\\(\\); echo $a->judul . PHP_EOL; echo 'Images: ' . $a->images->count\\(\\) . PHP_EOL; echo 'Default: ' . $a->defaultImage?->path;\")",
+      "PowerShell(cd c:\\\\laragon\\\\www\\\\kia; php artisan tinker --execute=\"echo App\\\\Models\\\\Team::count\\(\\) . ' teams seeded'; App\\\\Models\\\\Team::all\\(['id','nama','jabatan','urutan','is_active']\\)->each\\(fn\\(\\\\$t\\) => print_r\\(['id'=>\\\\$t->id,'nama'=>\\\\$t->nama,'jabatan'=>\\\\$t->jabatan]\\)\\);\")",
+      "PowerShell(cd c:\\\\laragon\\\\www\\\\kia; php artisan tinker --execute=\"App\\\\Models\\\\Team::all\\(\\)->each\\(function\\(\\\\$t\\){ echo \\\\$t->id . ': ' . \\\\$t->nama . ' - ' . \\\\$t->jabatan . ' [' . \\\\$t->foto . ']' . PHP_EOL; }\\);\")"
+    ]
+  }
+}

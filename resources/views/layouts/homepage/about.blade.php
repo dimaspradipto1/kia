@@ -3,6 +3,7 @@
 @section('title', 'Tentang KIA Care')
 
 @section('content')
+    {{-- ===== PAGE HERO ===== --}}
     <section class="ve-page-hero" style="background-image:url('{{ asset('homepage/img/clinic_bg_1779872776394.png') }}');">
         <div class="ve-page-hero-overlay"></div>
         <div class="container ve-page-hero-content">
@@ -17,6 +18,103 @@
         </div>
     </section>
 
+    {{-- ===== SIAPA KAMI — DATA DINAMIS DARI DB ===== --}}
+    @if($about)
+    @php
+        $defaultImg    = $about->defaultImage;
+        $secondaryImg  = $about->images->where('is_default', false)->first();
+        $allImages     = $about->images;
+    @endphp
+    <section class="ve-section">
+        <div class="container">
+            <div class="row align-items-center">
+                {{-- Kolom gambar --}}
+                <div class="col-12 col-lg-6">
+                    <div class="ve-about-img-stack">
+                        {{-- Gambar utama (default) --}}
+                        @if($defaultImg)
+                            <div class="ve-about-img-1 bg-img"
+                                 style="background-image:url('{{ $defaultImg->url }}');"></div>
+                        @else
+                            <div class="ve-about-img-1 bg-img"
+                                 style="background-image:url('{{ asset('homepage/img/mother_portrait_1779872791574.png') }}');"></div>
+                        @endif
+
+                        {{-- Gambar kedua (non-default pertama) --}}
+                        @if($secondaryImg)
+                            <div class="ve-about-img-2 bg-img"
+                                 style="background-image:url('{{ $secondaryImg->url }}');"></div>
+                        @elseif($allImages->count() == 0)
+                            <div class="ve-about-img-2 bg-img"
+                                 style="background-image:url('{{ asset('homepage/img/doctor_obgyn_1779872831013.png') }}');"></div>
+                        @endif
+
+                        @if($about->tahun_mengabdi)
+                            <div class="ve-about-ribbon">
+                                <strong>{{ $about->tahun_mengabdi }}+</strong>
+                                <span>Tahun Mengabdi</span>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Kolom teks --}}
+                <div class="col-12 col-lg-6">
+                    <div class="ve-about-text">
+                        @if($about->sub_judul)
+                            <span class="ve-section-tag">{{ $about->sub_judul }}</span>
+                        @endif
+
+                        <h2>{!! $about->judul !!}</h2>
+
+                        @if($about->deskripsi_pendek)
+                            <p class="ve-lead">{{ $about->deskripsi_pendek }}</p>
+                        @endif
+
+                        @if($about->deskripsi_panjang)
+                            <p>{{ $about->deskripsi_panjang }}</p>
+                        @endif
+
+                        @if($about->fitur && count($about->fitur))
+                            <div class="ve-about-features">
+                                @foreach($about->fitur as $fitur)
+                                    <div class="ve-af-item">
+                                        <i class="fa fa-check"></i>
+                                        <span>{{ $fitur }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
+                        <div class="text-center text-lg-left mt-30">
+                            <a href="{{ route('homepage.contact') }}" class="ve-btn-primary">Hubungi Kami</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Galeri foto tambahan (jika ada lebih dari 2 gambar) --}}
+            @if($allImages->count() > 2)
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="row g-3">
+                        @foreach($allImages->skip(2) as $img)
+                        <div class="col-6 col-md-3">
+                            <div style="border-radius:20px;overflow:hidden;aspect-ratio:1;">
+                                <img src="{{ $img->url }}" alt="{{ $img->keterangan ?? 'Foto KIA Care' }}"
+                                     style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+    </section>
+
+    @else
+    {{-- ===== FALLBACK STATIS jika belum ada data di DB ===== --}}
     <section class="ve-section">
         <div class="container">
             <div class="row align-items-center">
@@ -47,7 +145,9 @@
             </div>
         </div>
     </section>
+    @endif
 
+    {{-- ===== TIM — DATA DINAMIS DARI DB ===== --}}
     <section class="ve-section ve-team-section">
         <div class="container">
             <div class="ve-section-header text-center">
@@ -56,6 +156,33 @@
                 <p>Tim kami terdiri dari tenaga kesehatan dan pengembang yang berfokus pada pengalaman ibu dan anak.</p>
             </div>
             <div class="row">
+                @forelse($teams as $member)
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="ve-team-card">
+                        <div class="ve-team-img bg-img"
+                             style="background-image:url('{{ $member->foto_url }}');"></div>
+                        <div class="ve-team-info">
+                            <h5>{{ $member->nama }}</h5>
+                            <span>{{ $member->jabatan }}</span>
+                            <div class="ve-team-social">
+                                @if($member->linkedin)
+                                    <a href="{{ $member->linkedin }}" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                @endif
+                                @if($member->tiktok)
+                                    <a href="{{ $member->tiktok }}" target="_blank"><i class="fa fa-music"></i></a>
+                                @endif
+                                @if($member->instagram)
+                                    <a href="{{ $member->instagram }}" target="_blank"><i class="fa fa-instagram"></i></a>
+                                @endif
+                                @if($member->facebook)
+                                    <a href="{{ $member->facebook }}" target="_blank"><i class="fa fa-facebook"></i></a>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                {{-- Fallback statis jika DB kosong --}}
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="ve-team-card">
                         <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/nurse_doctor1_1779872814462.png') }}');"></div>
@@ -92,10 +219,12 @@
                         </div>
                     </div>
                 </div>
+                @endforelse
             </div>
         </div>
     </section>
 
+    {{-- ===== COUNTER ===== --}}
     <section class="ve-counter-section">
         <div class="container">
             <div class="ve-counter-grid">
@@ -123,6 +252,7 @@
         </div>
     </section>
 
+    {{-- ===== NEWSLETTER ===== --}}
     <section class="ve-newsletter-section">
         <div class="container">
             <div class="ve-newsletter-wrap">

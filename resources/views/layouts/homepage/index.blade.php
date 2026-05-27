@@ -395,6 +395,46 @@
         </div>
     </section>
 
+    <!-- ===== VISI MISI PREVIEW ===== -->
+    @if($visiMisi && !empty($visiMisi->nilai_items))
+    @php $temaColors = \App\Models\VisiMisi::$temaColors; @endphp
+    <section class="ve-section" style="background: #fff;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12 col-lg-5 mb-4 mb-lg-0">
+                    <div class="ve-about-text p-0">
+                        <span class="ve-section-tag">Nilai Luhur</span>
+                        <h2 style="font-size: 2.5rem; line-height: 1.2;">Membimbing <br>Langkah <span>Pelayanan Kami</span></h2>
+                        <p class="ve-lead" style="line-height: 1.8;">Setiap baris kode dan setiap interaksi medis didasari oleh empati mendalam untuk mendukung keselamatan ibu dan tumbuh kembang optimal sang anak.</p>
+                        <p style="color: var(--ve-text-light);">KIA Care percaya bahwa keluarga yang sehat dimulai dari ibu yang terpantau dengan baik sejak awal kehamilan hingga masa balita emas buah hatinya.</p>
+                        <a href="{{ route('homepage.visimisi') }}" class="ve-btn-primary mt-3" style="display:inline-block;">Lihat Selengkapnya</a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-7">
+                    <div class="row g-4">
+                        @foreach($visiMisi->nilai_items as $item)
+                        @php
+                            $colors = $temaColors[$item['tema'] ?? 'blue'] ?? $temaColors['blue'];
+                            $ikon   = $item['ikon'] ?? 'fa-star';
+                        @endphp
+                        <div class="col-12 col-md-6">
+                            <div class="p-4 border border-1"
+                                 style="background: {{ $colors['bg'] }}; border-color: {{ $colors['border'] }} !important; border-radius: 20px;">
+                                <h5 class="fw-bold mb-2" style="color: var(--ve-dark);">
+                                    <i class="fa {{ $ikon }} me-2" style="color: {{ $colors['ikon'] }};"></i>
+                                    {{ $item['judul'] }}
+                                </h5>
+                                <p class="small text-muted mb-0" style="line-height: 1.6;">{{ $item['deskripsi'] }}</p>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @endif
+
     <!-- ===== COUNTERS ===== -->
     <section class="ve-counter-section">
         <div class="container">
@@ -527,6 +567,11 @@
                     </div>
                 </div>
             </div>
+            <div class="text-center mt-5 wow fadeInUp" data-wow-delay="500ms">
+                <a href="{{ route('homepage.artikel') }}" class="ve-btn ve-btn-primary">
+                    Lihat Semua Artikel <i class="fa fa-arrow-right ms-2"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -551,91 +596,7 @@
         </div>
     </section>
 
-    <!-- ===== FOOTER (dark, 4-column) ===== -->
-    <footer class="ve-footer">
-        <div class="container">
-            <div class="row">
-                <!-- Col 1: Brand -->
-                <div class="col-12 col-sm-6 col-lg-4 mb-50">
-                    <div class="ve-footer-brand">
-                        <a href="{{ route('homepage') }}" class="ve-footer-logo d-flex align-items-center mb-4">
-                            <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="height: 50px;" class="me-2">
-                            <span class="ve-logo-text" style="font-size: 1.5rem; font-weight: 700; color: #fff;">Buku <strong>KIA</strong></span>
-                        </a>
-                        <p>Pendamping terpercaya dalam menjaga kesehatan Ibu dan Anak dengan informasi medis terkini dan layanan penuh kasih.</p>
-                        <div class="ve-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-whatsapp"></i></a>
-                            <a href="#"><i class="fa fa-youtube"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Col 2: Quick Links -->
-                <div class="col-12 col-sm-6 col-lg-2 mb-50">
-                    <h5 class="ve-footer-title">Tautan Cepat</h5>
-                    <ul class="ve-footer-links">
-                        <li><a href="index.html">Beranda</a></li>
-                        <li><a href="about.html">Tentang Kami</a></li>
-                        <li><a href="services.html">Layanan</a></li>
-                        <li><a href="post.html">Artikel</a></li>
-                        <li><a href="contact.html">Kontak</a></li>
-                    </ul>
-                </div>
-                <!-- Col 3: Services -->
-                <div class="col-12 col-sm-6 col-lg-3 mb-50">
-                    <h5 class="ve-footer-title">Layanan Utama</h5>
-                    <ul class="ve-footer-links">
-                        <li><a href="#">Panduan Kehamilan</a></li>
-                        <li><a href="#">Jadwal Imunisasi</a></li>
-                        <li><a href="#">Konsultasi Gizi</a></li>
-                        <li><a href="#">Tumbuh Kembang</a></li>
-                        <li><a href="#">Kesehatan Ibu</a></li>
-                    </ul>
-                </div>
-                <!-- Col 4: Contact -->
-                <div class="col-12 col-sm-6 col-lg-3 mb-50">
-                    <h5 class="ve-footer-title">Hubungi Kami</h5>
-                    <ul class="ve-footer-contact">
-                        <li><i class="fa fa-map-marker"></i> Jl. Kesehatan No. 123, Jakarta Pusat</li>
-                        <li><i class="fa fa-phone"></i> +62 21 5555 0001</li>
-                        <li><i class="fa fa-envelope"></i> info@kiacare.id</li>
-                        <li><i class="fa fa-clock-o"></i> Senin–Jumat, 08:00 – 17:00</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer Bottom Bar -->
-        <div class="ve-footer-bottom">
-            <div class="container">
-                <div class="ve-footer-bottom-inner">
-                    <p>Copyright &copy; <script>document.write(new Date().getFullYear());</script> KIA Care. All Rights Reserved</p>
-                    <ul>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="{{ asset('homepage/js/jquery/jquery-2.2.4.min.js') }}"></script>
-    <script src="{{ asset('homepage/js/bootstrap/popper.min.js') }}"></script>
-    <script src="{{ asset('homepage/js/bootstrap/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('homepage/js/plugins/plugins.js') }}"></script>
-    <script src="{{ asset('homepage/js/active.js') }}"></script>
-    <script src="{{ asset('homepage/js/vaultedge.js') }}"></script>
-    <script>
-        $(window).on('load', function() {
-            $('.preloader').addClass('fade-out');
-            setTimeout(function() {
-                $('.preloader').hide();
-            }, 800);
-        });
-    </script>
+    {{-- Footer & Scripts sudah ada di layouts.homepage.template --}}
 
     <!-- Modal Jadwal Temu -->
     <div class="modal fade" id="jadwalTemuModal" tabindex="-1" role="dialog" aria-labelledby="jadwalTemuModalLabel" aria-hidden="true">

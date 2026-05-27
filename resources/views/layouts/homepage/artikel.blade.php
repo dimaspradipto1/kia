@@ -70,6 +70,72 @@
                                 </div>
                             @endforeach
                         </div>
+
+                        {{-- Custom Pagination --}}
+                        @if($articles->lastPage() > 1)
+                            <div class="d-flex flex-column align-items-center mt-5">
+                                {{-- Info --}}
+                                <p class="text-muted small mb-3">
+                                    Menampilkan {{ $articles->firstItem() }}–{{ $articles->lastItem() }} dari {{ $articles->total() }} artikel
+                                </p>
+                                {{-- Pagination Links --}}
+                                <nav aria-label="Navigasi halaman">
+                                    <ul class="pagination mb-0" style="gap: 6px; display: flex; align-items: center; list-style: none; padding: 0; flex-wrap: wrap; justify-content: center;">
+                                        {{-- Previous --}}
+                                        @if($articles->onFirstPage())
+                                            <li style="opacity:0.4; pointer-events:none;">
+                                                <span class="pagination-btn" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:#fff; border:1px solid #E2E8F0; color:#64748B; font-size:0.95rem;">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </span>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ $articles->previousPageUrl() }}" class="pagination-btn" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:#fff; border:1px solid #E2E8F0; color:#64748B; font-size:0.95rem; text-decoration:none; transition:all 0.2s;">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
+                                            </li>
+                                        @endif
+
+                                        {{-- Page Numbers --}}
+                                        @foreach($articles->getUrlRange(1, $articles->lastPage()) as $page => $url)
+                                            @if($page == $articles->currentPage())
+                                                <li>
+                                                    <span style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:var(--brand-p); color:#fff; font-weight:700; font-size:0.95rem;">
+                                                        {{ $page }}
+                                                    </span>
+                                                </li>
+                                            @elseif($page == 1 || $page == $articles->lastPage() || abs($page - $articles->currentPage()) <= 2)
+                                                <li>
+                                                    <a href="{{ $url }}" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:#fff; border:1px solid #E2E8F0; color:#475569; font-weight:500; font-size:0.95rem; text-decoration:none; transition:all 0.2s;">
+                                                        {{ $page }}
+                                                    </a>
+                                                </li>
+                                            @elseif(abs($page - $articles->currentPage()) == 3)
+                                                <li>
+                                                    <span style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; color:#94a3b8; font-size:1rem;">…</span>
+                                                </li>
+                                            @endif
+                                        @endforeach
+
+                                        {{-- Next --}}
+                                        @if($articles->hasMorePages())
+                                            <li>
+                                                <a href="{{ $articles->nextPageUrl() }}" class="pagination-btn" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:#fff; border:1px solid #E2E8F0; color:#64748B; font-size:0.95rem; text-decoration:none; transition:all 0.2s;">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </a>
+                                            </li>
+                                        @else
+                                            <li style="opacity:0.4; pointer-events:none;">
+                                                <span class="pagination-btn" style="display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:12px; background:#fff; border:1px solid #E2E8F0; color:#64748B; font-size:0.95rem;">
+                                                    <i class="fa fa-chevron-right"></i>
+                                                </span>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </nav>
+                            </div>
+                        @endif
+
                     @endif
 
                 </div>

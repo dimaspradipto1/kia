@@ -14,10 +14,10 @@
         <li class="nav-heading">Administrator</li>
 
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? '' : 'collapsed' }}" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+          <a class="nav-link {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-database"></i><span>Data Master</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
           </a>
-          <ul id="master-nav" class="nav-content collapse {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') || request()->routeIs('faqs.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <ul id="master-nav" class="nav-content collapse {{ request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('fasilitas-kesehatan.*') || request()->routeIs('wilaya-dinkes.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
             <li><a href="{{ route('users.index') }}" class="{{ request()->routeIs('users.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Data User</span></a></li>
             <li><a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Data Role</span></a></li>
             <li><a href="{{ route('fasilitas-kesehatan.index') }}" class="{{ request()->routeIs('fasilitas-kesehatan.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Fasilitas Kesehatan</span></a></li>
@@ -30,7 +30,6 @@
             <li><a href="{{ route('tumbuh-kembang.index') }}" class="{{ request()->routeIs('tumbuh-kembang.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tumbuh Kembang</span></a></li>
             <li><a href="{{ route('perkembangan-sidtk.index') }}" class="{{ request()->routeIs('perkembangan-sidtk.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Perkembangan SIDTK</span></a></li>
             <li><a href="{{ route('mpasi.index') }}" class="{{ request()->routeIs('mpasi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>MPASI</span></a></li>
-            <li><a href="{{ route('faqs.index') }}" class="{{ request()->routeIs('faqs.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Data FAQ</span></a></li>
           </ul>
         </li>
 
@@ -68,15 +67,17 @@
 
         {{-- Homepage Management Dropdown --}}
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('konsultasi-publik.*') ? '' : 'collapsed' }}"
+          <a class="nav-link {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('konsultasi-publik.*') ? '' : 'collapsed' }}"
              data-bs-target="#homepage-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-globe"></i><span>Kelola Homepage</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
           </a>
-          <ul id="homepage-nav" class="nav-content collapse {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('konsultasi-publik.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <ul id="homepage-nav" class="nav-content collapse {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('konsultasi-publik.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
             <li><a href="{{ route('homepage') }}" class="{{ request()->routeIs('homepage') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Beranda</span></a></li>
-            <li><a href="{{ route('homepage.about') }}" class="{{ request()->routeIs('homepage.about') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tentang</span></a></li>
+            <li><a href="{{ route('abouts.index') }}" class="{{ request()->routeIs('abouts.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tentang</span></a></li>
+            <li><a href="{{ route('teams.index') }}" class="{{ request()->routeIs('teams.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kelola Tim</span></a></li>
+            <li><a href="{{ route('visi-misi.index') }}" class="{{ request()->routeIs('visi-misi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Visi &amp; Misi</span></a></li>
             <li><a href="{{ route('homepage.artikel') }}" class="{{ request()->routeIs('homepage.artikel') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel</span></a></li>
-            <li><a href="{{ route('homepage.contact') }}" class="{{ request()->routeIs('homepage.contact') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kontak</span></a></li>
+            <li><a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kontak Kami</span></a></li>
             <li><a href="{{ route('artikel-edukasi.index') }}" class="{{ request()->routeIs('artikel-edukasi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel Edukasi</span></a></li>
             <li><a href="{{ route('kategori-artikel.index') }}" class="{{ request()->routeIs('kategori-artikel.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kategori Artikel</span></a></li>
             <li><a href="{{ route('faqs.index') }}" class="{{ request()->routeIs('faqs.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>FAQ</span></a></li>
