@@ -31,13 +31,17 @@ use App\Http\Controllers\KategoriArtikelController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 Route::get('/about', [HomepageController::class,'about'])->name('homepage.about');
+Route::get('/visi-misi', [HomepageController::class,'visimisi'])->name('homepage.visimisi');
 Route::get('/layanan', [HomepageController::class,'layanan'])->name('homepage.layanan');
 Route::get('/contact', [HomepageController::class,'contact'])->name('homepage.contact');
 Route::get('/artikel', [HomepageController::class,'artikel'])->name('homepage.artikel');
+Route::get('/artikel/{slug}', [HomepageController::class,'showArtikel'])->name('homepage.artikel.show');
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'proseslogin')->name('proseslogin');
+    Route::get('/register', 'register')->name('register');
+    Route::post('/register', 'registerproses')->name('registerproses');
     Route::get('/logout', 'logout')->name('logout');
 });
 

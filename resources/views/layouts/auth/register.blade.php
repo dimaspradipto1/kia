@@ -5,8 +5,8 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Login - Monitoring KIA</title>
-  <meta content="Sistem Monitoring Kesehatan Ibu dan Anak" name="description">
+  <title>Registrasi - Monitoring KIA</title>
+  <meta content="Daftar Akun Sistem Monitoring Kesehatan Ibu dan Anak" name="description">
   
   <!-- Favicons -->
   <link href="{{ asset('assets/img/logo.png') }}" rel="icon">
@@ -86,7 +86,7 @@
 
     .login-form-container {
       flex: 1;
-      padding: 4.5rem;
+      padding: 3.5rem 4.5rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -96,7 +96,7 @@
       display: flex;
       align-items: center;
       gap: 18px;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     .brand-logos img {
@@ -106,13 +106,13 @@
     .login-header h2 {
       font-weight: 800;
       color: var(--primary-color);
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
       font-size: 2.2rem;
     }
 
     .login-header p {
       color: #718096;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       font-size: 1.05rem;
     }
 
@@ -164,7 +164,7 @@
     }
 
     .footer-text {
-      margin-top: 3rem;
+      margin-top: 2.5rem;
       text-align: center;
       font-size: 0.9rem;
       color: #a0aec0;
@@ -203,7 +203,7 @@
         <div class="text-center">
           <img src="{{ asset('assets/img/login.png') }}" alt="KIA Illustration" class="mb-4">
           <h3 class="fw-bold mb-2">Monitoring MYKIA</h3>
-          <p class="opacity-75">Sistem Informasi Monitoring Kesehatan Ibu dan Anak Terpadu</p>
+          <p class="opacity-75">Sistem Informasi Monitoring Kesehatan Ibu dan Anak Terpadum</p>
         </div>
       </div>
       
@@ -215,30 +215,42 @@
         </div>
 
         <div class="login-header">
-          <h2>Selamat Datang</h2>
-          <p>Silakan masuk menggunakan akun Anda</p>
+          <h2>Daftar Akun Baru</h2>
+          <p>Lengkapi formulir di bawah ini untuk mendaftar</p>
         </div>
 
         @include('sweetalert::alert')
 
-        <form action="{{ route('proseslogin') }}" method="POST" class="needs-validation" novalidate>
+        <form action="{{ route('registerproses') }}" method="POST" class="needs-validation" novalidate>
           @csrf
+          
+          <div class="mb-3">
+            <label for="name" class="form-label">Nama Lengkap</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+              <input type="text" name="name" class="form-control border-start-0 bg-light @error('name') is-invalid @enderror" id="name" placeholder="Nama Lengkap" required value="{{ old('name') }}">
+            </div>
+            @error('name')
+              <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+          </div>
+
           <div class="mb-3">
             <label for="email" class="form-label">Alamat Email</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-              <input type="email" name="email" class="form-control border-start-0 bg-light" id="email" placeholder="contoh@email.com" required value="{{ old('email') }}">
+              <input type="email" name="email" class="form-control border-start-0 bg-light @error('email') is-invalid @enderror" id="email" placeholder="contoh@email.com" required value="{{ old('email') }}">
             </div>
             @error('email')
               <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror
           </div>
 
-          <div class="mb-4">
+          <div class="mb-3">
             <label for="password" class="form-label">Kata Sandi</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-              <input type="password" name="password" class="form-control border-start-0 border-end-0 bg-light" id="password" placeholder="Masukkan password" required>
+              <input type="password" name="password" class="form-control border-start-0 border-end-0 bg-light @error('password') is-invalid @enderror" id="password" placeholder="Masukkan password (min. 8 karakter)" required>
               <button class="btn btn-light border border-start-0 text-muted" type="button" id="toggle-password" style="border-radius: 0 12px 12px 0;">
                 <i class="bi bi-eye"></i>
               </button>
@@ -248,18 +260,21 @@
             @enderror
           </div>
 
-          <div class="mb-4 d-flex justify-content-between align-items-center">
-            <div class="form-check d-none">
-              <input class="form-check-input" type="checkbox" id="show-password">
-              <label class="form-check-label small text-muted" for="show-password">Tampilkan Sandi</label>
+          <div class="mb-4">
+            <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
+              <input type="password" name="password_confirmation" class="form-control border-start-0 border-end-0 bg-light" id="password_confirmation" placeholder="Konfirmasi password" required>
+              <button class="btn btn-light border border-start-0 text-muted" type="button" id="toggle-password-confirm" style="border-radius: 0 12px 12px 0;">
+                <i class="bi bi-eye"></i>
+              </button>
             </div>
-            <a href="#" class="small text-decoration-none" style="color: var(--primary-color);">Lupa Password?</a>
           </div>
 
-          <button type="submit" class="btn btn-login w-100">Masuk Sekarang</button>
+          <button type="submit" class="btn btn-login w-100">Daftar Sekarang</button>
           
           <div class="text-center mt-4">
-            <p class="small text-muted mb-2">Belum punya akun? <a href="{{ route('register') }}" class="fw-bold text-decoration-none" style="color: var(--primary-color);">Daftar di sini</a></p>
+            <p class="small text-muted mb-2">Sudah punya akun? <a href="{{ route('login') }}" class="fw-bold text-decoration-none" style="color: var(--primary-color);">Masuk di sini</a></p>
             <a href="{{ route('homepage') }}" class="text-decoration-none small text-muted hover-primary">
               <i class="bi bi-house-door me-1"></i> Kembali ke Beranda
             </a>
@@ -284,6 +299,18 @@
         icon.classList.replace('bi-eye', 'bi-eye-slash');
       } else {
         passwordInput.type = 'password';
+        icon.classList.replace('bi-eye-slash', 'bi-eye');
+      }
+    });
+
+    document.getElementById('toggle-password-confirm').addEventListener('click', function() {
+      const confirmInput = document.getElementById('password_confirmation');
+      const icon = this.querySelector('i');
+      if (confirmInput.type === 'password') {
+        confirmInput.type = 'text';
+        icon.classList.replace('bi-eye', 'bi-eye-slash');
+      } else {
+        confirmInput.type = 'password';
         icon.classList.replace('bi-eye-slash', 'bi-eye');
       }
     });

@@ -303,13 +303,18 @@ p { color: var(--ve-text); }
   align-self: stretch;
   overflow: visible;
 }
+
+/* When using img tag (not background-image) in ve-hero-img-main */
 .ve-hero-img-main {
-  position: absolute; inset: 0;
-  background-size: cover; background-position: center;
-}
-.ve-hero-img-main::after { 
-  content:''; position:absolute; inset:0; 
-  background: linear-gradient(120deg, rgba(255,245,248,0.4) 0%, transparent 60%); 
+  width: 100%;
+  height: auto;
+  min-height: 480px;
+  object-fit: cover;
+  border-radius: 42px;
+  box-shadow: 0 40px 100px rgba(15, 23, 42, 0.16);
+  display: block;
+  position: static;
+  z-index: 1;
 }
 .ve-hero-img-accent {
   position: absolute; bottom: 40px; right: 40px;
@@ -532,7 +537,8 @@ p { color: var(--ve-text); }
     .ve-stat strong { font-size: 28px; }
   }
 
-  .ve-hero-right { height: 300px; width: 100%; margin-top: 30px; display: none; }
+  .ve-hero-right { height: auto; min-height: 300px; width: 100%; margin-top: 30px; display: block; }
+  .ve-hero-img-main { min-height: 300px; border-radius: 28px; }
   .ve-hero-img-accent, .ve-float-card { display: none !important; }
   
   .ve-services-grid, .ve-testi-grid { grid-template-columns: 1fr; }
@@ -544,8 +550,66 @@ p { color: var(--ve-text); }
   .ve-whyus-content { padding: 0; }
   
   .ve-cta-banner { margin: 0 20px; text-align: center; }
+  .ve-about-text .ve-btn-primary {
+    width: 100% !important;
+    max-width: none !important;
+    justify-content: center;
+  }
   .ve-newsletter-wrap { flex-direction: column; gap: 30px; text-align: center; padding: 40px 20px; }
   .ve-nl-form { width: 100%; }
+  
+  @media (max-width: 767px) {
+    .ve-newsletter-wrap {
+      padding: 32px 20px !important;
+      height: auto !important;
+      min-height: auto !important;
+    }
+    .ve-nl-left {
+      display: block !important;
+      text-align: center !important;
+    }
+    .ve-nl-left i {
+      display: none !important;
+    }
+    .ve-nl-left h3 {
+      font-size: 22px !important;
+      margin-bottom: 8px !important;
+    }
+    .ve-nl-left p {
+      font-size: 0.95rem !important;
+      margin-bottom: 20px !important;
+    }
+    .ve-nl-form {
+      display: flex !important;
+      flex-direction: column !important;
+      background: transparent !important;
+      padding: 0 !important;
+      width: 100% !important;
+      border: none !important;
+      gap: 12px !important;
+      box-shadow: none !important;
+    }
+    .ve-nl-form input {
+      background: #fff !important;
+      border-radius: 14px !important;
+      padding: 16px 20px !important;
+      width: 100% !important;
+      border: none !important;
+      height: 54px !important;
+      color: var(--ve-dark) !important;
+    }
+    .ve-nl-form button {
+      width: 100% !important;
+      padding: 16px 30px !important;
+      border-radius: 14px !important;
+      height: 54px !important;
+      background: var(--ve-dark) !important;
+      color: #fff !important;
+      font-weight: 700 !important;
+      border: none !important;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15) !important;
+    }
+  }
   
   .ve-footer-bottom-inner { flex-direction: column; gap: 20px; text-align: center; }
 }
@@ -553,6 +617,13 @@ p { color: var(--ve-text); }
 /* ============================================================
    GLOBAL STYLE.CSS OVERRIDES (Ensures everything is Pink)
    ============================================================ */
+
+/* Utility: background-image cover helper */
+.bg-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .preloader { 
   background: linear-gradient(-45deg, #FF80AB, #FF9A9E, #F06292, #FECFEF) !important; 
@@ -807,6 +878,8 @@ p { color: var(--ve-text); }
   font-size: 0.95rem;
   line-height: 1.7;
   margin: 0;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 /* ============================================================
@@ -937,21 +1010,83 @@ p { color: var(--ve-text); }
 .ve-whyus-content > p { font-size: 1.05rem; color: var(--ve-text-light); margin-bottom: 35px; line-height: 1.8; }
 
 /* ============================================================
-   HERO — HOMEPAGE IMPROVEMENTS
+   BUKU KIA SECTION - Image Right (Desktop), Image Top (Mobile)
    ============================================================ */
-/* Ensure hero right panel image fits when src-based img tag */
-.ve-hero-right img.ve-hero-img-main {
-  position: static;
+.buku-kia-img-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: auto;
-  min-height: 480px;
-  object-fit: cover;
-  border-radius: 42px;
-  box-shadow: 0 40px 100px rgba(15, 23, 42, 0.16);
 }
 
-/* Remove conflicting inset for img-based hero */
-img.ve-hero-img-main { position: static !important; }
+.buku-kia-img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border-radius: 24px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.15);
+  display: block;
+  margin: 0 auto;
+}
+
+/* Buku KIA Buttons styling */
+.buku-kia-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.buku-kia-btns .btn-p,
+.buku-kia-btns .btn-s {
+  padding: 16px 36px !important;
+  font-size: 1.05rem !important;
+}
+
+/* Buku KIA Features styling */
+.buku-kia-features {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 35px;
+}
+
+.buku-kia-feature-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.buku-kia-feature-item .icon-wrap {
+  margin-right: 16px;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.buku-kia-feature-item:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+  .buku-kia-btns {
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+  }
+  .buku-kia-btns .btn-p,
+  .buku-kia-btns .btn-s {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .buku-kia-img { max-width: 100%; }
+  .mockup-wrap { padding: 60px 40px !important; border-radius: 50px !important; }
+}
+
+@media (max-width: 767px) {
+  .buku-kia-img { border-radius: 16px; box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12); }
+  .mockup-wrap { padding: 30px 18px !important; border-radius: 24px !important; }
+}
 
 /* Counters light variant */
 .ve-counter-section[style*="F8FAFC"] .ve-counter-item i { color: var(--ve-primary); }
@@ -975,4 +1110,119 @@ img.ve-hero-img-main { position: static !important; }
 
 @media (min-width: 769px) and (max-width: 1024px) {
   .ve-mvv-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   SERVICE MINI CARD RESPONSIVE OVERRIDES
+   ============================================================ */
+.service-mini-card {
+  padding: 30px 24px !important;
+  border-radius: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  background: #ffffff !important;
+  transition: var(--ve-trans) !important;
+  border: 1px solid var(--ve-border) !important;
+}
+
+.service-mini-card:hover {
+  border-color: var(--ve-primary) !important;
+  transform: translateY(-8px) !important;
+  box-shadow: var(--ve-shadow-lg) !important;
+}
+
+.service-mini-card .icon-box {
+  width: 55px !important;
+  height: 55px !important;
+  font-size: 1.5rem !important;
+  margin: 0 auto 20px auto !important;
+  border-radius: 16px !important;
+  transition: var(--ve-trans) !important;
+}
+
+.service-mini-card:hover .icon-box {
+  background: var(--ve-primary) !important;
+  color: #ffffff !important;
+}
+
+.service-mini-card:hover .icon-box i {
+  color: #ffffff !important;
+}
+
+.service-mini-card h4 {
+  font-size: 1.1rem !important;
+  margin-bottom: 10px !important;
+  font-weight: 700 !important;
+}
+
+.service-mini-card p {
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  color: var(--ve-text-light) !important;
+  margin: 0 !important;
+  text-align: justify !important;
+  text-justify: inter-word !important;
+  text-align-last: center !important;
+}
+
+@media (max-width: 768px) {
+  .service-mini-card {
+    padding: 20px 16px !important;
+    border-radius: 20px !important;
+  }
+  
+  .service-mini-card .icon-box {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.3rem !important;
+    margin-bottom: 12px !important;
+    border-radius: 12px !important;
+  }
+  
+  .service-mini-card h4 {
+    font-size: 0.95rem !important;
+  }
+  
+  .service-mini-card p {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Rich Dropdown Style */
+.ve-dropdown-rich {
+  width: 320px !important;
+  padding: 10px !important;
+}
+
+.ve-dropdown-rich li a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 12px 14px !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  text-decoration: none !important;
+  border-radius: 12px !important;
+}
+
+.ve-dropdown-rich li a:hover {
+  transform: translateX(4px);
+  background: var(--ve-light) !important;
+}
+
+.ve-dropdown-rich-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.ve-dropdown-rich li a:hover .ve-dropdown-rich-icon {
+  transform: scale(1.1);
 }

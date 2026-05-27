@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Page Hero -->
-    <section class="ve-page-hero" style="background-image:url('{{ asset('homepage/img/bg-img/13.jpg') }}');">
+    <section class="ve-page-hero" style="background-image:url('{{ asset('homepage/img/clinic_bg_1779872776394.png') }}');">
         <div class="ve-page-hero-overlay"></div>
         <div class="container ve-page-hero-content">
             <span class="ve-section-tag">Jejaring Kesehatan</span>
@@ -19,12 +19,12 @@
     </section>
 
     <!-- Hero About Section -->
-    <section class="section-gap">
+    <section class="section-gap" style="padding-top: 80px; padding-bottom: 50px;">
         <div class="container-tight">
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-6">
                     <div style="position: relative; border-radius: 40px; overflow: hidden; box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);">
-                        <img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?auto=format&fit=crop&q=80&w=600" class="w-100 d-block" alt="KIA Care" style="height: 400px; object-fit: cover;">
+                        <img src="{{ asset('homepage/img/doctor_obgyn_1779872831013.png') }}" class="w-100 d-block" alt="KIA Care" style="height: 450px; object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
@@ -60,7 +60,7 @@
     </section>
 
     <!-- Layanan Unggulan Section -->
-    <section class="section-gap" style="background: #F8FAFC;">
+    <section class="section-gap" style="background: #F8FAFC; padding-top: 80px; padding-bottom: 50px;">
         <div class="container-tight">
             <div class="text-center mb-5">
                 <span class="badge-pill">Layanan Kami</span>
@@ -68,43 +68,43 @@
                 <p class="hero-subtitle mx-auto">Berikut adalah layanan-layanan utama yang kami sediakan melalui jaringan mitra kesehatan profesional.</p>
             </div>
 
-            <div class="row g-3 g-lg-4">
-                <div class="col-6 col-md-4 col-lg-3">
+            <div class="row g-3 g-lg-4 justify-content-center">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-female"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Pemeriksaan Kehamilan</h4>
                         <p class="text-muted small">Konsultasi rutin dan USG dengan standar medis internasional.</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-child"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Imunisasi Anak</h4>
                         <p class="text-muted small">Program imunisasi lengkap sesuai jadwal pemerintah.</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-stethoscope"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Medis</h4>
                         <p class="text-muted small">Dokter spesialis anak dan obgyn berpengalaman.</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-line-chart"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Tumbuh Kembang</h4>
                         <p class="text-muted small">Pantau perkembangan anak melalui aplikasi digital.</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-cutlery"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Gizi</h4>
                         <p class="text-muted small">Program gizi seimbang untuk ibu dan anak.</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-3">
+                <div class="col-6 col-md-4 col-lg-4 mb-4">
                     <div class="service-mini-card">
                         <div class="icon-box"><i class="fa fa-heart"></i></div>
                         <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Kesehatan Mental</h4>
@@ -115,42 +115,8 @@
         </div>
     </section>
 
-    <!-- Misi, Visi & Nilai Section -->
-    <section class="section-gap">
-        <div class="container-tight">
-            <div class="text-center mb-5">
-                <span class="badge-pill">Fondasi Kami</span>
-                <h2 class="hero-title-main" style="font-size: clamp(2rem, 4vw, 3rem);">Misi, Visi &<span style="color: var(--brand-p);">Nilai</span></h2>
-            </div>
-
-            <div class="row g-4 g-lg-5">
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-mini-card text-center">
-                        <div class="icon-box mx-auto mb-3"><i class="fa fa-bullseye"></i></div>
-                        <h4 class="sora fw-bold mb-3">Misi Kami</h4>
-                        <p class="text-muted">Meningkatkan akses informasi kesehatan ibu dan anak melalui teknologi yang mudah digunakan dan terpercaya.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-mini-card text-center">
-                        <div class="icon-box mx-auto mb-3"><i class="fa fa-eye"></i></div>
-                        <h4 class="sora fw-bold mb-3">Visi Kami</h4>
-                        <p class="text-muted">Menjadi platform kesehatan ibu dan anak pilihan utama di Indonesia dengan pengalaman digital yang aman dan personal.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-mini-card text-center">
-                        <div class="icon-box mx-auto mb-3"><i class="fa fa-compass"></i></div>
-                        <h4 class="sora fw-bold mb-3">Nilai Kami</h4>
-                        <p class="text-muted">Transparansi, empati, inovasi, dan komitmen terhadap kesejahteraan ibu serta keluarga Indonesia.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Tim Profesional Section -->
-    <section class="section-gap" style="background: linear-gradient(135deg, #4A1E5C 0%, #2D1B3D 100%);">
+    <section class="section-gap" style="background: linear-gradient(135deg, #4A1E5C 0%, #2D1B3D 100%); padding-top: 80px; padding-bottom: 80px;">
         <div class="container-tight">
             <div class="text-center mb-5">
                 <span class="badge-pill" style="background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.2);">Tim KIA Care</span>
@@ -158,40 +124,40 @@
                 <p class="hero-subtitle mx-auto" style="color: rgba(255,255,255,0.7);">Tim kami terdiri dari tenaga kesehatan dan pengembang yang berfokus pada pengalaman ibu dan anak.</p>
             </div>
 
-            <div class="row g-4 g-md-5">
+            <div class="row g-4 g-md-5 justify-content-center">
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="ve-team-card" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 0; overflow: hidden; transition: all 0.3s;">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/15.jpg') }}'); height: 200px;"></div>
-                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff;">
-                            <h5 style="margin: 0 0 5px 0; font-weight: 700;">Dr. Sari Wati</h5>
-                            <span style="font-size: 0.9rem; opacity: 0.8; display: block;">Chief Medical Officer</span>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/nurse_doctor1_1779872814462.png') }}'); height: 200px;"></div>
+                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff; background: transparent !important;">
+                            <h5 style="margin: 0 0 5px 0; font-weight: 700; color: #fff;">Dr. Sari Wati</h5>
+                            <span style="font-size: 0.9rem; opacity: 0.8; display: block; color: rgba(255,255,255,0.85);">Chief Medical Officer</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="ve-team-card" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 0; overflow: hidden; transition: all 0.3s;">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/16.jpg') }}'); height: 200px;"></div>
-                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff;">
-                            <h5 style="margin: 0 0 5px 0; font-weight: 700;">Anton Prasetyo</h5>
-                            <span style="font-size: 0.9rem; opacity: 0.8; display: block;">Head of Product</span>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/anton_prasetyo_1779875068396.png') }}'); height: 200px;"></div>
+                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff; background: transparent !important;">
+                            <h5 style="margin: 0 0 5px 0; font-weight: 700; color: #fff;">Anton Prasetyo</h5>
+                            <span style="font-size: 0.9rem; opacity: 0.8; display: block; color: rgba(255,255,255,0.85);">Head of Product</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="ve-team-card" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 0; overflow: hidden; transition: all 0.3s;">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/17.jpg') }}'); height: 200px;"></div>
-                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff;">
-                            <h5 style="margin: 0 0 5px 0; font-weight: 700;">Rina Mulyani</h5>
-                            <span style="font-size: 0.9rem; opacity: 0.8; display: block;">Head of Customer Care</span>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/rina_mulyani_1779875089014.png') }}'); height: 200px;"></div>
+                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff; background: transparent !important;">
+                            <h5 style="margin: 0 0 5px 0; font-weight: 700; color: #fff;">Rina Mulyani</h5>
+                            <span style="font-size: 0.9rem; opacity: 0.8; display: block; color: rgba(255,255,255,0.85);">Head of Customer Care</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
                     <div class="ve-team-card" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 0; overflow: hidden; transition: all 0.3s;">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/18.jpg') }}'); height: 200px;"></div>
-                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff;">
-                            <h5 style="margin: 0 0 5px 0; font-weight: 700;">Budi Santoso</h5>
-                            <span style="font-size: 0.9rem; opacity: 0.8; display: block;">Head of Development</span>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/budi_santoso_1779875109468.png') }}'); height: 200px;"></div>
+                        <div class="ve-team-info" style="padding: 25px; text-align: center; color: #fff; background: transparent !important;">
+                            <h5 style="margin: 0 0 5px 0; font-weight: 700; color: #fff;">Budi Santoso</h5>
+                            <span style="font-size: 0.9rem; opacity: 0.8; display: block; color: rgba(255,255,255,0.85);">Head of Development</span>
                         </div>
                     </div>
                 </div>
@@ -228,7 +194,7 @@
     </section>
 
     <!-- Newsletter Section -->
-    <section class="section-gap">
+    <section class="section-gap" style="padding-top: 60px; padding-bottom: 30px;">
         <div class="container-tight">
             <div class="ve-newsletter-wrap">
                 <div class="ve-nl-left">
@@ -249,15 +215,15 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="section-gap">
+    <section class="section-gap" style="padding-top: 30px; padding-bottom: 60px;">
         <div class="container-tight">
             <div class="konsultasi-online p-4 p-md-5 shadow-2xl overflow-hidden position-relative" style="background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%); border-radius: 40px;">
                 <div class="row align-items-center py-3 py-md-5">
                     <div class="col-12 col-lg-8 px-2 px-lg-4" style="z-index: 2;">
                         <h2 class="sora fw-bold text-white mb-3 mb-md-4" style="font-size: clamp(1.8rem, 5vw, 3.5rem); line-height: 1.1;">Butuh Konsultasi<span style="color: var(--brand-p);"> Kesehatan?</span></h2>
                         <p class="text-white opacity-75 mb-4" style="font-size: clamp(0.9rem, 2vw, 1.1rem);">Hubungi langsung fasilitas kesehatan mitra kami atau konsultasi melalui aplikasi KIA Care.</p>
-                        <div class="d-flex flex-column flex-md-row gap-3">
-                            <a href="{{ route('konsultasi-publik.form') }}" class="btn-p" style="width: fit-content;">Chat Dokter</a>
+                        <div class="d-flex flex-column flex-md-row">
+                            <a href="{{ route('konsultasi-publik.form') }}" class="btn-p mr-md-3 mb-3 mb-md-0" style="width: fit-content;">Chat Dokter</a>
                             <button type="button" class="btn-s-white" data-toggle="modal" data-target="#jadwalTemuModal" style="width: fit-content;">Jadwalkan Temu</button>
                         </div>
                     </div>

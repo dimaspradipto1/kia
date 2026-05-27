@@ -3,7 +3,7 @@
 @section('title', 'Tentang KIA Care')
 
 @section('content')
-    <section class="ve-page-hero" style="background-image:url('{{ asset('homepage/img/bg-img/13.jpg') }}');">
+    <section class="ve-page-hero" style="background-image:url('{{ asset('homepage/img/clinic_bg_1779872776394.png') }}');">
         <div class="ve-page-hero-overlay"></div>
         <div class="container ve-page-hero-content">
             <span class="ve-section-tag">Cerita Kami</span>
@@ -22,8 +22,8 @@
             <div class="row align-items-center">
                 <div class="col-12 col-lg-6">
                     <div class="ve-about-img-stack">
-                        <div class="ve-about-img-1 bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/14.jpg') }}');"></div>
-                        <div class="ve-about-img-2 bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/5.jpg') }}');"></div>
+                        <div class="ve-about-img-1 bg-img" style="background-image:url('{{ asset('homepage/img/mother_portrait_1779872791574.png') }}');"></div>
+                        <div class="ve-about-img-2 bg-img" style="background-image:url('{{ asset('homepage/img/doctor_obgyn_1779872831013.png') }}');"></div>
                         <div class="ve-about-ribbon"><strong>10+</strong><span>Tahun Mengabdi</span></div>
                     </div>
                 </div>
@@ -39,34 +39,10 @@
                             <div class="ve-af-item"><i class="fa fa-check"></i><span>Sistem Pemantauan Buku KIA Digital</span></div>
                             <div class="ve-af-item"><i class="fa fa-check"></i><span>Fitur Konsultasi Online Bagi Ibu</span></div>
                         </div>
-                        <a href="{{ route('homepage.contact') }}" class="ve-btn-primary mt-30">Hubungi Kami</a>
+                        <div class="text-center text-lg-left mt-30">
+                            <a href="{{ route('homepage.contact') }}" class="ve-btn-primary">Hubungi Kami</a>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="ve-mvv-section">
-        <div class="container">
-            <div class="ve-section-header text-center">
-                <span class="ve-section-tag">Pondasi Kami</span>
-                <h2>Misi, Visi & <span>Nilai</span></h2>
-            </div>
-            <div class="ve-mvv-grid">
-                <div class="ve-mvv-card">
-                    <div class="ve-mvv-icon"><i class="fa fa-bullseye"></i></div>
-                    <h4>Misi Kami</h4>
-                    <p>Meningkatkan akses informasi kesehatan ibu dan anak melalui teknologi yang mudah digunakan dan terpercaya.</p>
-                </div>
-                <div class="ve-mvv-card">
-                    <div class="ve-mvv-icon"><i class="fa fa-eye"></i></div>
-                    <h4>Visi Kami</h4>
-                    <p>Menjadi platform kesehatan ibu dan anak pilihan utama di Indonesia dengan pengalaman digital yang aman dan personal.</p>
-                </div>
-                <div class="ve-mvv-card">
-                    <div class="ve-mvv-icon"><i class="fa fa-heart"></i></div>
-                    <h4>Nilai Kami</h4>
-                    <p>Transparansi, empati, inovasi, dan komitmen terhadap kesejahteraan ibu serta keluarga.</p>
                 </div>
             </div>
         </div>
@@ -82,7 +58,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="ve-team-card">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/15.jpg') }}');"></div>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/nurse_doctor1_1779872814462.png') }}');"></div>
                         <div class="ve-team-info">
                             <h5>Dr. Sari Wati</h5><span>Chief Medical Officer</span>
                             <div class="ve-team-social"><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-twitter"></i></a></div>
@@ -91,7 +67,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="ve-team-card">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/16.jpg') }}');"></div>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/anton_prasetyo_1779875068396.png') }}');"></div>
                         <div class="ve-team-info">
                             <h5>Anton Prasetyo</h5><span>Head of Product</span>
                             <div class="ve-team-social"><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-twitter"></i></a></div>
@@ -100,7 +76,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="ve-team-card">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/17.jpg') }}');"></div>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/rina_mulyani_1779875089014.png') }}');"></div>
                         <div class="ve-team-info">
                             <h5>Rina Mulyani</h5><span>Head of Customer Care</span>
                             <div class="ve-team-social"><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-twitter"></i></a></div>
@@ -109,7 +85,7 @@
                 </div>
                 <div class="col-12 col-sm-6 col-lg-3">
                     <div class="ve-team-card">
-                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/bg-img/18.jpg') }}');"></div>
+                        <div class="ve-team-img bg-img" style="background-image:url('{{ asset('homepage/img/budi_santoso_1779875109468.png') }}');"></div>
                         <div class="ve-team-info">
                             <h5>Budi Santoso</h5><span>Head of Development</span>
                             <div class="ve-team-social"><a href="#"><i class="fa fa-linkedin"></i></a><a href="#"><i class="fa fa-twitter"></i></a></div>

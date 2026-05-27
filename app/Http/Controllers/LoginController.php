@@ -8,14 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class LoginController extends Controller
 {
     public function login(UserDataTable $dataTable)
     {
-       return $dataTable->render('layouts.auth.login');
+        return $dataTable->render('layouts.auth.login');
     }
 
     public function proseslogin(LoginRequest $request)
@@ -39,6 +39,43 @@ class LoginController extends Controller
 
         Alert::error('Gagal Masuk', 'Email atau password salah.');
         return redirect()->back();
+    }
+
+    public function register()
+    {
+        return view('layouts.auth.register');
+    }
+
+    public function registerproses(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ], [
+            'name.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.unique' => 'Email sudah terdaftar.',
+            'password.required' => 'Kata sandi wajib diisi.',
+            'password.min' => 'Kata sandi minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'roles_id' => 4, // Ibu Hamil
+            'is_active' => true,
+        ]);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        Alert::success('Registrasi Berhasil', 'Selamat datang, ' . $user->name);
+
+        return redirect()->intended('/dashboard');
     }
 
     public function logout()

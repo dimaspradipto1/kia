@@ -39,8 +39,8 @@
                 <!-- Right Panel: image card -->
                 <div class="ve-hero-right">
                     <div class="ve-hero-media">
-                        <img src="{{ asset('homepage/img/bg-img/mother_baby_hero.png') }}" alt="Ibu dan bayi" class="ve-hero-img-main">
-                        <div class="ve-hero-img-accent" style="background-image:url({{ asset('homepage/img/bg-img/pediatrician_accent.png') }});"></div>
+                        <img src="{{ asset('homepage/img/mother_baby_hero.png') }}" alt="Ibu dan bayi" class="ve-hero-img-main">
+                        <div class="ve-hero-img-accent" style="background-image:url({{ asset('homepage/img/pediatrician_accent.png') }});"></div>
                     </div>
                 </div>
             </div>
@@ -113,37 +113,47 @@
     <section class="section-gap" style="background: #F8FAFC;">
         <div class="container-tight">
             <div class="mockup-wrap">
-                <div class="row align-items-center g-5">
-                    <div class="col-lg-5 order-2 order-lg-1">
-                        <span class="badge-pill" style="background: #fff;">Smart Platform</span>
-                        <h2 class="sora fw-bold mb-4" style="font-size: 3.5rem; line-height: 1.1;">Buku KIA <br><span style="color: var(--brand-p);">Dalam Smartphone.</span></h2>
-                        <p class="mb-5 fs-5">Lupakan buku fisik yang mudah rusak. Sekarang semua catatan kesehatan tersimpan aman di cloud.</p>
-                        
-                        <div class="d-none d-md-block">
-                            <div class="d-flex mb-4">
-                                <div class="me-4"><i class="fa fa-check-circle fs-3 text-success"></i></div>
+                <div class="row align-items-center">
+                    <!-- Teks: kiri di desktop & tablet, bawah di mobile -->
+                    <div class="col-12 col-md-7 order-2 order-md-1">
+                        <span class="badge-pill mb-3" style="background: #fff; display: inline-block;">Smart Platform</span>
+                        <h2 class="sora fw-bold mb-4" style="font-size: 2.8rem; line-height: 1.2;">Buku KIA <span style="color: var(--brand-p);">Dalam Smartphone.</span></h2>
+                        <p class="mb-4" style="font-size: 1.1rem; color: var(--ve-text-light); line-height: 1.7;">Lupakan buku fisik yang mudah rusak. Sekarang semua catatan kesehatan tersimpan aman di cloud.</p>
+
+                        <div class="buku-kia-features">
+                            <div class="buku-kia-feature-item" style="display: flex; align-items: flex-start; text-align: left; margin-bottom: 20px;">
+                                <div class="icon-wrap" style="margin-right: 15px; margin-top: 3px; flex-shrink: 0;"><i class="fa fa-check-circle text-success" style="font-size: 1.35rem; color: #10B981 !important;"></i></div>
                                 <div>
-                                    <h6 class="fw-bold m-0">Input Data Instan</h6>
-                                    <p class="small text-muted">Catat hasil kontrol bidan dalam hitungan detik.</p>
+                                    <h6 class="fw-bold m-0" style="font-size: 1.1rem; color: var(--ve-dark);">Input Data Instan</h6>
+                                    <p class="small text-muted mb-0" style="line-height: 1.5;">Catat hasil kontrol bidan dalam hitungan detik.</p>
                                 </div>
                             </div>
-                            <div class="d-flex mb-5">
-                                <div class="me-4"><i class="fa fa-check-circle fs-3 text-success"></i></div>
+                            <div class="buku-kia-feature-item" style="display: flex; align-items: flex-start; text-align: left; margin-bottom: 20px;">
+                                <div class="icon-wrap" style="margin-right: 15px; margin-top: 3px; flex-shrink: 0;"><i class="fa fa-check-circle text-success" style="font-size: 1.35rem; color: #10B981 !important;"></i></div>
                                 <div>
-                                    <h6 class="fw-bold m-0">Grafik Tumbuh Kembang</h6>
-                                    <p class="small text-muted">Analisis otomatis KMS (Kartu Menuju Sehat) digital.</p>
+                                    <h6 class="fw-bold m-0" style="font-size: 1.1rem; color: var(--ve-dark);">Grafik Tumbuh Kembang</h6>
+                                    <p class="small text-muted mb-0" style="line-height: 1.5;">Analisis otomatis KMS (Kartu Menuju Sehat) digital.</p>
+                                </div>
+                            </div>
+                            <div class="buku-kia-feature-item" style="display: flex; align-items: flex-start; text-align: left; margin-bottom: 20px;">
+                                <div class="icon-wrap" style="margin-right: 15px; margin-top: 3px; flex-shrink: 0;"><i class="fa fa-check-circle text-success" style="font-size: 1.35rem; color: #10B981 !important;"></i></div>
+                                <div>
+                                    <h6 class="fw-bold m-0" style="font-size: 1.1rem; color: var(--ve-dark);">Riwayat Lengkap</h6>
+                                    <p class="small text-muted mb-0" style="line-height: 1.5;">Semua data tersimpan aman di cloud, bisa diakses kapan saja.</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="d-flex gap-4">
+                        <div class="buku-kia-btns">
                             <a href="{{ route('login') }}" class="btn-p">Mulai Sekarang</a>
                             <a href="#" class="btn-s">Pelajari Fitur</a>
                         </div>
                     </div>
-                    <div class="col-lg-7 order-1 order-lg-2">
-                        <div class="mockup-screen" style="background: transparent; border: none; box-shadow: none; display: flex; justify-content: center;">
-                            <img src="{{ asset('homepage/img/core-img/buku_kia.png') }}" class="rounded-4 shadow-2xl" style="max-width: 100%; height: auto;">
+                    <!-- Gambar: kanan di desktop & tablet, atas di mobile -->
+                    <div class="col-12 col-md-5 order-1 order-md-2">
+                        <div class="buku-kia-img-wrap">
+                            <img src="{{ asset('homepage/img/buku_kia.png') }}"
+                                 alt="Buku KIA Digital"
+                                 class="buku-kia-img">
                         </div>
                     </div>
                 </div>
@@ -202,8 +212,8 @@
                     <div class="col-lg-7 px-lg-5" style="z-index: 2;">
                         <h2 class="sora fw-bold text-white mb-4" style="font-size: 4rem; line-height: 1;">Konsultasi <br><span style="color: var(--brand-p);">Cepat & Akurat.</span></h2>
                         <p class="text-white opacity-50 fs-4 mb-5">Terhubung langsung dengan dokter spesialis anak dan obgyn melalui integrasi WhatsApp Medis.</p>
-                        <div class="d-flex gap-4">
-                            <a href="{{ route('konsultasi-publik.form') }}" class="btn-p">Chat Sekarang</a>
+                        <div class="d-flex flex-column flex-md-row">
+                            <a href="{{ route('konsultasi-publik.form') }}" class="btn-p mr-md-4 mb-3 mb-md-0">Chat Sekarang</a>
                             <button type="button" class="btn-s-white" data-toggle="modal" data-target="#jadwalTemuModal">Jadwalkan Temu</button>
                         </div>
                     </div>
@@ -351,7 +361,7 @@
                 <!-- Image Side -->
                 <div class="col-12 col-lg-5">
                     <div class="ve-whyus-img-wrap wow fadeInLeft" data-wow-delay="100ms">
-                        <div class="ve-whyus-img-main bg-img" style="background-image:url({{ asset('homepage/img/bg-img/pediatrician_accent.png') }});"></div>
+                        <div class="ve-whyus-img-main bg-img" style="background-image:url({{ asset('homepage/img/pediatrician_accent.png') }});"></div>
                         <div class="ve-whyus-badge">
                             <strong>10rb+</strong>
                             <span>Ibu Terbantu</span>
@@ -425,7 +435,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Sangat membantu memantau jadwal imunisasi anak saya. Pengingatnya sangat akurat dan informasinya sangat lengkap."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
                         <div><strong>Ibu Rahma</strong><span>Ibu Rumah Tangga</span></div>
                     </div>
                 </div>
@@ -433,7 +443,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Panduan kehamilannya sangat detail. Saya jadi tidak khawatir lagi menghadapi persalinan anak pertama saya."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
                         <div><strong>Ibu Sari</strong><span>Guru SD</span></div>
                     </div>
                 </div>
@@ -441,7 +451,7 @@
                     <div class="ve-testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
                     <p>"Konsultasi gizi lewat KIA Care sangat praktis. Menu MPASI yang disarankan sangat disukai oleh buah hati saya."</p>
                     <div class="ve-testi-author">
-                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_avatar.png') }});"></div>
+                        <div class="ve-testi-avatar bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
                         <div><strong>Ibu Linda</strong><span>Karyawan Swasta</span></div>
                     </div>
                 </div>
@@ -450,7 +460,7 @@
     </section>
 
     <!-- ===== CTA BANNER ===== -->
-    <section class="ve-cta-banner bg-img" style="background-image:url({{ asset('homepage/img/bg-img/maternity_clinic_bg.png') }});">
+    <section class="ve-cta-banner bg-img" style="background-image:url({{ asset('homepage/img/pediatrician_accent.png') }});">
         <div class="ve-cta-overlay"></div>
         <div class="container ve-cta-content">
             <div class="row align-items-center">
@@ -476,42 +486,42 @@
             <div class="row">
                 <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="100ms">
                     <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/bg-img/mother_baby_hero.png') }});"></div>
+                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
                         <div class="ve-insight-body">
                             <span class="ve-insight-cat">Kehamilan</span>
-                            <h5><a href="single-post.html">5 Tips Menjaga Nutrisi Selama Trimester Pertama</a></h5>
+                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => '5-tips-menjaga-nutrisi-selama-trimester-pertama']) }}">5 Tips Menjaga Nutrisi Selama Trimester Pertama</a></h5>
                             <p>Pelajari asupan makanan penting yang dibutuhkan janin Anda di awal masa kehamilan.</p>
                             <div class="ve-insight-meta">
                                 <span><i class="fa fa-calendar"></i> April 26</span>
-                                <a href="single-post.html">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                                <a href="{{ route('homepage.artikel.show', ['slug' => '5-tips-menjaga-nutrisi-selama-trimester-pertama']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="250ms">
                     <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}pediatrician_accent.png);"></div>
+                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/pediatrician_accent.png') }});"></div>
                         <div class="ve-insight-body">
                             <span class="ve-insight-cat">Imunisasi</span>
-                            <h5><a href="single-post.html">Pentingnya Imunisasi Dasar Lengkap Bagi Bayi</a></h5>
+                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => 'pentingnya-imunisasi-dasar-lengkap-bagi-bayi']) }}">Pentingnya Imunisasi Dasar Lengkap Bagi Bayi</a></h5>
                             <p>Kenali jenis-jenis imunisasi yang wajib diberikan untuk melindungi buah hati dari penyakit berbahaya.</p>
                             <div class="ve-insight-meta">
                                 <span><i class="fa fa-calendar"></i> April 20</span>
-                                <a href="single-post.html">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                                <a href="{{ route('homepage.artikel.show', ['slug' => 'pentingnya-imunisasi-dasar-lengkap-bagi-bayi']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="400ms">
                     <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/bg-img/') }}mother_baby_hero.png);"></div>
+                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
                         <div class="ve-insight-body">
                             <span class="ve-insight-cat">Parenting</span>
-                            <h5><a href="single-post.html">Membangun Ikatan Batin Sejak Anak dalam Kandungan</a></h5>
+                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => 'membangun-ikatan-batin-sejak-anak-dalam-kandungan']) }}">Membangun Ikatan Batin Sejak Anak dalam Kandungan</a></h5>
                             <p>Cara-cara sederhana namun efektif untuk mulai berkomunikasi dengan calon buah hati Anda.</p>
                             <div class="ve-insight-meta">
                                 <span><i class="fa fa-calendar"></i> April 14</span>
-                                <a href="single-post.html">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                                <a href="{{ route('homepage.artikel.show', ['slug' => 'membangun-ikatan-batin-sejak-anak-dalam-kandungan']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
