@@ -32,6 +32,8 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\VisiMisiController;
+use App\Http\Controllers\LayananController;
+use App\Http\Controllers\LayananIntroController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 Route::get('/about', [HomepageController::class,'about'])->name('homepage.about');
@@ -95,6 +97,12 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('kelola/visi-misi', VisiMisiController::class)
         ->parameters(['visi-misi' => 'visiMisi'])
         ->names('visi-misi');
+    Route::resource('layanans', LayananController::class);
+    Route::resource('layanan-intro', LayananIntroController::class)
+        ->parameters(['layanan-intro' => 'layananIntro'])
+        ->names('layanan-intro');
+    Route::delete('layanan-intro/images/{layananIntroImage}', [LayananIntroController::class, 'destroyImage'])->name('layanan-intro.images.destroy');
+    Route::patch('layanan-intro/images/{layananIntroImage}/set-default', [LayananIntroController::class, 'setDefaultImage'])->name('layanan-intro.images.set-default');
     Route::delete('abouts/images/{aboutImage}', [AboutController::class, 'destroyImage'])->name('abouts.images.destroy');
     Route::patch('abouts/images/{aboutImage}/set-default', [AboutController::class, 'setDefaultImage'])->name('abouts.images.set-default');
 

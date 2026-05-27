@@ -67,15 +67,17 @@
 
         {{-- Homepage Management Dropdown --}}
         <li class="nav-item">
-          <a class="nav-link {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('konsultasi-publik.*') ? '' : 'collapsed' }}"
+          <a class="nav-link {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('layanans.*') || request()->routeIs('layanan-intro.*') || request()->routeIs('konsultasi-publik.*') ? '' : 'collapsed' }}"
              data-bs-target="#homepage-nav" data-bs-toggle="collapse" href="#">
             <i class="bi bi-globe"></i><span>Kelola Homepage</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
           </a>
-          <ul id="homepage-nav" class="nav-content collapse {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('konsultasi-publik.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
+          <ul id="homepage-nav" class="nav-content collapse {{ request()->routeIs('homepage') || request()->routeIs('homepage.*') || request()->routeIs('artikel-edukasi.*') || request()->routeIs('kategori-artikel.*') || request()->routeIs('faqs.*') || request()->routeIs('contacts.*') || request()->routeIs('abouts.*') || request()->routeIs('teams.*') || request()->routeIs('visi-misi.*') || request()->routeIs('layanans.*') || request()->routeIs('layanan-intro.*') || request()->routeIs('konsultasi-publik.*') ? 'show' : '' }}" data-bs-parent="#sidebar-nav">
             <li><a href="{{ route('homepage') }}" class="{{ request()->routeIs('homepage') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Beranda</span></a></li>
             <li><a href="{{ route('abouts.index') }}" class="{{ request()->routeIs('abouts.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tentang</span></a></li>
             <li><a href="{{ route('teams.index') }}" class="{{ request()->routeIs('teams.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kelola Tim</span></a></li>
             <li><a href="{{ route('visi-misi.index') }}" class="{{ request()->routeIs('visi-misi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Visi &amp; Misi</span></a></li>
+            <li><a href="{{ route('layanan-intro.index') }}" class="{{ request()->routeIs('layanan-intro.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Tentang Layanan</span></a></li>
+            <li><a href="{{ route('layanans.index') }}" class="{{ request()->routeIs('layanans.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Layanan Unggulan</span></a></li>
             <li><a href="{{ route('homepage.artikel') }}" class="{{ request()->routeIs('homepage.artikel') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel</span></a></li>
             <li><a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Kontak Kami</span></a></li>
             <li><a href="{{ route('artikel-edukasi.index') }}" class="{{ request()->routeIs('artikel-edukasi.*') ? 'active' : '' }}"><i class="bi bi-circle"></i><span>Artikel Edukasi</span></a></li>

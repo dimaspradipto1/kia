@@ -10,6 +10,8 @@ use App\Models\Faq;
 use App\Models\Contact;
 use App\Models\Team;
 use App\Models\VisiMisi;
+use App\Models\Layanan;
+use App\Models\LayananIntro;
 
 class HomepageController extends Controller
 {
@@ -254,7 +256,10 @@ class HomepageController extends Controller
 
     public function layanan()
     {
-        return view('layouts.homepage.layanan');
+        $layanans    = Layanan::aktif()->get();
+        $temaColors  = Layanan::$temaColors;
+        $intro       = LayananIntro::with('defaultImage')->where('is_active', true)->first();
+        return view('layouts.homepage.layanan', compact('layanans', 'temaColors', 'intro'));
     }
 
     public function visimisi()

@@ -24,36 +24,68 @@
             <div class="row align-items-center g-5">
                 <div class="col-12 col-lg-6">
                     <div style="position: relative; border-radius: 40px; overflow: hidden; box-shadow: 0 30px 60px rgba(15, 23, 42, 0.1);">
-                        <img src="{{ asset('homepage/img/doctor_obgyn_1779872831013.png') }}" class="w-100 d-block" alt="KIA Care" style="height: 450px; object-fit: cover;">
+                        @if($intro && $intro->defaultImage)
+                            <img src="{{ $intro->defaultImage->url }}" class="w-100 d-block" alt="{{ $intro->defaultImage->keterangan ?? 'Layanan KIA Care' }}" style="height: 450px; object-fit: cover;">
+                        @else
+                            <img src="{{ asset('homepage/img/doctor_obgyn_1779872831013.png') }}" class="w-100 d-block" alt="KIA Care" style="height: 450px; object-fit: cover;">
+                        @endif
                     </div>
                 </div>
                 <div class="col-12 col-lg-6">
-                    <span class="badge-pill">Tentang Layanan</span>
-                    <h2 class="hero-title-main" style="font-size: clamp(2rem, 4vw, 3rem);">KIA Care adalah <span style="color: var(--brand-p);">platform kesehatan</span> ibu dan anak</h2>
-                    <p class="hero-subtitle">Kami menyediakan layanan kesehatan terpadu yang menghubungkan ibu, anak, dan fasilitas kesehatan profesional.</p>
-                    <div style="margin-top: 30px;">
-                        <div class="mb-3 d-flex align-items-start gap-3">
-                            <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
-                            <div>
-                                <h5 class="fw-bold mb-1">Jejaring Kesehatan Luas</h5>
-                                <p class="text-muted small">Bekerjasama dengan puskesmas dan rumah sakit terpercaya di seluruh Indonesia</p>
+                    @if($intro)
+                        <span class="badge-pill">{{ $intro->badge_text }}</span>
+                        @php
+                            // Render **teks** menjadi <span> berwarna brand
+                            $judulHtml = preg_replace('/\*\*(.+?)\*\*/', '<span style="color: var(--brand-p);">$1</span>', e($intro->judul));
+                        @endphp
+                        <h2 class="hero-title-main" style="font-size: clamp(2rem, 4vw, 3rem);">{!! $judulHtml !!}</h2>
+                        @if($intro->deskripsi)
+                            <p class="hero-subtitle">{{ $intro->deskripsi }}</p>
+                        @endif
+                        @if(is_array($intro->fitur) && count($intro->fitur))
+                            <div style="margin-top: 30px;">
+                                @foreach($intro->fitur as $idx => $fitur)
+                                    <div class="{{ !$loop->last ? 'mb-3 ' : '' }}d-flex align-items-start gap-3">
+                                        <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
+                                        <div>
+                                            <h5 class="fw-bold mb-1">{{ $fitur['judul'] }}</h5>
+                                            @if(!empty($fitur['deskripsi']))
+                                                <p class="text-muted small">{{ $fitur['deskripsi'] }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    @else
+                        {{-- Fallback statis --}}
+                        <span class="badge-pill">Tentang Layanan</span>
+                        <h2 class="hero-title-main" style="font-size: clamp(2rem, 4vw, 3rem);">KIA Care adalah <span style="color: var(--brand-p);">platform kesehatan</span> ibu dan anak</h2>
+                        <p class="hero-subtitle">Kami menyediakan layanan kesehatan terpadu yang menghubungkan ibu, anak, dan fasilitas kesehatan profesional.</p>
+                        <div style="margin-top: 30px;">
+                            <div class="mb-3 d-flex align-items-start gap-3">
+                                <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Jejaring Kesehatan Luas</h5>
+                                    <p class="text-muted small">Bekerjasama dengan puskesmas dan rumah sakit terpercaya di seluruh Indonesia</p>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex align-items-start gap-3">
+                                <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Tenaga Medis Profesional</h5>
+                                    <p class="text-muted small">Dokter spesialis dan bidan berpengalaman siap melayani 24/7</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-start gap-3">
+                                <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
+                                <div>
+                                    <h5 class="fw-bold mb-1">Teknologi Digital Terdepan</h5>
+                                    <p class="text-muted small">Integrasi teknologi untuk kemudahan akses dan monitoring kesehatan</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="mb-3 d-flex align-items-start gap-3">
-                            <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
-                            <div>
-                                <h5 class="fw-bold mb-1">Tenaga Medis Profesional</h5>
-                                <p class="text-muted small">Dokter spesialis dan bidan berpengalaman siap melayani 24/7</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-start gap-3">
-                            <i class="fa fa-check-circle" style="color: var(--brand-s); font-size: 1.3rem; margin-top: 2px;"></i>
-                            <div>
-                                <h5 class="fw-bold mb-1">Teknologi Digital Terdepan</h5>
-                                <p class="text-muted small">Integrasi teknologi untuk kemudahan akses dan monitoring kesehatan</p>
-                            </div>
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -69,48 +101,64 @@
             </div>
 
             <div class="row g-3 g-lg-4 justify-content-center">
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-female"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Pemeriksaan Kehamilan</h4>
-                        <p class="text-muted small">Konsultasi rutin dan USG dengan standar medis internasional.</p>
+                @forelse($layanans as $layanan)
+                    @php
+                        $colors = $temaColors[$layanan->tema] ?? $temaColors['pink'];
+                    @endphp
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box" style="background:{{ $colors['bg'] }};border:1.5px solid {{ $colors['border'] }};color:{{ $colors['ikon'] }};"><i class="fa {{ $layanan->ikon }}"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">{{ $layanan->judul }}</h4>
+                            @if($layanan->deskripsi)
+                                <p class="text-muted small">{{ $layanan->deskripsi }}</p>
+                            @endif
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-child"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Imunisasi Anak</h4>
-                        <p class="text-muted small">Program imunisasi lengkap sesuai jadwal pemerintah.</p>
+                @empty
+                    {{-- Fallback statis jika belum ada data --}}
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-female"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Pemeriksaan Kehamilan</h4>
+                            <p class="text-muted small">Konsultasi rutin dan USG dengan standar medis internasional.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-stethoscope"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Medis</h4>
-                        <p class="text-muted small">Dokter spesialis anak dan obgyn berpengalaman.</p>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-child"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Imunisasi Anak</h4>
+                            <p class="text-muted small">Program imunisasi lengkap sesuai jadwal pemerintah.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-line-chart"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Tumbuh Kembang</h4>
-                        <p class="text-muted small">Pantau perkembangan anak melalui aplikasi digital.</p>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-stethoscope"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Medis</h4>
+                            <p class="text-muted small">Dokter spesialis anak dan obgyn berpengalaman.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-cutlery"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Gizi</h4>
-                        <p class="text-muted small">Program gizi seimbang untuk ibu dan anak.</p>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-line-chart"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Tumbuh Kembang</h4>
+                            <p class="text-muted small">Pantau perkembangan anak melalui aplikasi digital.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-4 mb-4">
-                    <div class="service-mini-card">
-                        <div class="icon-box"><i class="fa fa-heart"></i></div>
-                        <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Kesehatan Mental</h4>
-                        <p class="text-muted small">Konseling untuk mengatasi stress dan kecemasan.</p>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-cutlery"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Konsultasi Gizi</h4>
+                            <p class="text-muted small">Program gizi seimbang untuk ibu dan anak.</p>
+                        </div>
                     </div>
-                </div>
+                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                        <div class="service-mini-card">
+                            <div class="icon-box"><i class="fa fa-heart"></i></div>
+                            <h4 class="sora fw-bold mb-2" style="font-size: 1rem;">Kesehatan Mental</h4>
+                            <p class="text-muted small">Konseling untuk mengatasi stress dan kecemasan.</p>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>
