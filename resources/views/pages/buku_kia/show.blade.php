@@ -484,6 +484,21 @@
             color: #EC1E88;
             border-color: #fce4f1 !important;
         }
+        @media (max-width: 767.98px) {
+            .nav-tabs-bordered {
+                flex-direction: column;
+                border-bottom: none !important;
+            }
+            .nav-tabs-bordered .nav-item {
+                width: 100%;
+            }
+            .nav-tabs-bordered .nav-link {
+                width: 100% !important;
+                margin-right: 0 !important;
+                margin-bottom: 8px !important;
+                text-align: center;
+            }
+        }
         .w-40 { width: 40%; }
         
         /* Custom Maternal-themed Table styling */

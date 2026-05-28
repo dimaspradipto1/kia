@@ -13,6 +13,22 @@ class BukuKiaController extends Controller
 {
     public function index(BukuKiaDataTable $dataTable)
     {
+        $user = auth()->user();
+        if ($user && $user->role && strtolower($user->role->nama_role) === 'ibu hamil') {
+            $userAgent = request()->header('User-Agent');
+            $isMobile = preg_match('/Mobile|Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i', $userAgent);
+            
+            if ($isMobile) {
+                $profilIbu = ProfilIbu::where('user_id', $user->id)->first();
+                if ($profilIbu) {
+                    $bukuKia = BukuKia::where('profil_ibu_id', $profilIbu->id)->first();
+                    if ($bukuKia) {
+                        return redirect()->route('buku-kia.show', $bukuKia->id);
+                    }
+                }
+            }
+        }
+
         return $dataTable->render('pages.buku_kia.index');
     }
 
