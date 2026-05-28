@@ -23,7 +23,9 @@
                         <h5 class="m-0 fw-bold text-dark">Daftar Dokumen</h5>
                     </div>
                     <div class="card-body">
-                        {{ $dataTable->table() }}
+                        <div class="table-responsive">
+                            {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle w-100']) }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@
                 </div>
                 <div class="card-body p-4">
                     <div class="table-responsive">
-                        {{ $dataTable->table(['class' => 'table table-hover align-middle', 'style' => 'width:100%']) }}
+                        {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle', 'style' => 'width:100%']) }}
                     </div>
                 </div>
             </div>

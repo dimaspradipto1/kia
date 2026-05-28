@@ -9,402 +9,288 @@ use App\Models\RekapImunisasi;
 use App\Models\RekapGiziBalita;
 use App\Models\RekapTtd;
 use App\Models\IndikatorKematian;
+use App\Models\KbPascaSalin;
 use App\Exports\LaporanKiaExport;
+use App\Exports\SigaExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
-    /**
-     * Helper to dynamically calculate and update the rekap tables based on murni real transactional data
-     */
-    private function recalculateRealData($tahun, $bulan)
+    private function recalculateRealData(int $tahun, int $bulan): void
     {
         $faskesList = FasilitasKesehatan::all();
 
         foreach ($faskesList as $faskes) {
-            $faskesId = $faskes->id;
-            $wilayahId = $faskes->wilayah_id;
-            if (!$wilayahId) {
-                $wilayah = \App\Models\WilayaDinkes::first();
-                $wilayahId = $wilayah ? $wilayah->id : 1;
-            }
+            $fid = $faskes->id;
+            $wid = $faskes->wilayah_id ?? \App\Models\WilayaDinkes::first()?->id ?? 1;
 
             // 1. Rekap Cakupan KIA
-            $k1 = \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_kunjungan', $tahun)
-                ->whereMonth('tanggal_kunjungan', $bulan)
-                ->where('kunjungan_ke', 1)
-                ->count();
-
-            $k4 = \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_kunjungan', $tahun)
-                ->whereMonth('tanggal_kunjungan', $bulan)
-                ->where('kunjungan_ke', 4)
-                ->count();
-
-            $k6 = \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_kunjungan', $tahun)
-                ->whereMonth('tanggal_kunjungan', $bulan)
-                ->where('kunjungan_ke', 6)
-                ->count();
-
-            $persalinanFaskes = \App\Models\Persalinan::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_lahir', $tahun)
-                ->whereMonth('tanggal_lahir', $bulan)
-                ->whereNotIn('jenis_persalinan', ['Dukun', 'Rumah', 'Non-Faskes'])
-                ->count();
-
-            $persalinanNonFaskes = \App\Models\Persalinan::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_lahir', $tahun)
-                ->whereMonth('tanggal_lahir', $bulan)
-                ->whereIn('jenis_persalinan', ['Dukun', 'Rumah', 'Non-Faskes'])
-                ->count();
-
-            $nifasKF1 = \App\Models\PemantauanNifas::whereHas('bukuKia', function($q) use ($faskesId) {
-                    $q->where('fasilitas_kesehatan_id', $faskesId);
-                })
-                ->whereYear('tanggal', $tahun)
-                ->whereMonth('tanggal', $bulan)
-                ->where('hari_ke', 'like', '%KF 1%')
-                ->count();
-
-            $nifasKF2 = \App\Models\PemantauanNifas::whereHas('bukuKia', function($q) use ($faskesId) {
-                    $q->where('fasilitas_kesehatan_id', $faskesId);
-                })
-                ->whereYear('tanggal', $tahun)
-                ->whereMonth('tanggal', $bulan)
-                ->where('hari_ke', 'like', '%KF 2%')
-                ->count();
-
-            $nifasKF3 = \App\Models\PemantauanNifas::whereHas('bukuKia', function($q) use ($faskesId) {
-                    $q->where('fasilitas_kesehatan_id', $faskesId);
-                })
-                ->whereYear('tanggal', $tahun)
-                ->whereMonth('tanggal', $bulan)
-                ->where('hari_ke', 'like', '%KF 3%')
-                ->count();
-
-            $kbPascaSalin = \App\Models\KbPascaSalin::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_mulai', $tahun)
-                ->whereMonth('tanggal_mulai', $bulan)
-                ->count();
-
             RekapCakupanKia::updateOrCreate(
+                ['faskes_id' => $fid, 'wilayah_id' => $wid, 'tahun' => $tahun, 'bulan' => $bulan],
                 [
-                    'faskes_id' => $faskesId,
-                    'wilayah_id' => $wilayahId,
-                    'tahun' => $tahun,
-                    'bulan' => $bulan
-                ],
-                [
-                    'k1_total' => $k1,
-                    'k4_total' => $k4,
-                    'k6_total' => $k6,
-                    'persalinan_faskes' => $persalinanFaskes,
-                    'persalinan_non_faskes' => $persalinanNonFaskes,
-                    'nifas_kf1' => $nifasKF1,
-                    'nifas_kf2' => $nifasKF2,
-                    'nifas_kf3' => $nifasKF3,
-                    'kb_pasca_salin' => $kbPascaSalin,
+                    'k1_total' => \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_kunjungan', $tahun)->whereMonth('tanggal_kunjungan', $bulan)->where('kunjungan_ke', 1)->count(),
+                    'k4_total' => \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_kunjungan', $tahun)->whereMonth('tanggal_kunjungan', $bulan)->where('kunjungan_ke', 4)->count(),
+                    'k6_total' => \App\Models\KunjunganAnc::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_kunjungan', $tahun)->whereMonth('tanggal_kunjungan', $bulan)->where('kunjungan_ke', 6)->count(),
+                    'persalinan_faskes'     => \App\Models\Persalinan::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_lahir', $tahun)->whereMonth('tanggal_lahir', $bulan)->whereNotIn('jenis_persalinan', ['Dukun', 'Rumah', 'Non-Faskes'])->count(),
+                    'persalinan_non_faskes' => \App\Models\Persalinan::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_lahir', $tahun)->whereMonth('tanggal_lahir', $bulan)->whereIn('jenis_persalinan', ['Dukun', 'Rumah', 'Non-Faskes'])->count(),
+                    'nifas_kf1' => \App\Models\PemantauanNifas::whereHas('bukuKia', fn($q) => $q->where('fasilitas_kesehatan_id', $fid))->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->where('hari_ke', 'like', '%KF 1%')->count(),
+                    'nifas_kf2' => \App\Models\PemantauanNifas::whereHas('bukuKia', fn($q) => $q->where('fasilitas_kesehatan_id', $fid))->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->where('hari_ke', 'like', '%KF 2%')->count(),
+                    'nifas_kf3' => \App\Models\PemantauanNifas::whereHas('bukuKia', fn($q) => $q->where('fasilitas_kesehatan_id', $fid))->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan)->where('hari_ke', 'like', '%KF 3%')->count(),
+                    'kb_pasca_salin' => KbPascaSalin::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_mulai', $tahun)->whereMonth('tanggal_mulai', $bulan)->count(),
                 ]
             );
 
             // 2. Rekap Imunisasi
-            $imunisasiList = ['BCG', 'Polio 1', 'DPT-HB-Hib 1', 'Campak-Rubela'];
-            foreach ($imunisasiList as $jenis) {
-                $jumlahDiberikan = \App\Models\ImunisasiAnak::where('fasilitas_kesehatan_id', $faskesId)
-                    ->where('jenis_imunisasi', $jenis)
-                    ->whereYear('tanggal_pemberian', $tahun)
-                    ->whereMonth('tanggal_pemberian', $bulan)
-                    ->count();
-
-                $target = 50;
-                $persentase = $target > 0 ? ($jumlahDiberikan / $target) * 100 : 0;
-
+            foreach (['BCG', 'Polio 1', 'DPT-HB-Hib 1', 'Campak-Rubela'] as $jenis) {
+                $jumlah = \App\Models\ImunisasiAnak::where('fasilitas_kesehatan_id', $fid)->where('jenis_imunisasi', $jenis)->whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan)->count();
                 RekapImunisasi::updateOrCreate(
-                    [
-                        'faskes_id' => $faskesId,
-                        'wilayah_id' => $wilayahId,
-                        'tahun' => $tahun,
-                        'bulan' => $bulan,
-                        'jenis_imunisasi' => $jenis
-                    ],
-                    [
-                        'jumlah_diberikan' => $jumlahDiberikan,
-                        'target_sasaran' => $target,
-                        'persentase_cakupan' => $persentase
-                    ]
+                    ['faskes_id' => $fid, 'wilayah_id' => $wid, 'tahun' => $tahun, 'bulan' => $bulan, 'jenis_imunisasi' => $jenis],
+                    ['jumlah_diberikan' => $jumlah, 'target_sasaran' => 50, 'persentase_cakupan' => $jumlah > 0 ? round(($jumlah / 50) * 100, 2) : 0]
                 );
             }
 
             // 3. Rekap Gizi Balita
-            $totalDitimbang = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->count();
-
-            $giziBaik = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_gizi_bb_u', 'gizi baik')
-                ->count();
-
-            $giziKurang = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_gizi_bb_u', 'gizi kurang')
-                ->count();
-
-            $giziBuruk = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_gizi_bb_u', 'gizi buruk')
-                ->count();
-
-            $stunting = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_stunting', 'stunting')
-                ->count();
-
-            $wasting = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_gizi_bb_tb', 'wasting')
-                ->count();
-
-            $overweight = \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_ukur', $tahun)
-                ->whereMonth('tanggal_ukur', $bulan)
-                ->where('status_gizi_bb_u', 'overweight')
-                ->count();
-
+            $gb = fn() => \App\Models\TumbuhKembang::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan);
             RekapGiziBalita::updateOrCreate(
+                ['faskes_id' => $fid, 'wilayah_id' => $wid, 'tahun' => $tahun, 'bulan' => $bulan],
                 [
-                    'faskes_id' => $faskesId,
-                    'wilayah_id' => $wilayahId,
-                    'tahun' => $tahun,
-                    'bulan' => $bulan
-                ],
-                [
-                    'total_balita_ditimbang' => $totalDitimbang,
-                    'gizi_baik' => $giziBaik,
-                    'gizi_kurang' => $giziKurang,
-                    'gizi_buruk' => $giziBuruk,
-                    'stunting' => $stunting,
-                    'wasting' => $wasting,
-                    'overweight' => $overweight,
+                    'total_balita_ditimbang' => $gb()->count(),
+                    'gizi_baik'   => $gb()->where('status_gizi_bb_u', 'gizi baik')->count(),
+                    'gizi_kurang' => $gb()->where('status_gizi_bb_u', 'gizi kurang')->count(),
+                    'gizi_buruk'  => $gb()->where('status_gizi_bb_u', 'gizi buruk')->count(),
+                    'stunting'    => $gb()->where('status_stunting', 'stunting')->count(),
+                    'wasting'     => $gb()->where('status_gizi_bb_tb', 'wasting')->count(),
+                    'overweight'  => $gb()->where('status_gizi_bb_u', 'overweight')->count(),
                 ]
             );
 
             // 4. Rekap TTD
-            $totalTTD = \App\Models\PencatatanTtd::whereHas('bukuKia', function ($q) use ($faskesId) {
-                    $q->where('fasilitas_kesehatan_id', $faskesId);
-                })
-                ->whereYear('tanggal', $tahun)
-                ->whereMonth('tanggal', $bulan)
-                ->count();
-
-            $patuh = \App\Models\PencatatanTtd::whereHas('bukuKia', function ($q) use ($faskesId) {
-                    $q->where('fasilitas_kesehatan_id', $faskesId);
-                })
-                ->whereYear('tanggal', $tahun)
-                ->whereMonth('tanggal', $bulan)
-                ->whereIn('diminum', ['Ya', '1', 'yes', 'Ya (Diminum)'])
-                ->count();
-
-            $target = max(50, $totalTTD);
-
+            $ttd = fn() => \App\Models\PencatatanTtd::whereHas('bukuKia', fn($q) => $q->where('fasilitas_kesehatan_id', $fid))->whereYear('tanggal', $tahun)->whereMonth('tanggal', $bulan);
+            $totalTtd = $ttd()->count();
             RekapTtd::updateOrCreate(
-                [
-                    'faskes_id' => $faskesId,
-                    'wilayah_id' => $wilayahId,
-                    'tahun' => $tahun,
-                    'bulan' => $bulan
-                ],
-                [
-                    'target_ibu_hamil' => $target,
-                    'mendapat_ttd' => $totalTTD,
-                    'patuh_konsumsi' => $patuh
-                ]
+                ['faskes_id' => $fid, 'wilayah_id' => $wid, 'tahun' => $tahun, 'bulan' => $bulan],
+                ['target_ibu_hamil' => max(50, $totalTtd), 'mendapat_ttd' => $totalTtd, 'patuh_konsumsi' => $ttd()->whereIn('diminum', ['Ya', '1', 'yes', 'Ya (Diminum)'])->count()]
             );
 
             // 5. Indikator Kematian
-            $kematianIbu = \App\Models\Persalinan::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_lahir', $tahun)
-                ->whereMonth('tanggal_lahir', $bulan)
-                ->where('kondisi_ibu', 'Meninggal')
-                ->count();
-
-            $kematianBayi = \App\Models\Persalinan::where('fasilitas_kesehatan_id', $faskesId)
-                ->whereYear('tanggal_lahir', $tahun)
-                ->whereMonth('tanggal_lahir', $bulan)
-                ->where('kondisi_bayi', 'Meninggal')
-                ->count();
-
-            $kematianBalita = 0;
-
+            $ps = fn() => \App\Models\Persalinan::where('fasilitas_kesehatan_id', $fid)->whereYear('tanggal_lahir', $tahun)->whereMonth('tanggal_lahir', $bulan);
             IndikatorKematian::updateOrCreate(
+                ['faskes_id' => $fid, 'wilayah_id' => $wid, 'tahun' => $tahun, 'bulan' => $bulan],
                 [
-                    'faskes_id' => $faskesId,
-                    'wilayah_id' => $wilayahId,
-                    'tahun' => $tahun,
-                    'bulan' => $bulan
-                ],
-                [
-                    'kematian_ibu' => $kematianIbu,
-                    'kematian_bayi' => $kematianBayi,
-                    'kematian_balita' => $kematianBalita,
-                    'penyebab_utama' => 'Belum teridentifikasi',
+                    'kematian_ibu'    => $ps()->where('kondisi_ibu', 'Meninggal Dunia')->count(),
+                    'kematian_bayi'   => $ps()->whereIn('kondisi_bayi', ['Meninggal Dunia (IUFD)', 'Meninggal'])->count(),
+                    'kematian_balita' => 0,
+                    'penyebab_utama'  => 'Belum teridentifikasi',
                 ]
             );
         }
     }
 
-    /**
-     * Display statistical graphs for Maternal & Child Health indicators (Statistik KIA Wilayah)
-     */
     public function statistik(Request $request)
     {
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
 
-        // Dynamically recalculate based on raw transactional data before querying
         $this->recalculateRealData($tahun, $bulan);
 
-        // 1. Cakupan ANC: K1 vs K4 vs K6 from RekapCakupanKia
         $ancK1 = RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k1_total');
         $ancK4 = RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k4_total');
         $ancK6 = RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k6_total');
 
-        // 2. Cakupan Imunisasi: Grouped by Jenis Imunisasi from RekapImunisasi
+        $persalinanFaskes    = RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('persalinan_faskes');
+        $persalinanNonFaskes = RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('persalinan_non_faskes');
+
         $imunisasiData = RekapImunisasi::select('jenis_imunisasi', DB::raw('SUM(jumlah_diberikan) as total'))
-            ->where('tahun', $tahun)
-            ->where('bulan', $bulan)
-            ->groupBy('jenis_imunisasi')
-            ->get();
+            ->where('tahun', $tahun)->where('bulan', $bulan)->groupBy('jenis_imunisasi')->get();
+        $imunisasiLabels = $imunisasiData->pluck('jenis_imunisasi')->toArray() ?: ['BCG', 'Polio 1', 'DPT-HB-Hib 1', 'Campak-Rubela'];
+        $imunisasiValues = $imunisasiData->pluck('total')->toArray() ?: [0, 0, 0, 0];
 
-        $imunisasiLabels = $imunisasiData->pluck('jenis_imunisasi')->toArray();
-        $imunisasiValues = $imunisasiData->pluck('total')->toArray();
-
-        if (empty($imunisasiLabels)) {
-            $imunisasiLabels = ['BCG', 'Polio 1', 'DPT-HB-Hib 1', 'Campak-Rubela'];
-            $imunisasiValues = [0, 0, 0, 0];
-        }
-
-        // 3. Status Gizi Anak from RekapGiziBalita
-        $stuntingCount = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('stunting');
-        
-        $totalBalita = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('total_balita_ditimbang');
+        $stuntingCount      = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('stunting');
+        $totalBalita        = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('total_balita_ditimbang');
         $normalStuntingCount = max(0, $totalBalita - $stuntingCount);
-
-        $giziBaik = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_baik');
+        $giziBaik   = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_baik');
         $giziKurang = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_kurang');
-        $giziBuruk = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_buruk');
+        $giziBuruk  = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_buruk');
         $overweight = RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('overweight');
 
-        // 4. Kepatuhan Konsumsi TTD Ibu Hamil from RekapTtd
-        $ttdTarget = RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('target_ibu_hamil');
-        $ttdPatuh = RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('patuh_konsumsi');
+        $ttdTarget     = RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('target_ibu_hamil');
+        $ttdPatuh      = RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('patuh_konsumsi');
         $ttdTidakPatuh = max(0, $ttdTarget - $ttdPatuh);
 
-        // 5. Indikator Kematian
-        $kematianIbu = IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_ibu');
-        $kematianBayi = IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_bayi');
+        $kematianIbu    = IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_ibu');
+        $kematianBayi   = IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_bayi');
         $kematianBalita = IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_balita');
 
-        return view('pages.laporan.statistik', [
-            'ancK1' => $ancK1,
-            'ancK4' => $ancK4,
-            'ancK6' => $ancK6,
-            'imunisasiLabels' => $imunisasiLabels,
-            'imunisasiValues' => $imunisasiValues,
-            'stuntingCount' => $stuntingCount,
-            'normalStuntingCount' => $normalStuntingCount,
-            'giziBaik' => $giziBaik,
-            'giziKurang' => $giziKurang,
-            'giziBuruk' => $giziBuruk,
-            'overweight' => $overweight,
-            'ttdPatuh' => $ttdPatuh,
-            'ttdTidakPatuh' => $ttdTidakPatuh,
-            'kematianIbu' => $kematianIbu,
-            'kematianBayi' => $kematianBayi,
-            'kematianBalita' => $kematianBalita,
-            'tahun' => $tahun,
-            'bulan' => $bulan,
-        ]);
+        // KB Pasca Salin per metode
+        $kbData = KbPascaSalin::select('metode_kb', DB::raw('COUNT(*) as total'))
+            ->whereYear('tanggal_mulai', $tahun)->whereMonth('tanggal_mulai', $bulan)
+            ->groupBy('metode_kb')->orderByDesc('total')->get();
+        $kbLabels = $kbData->pluck('metode_kb')->toArray() ?: ['Belum ada data'];
+        $kbValues = $kbData->pluck('total')->toArray() ?: [0];
+
+        return view('pages.laporan.statistik', compact(
+            'ancK1', 'ancK4', 'ancK6',
+            'persalinanFaskes', 'persalinanNonFaskes',
+            'imunisasiLabels', 'imunisasiValues',
+            'stuntingCount', 'normalStuntingCount',
+            'giziBaik', 'giziKurang', 'giziBuruk', 'overweight',
+            'ttdPatuh', 'ttdTidakPatuh',
+            'kematianIbu', 'kematianBayi', 'kematianBalita',
+            'kbLabels', 'kbValues',
+            'tahun', 'bulan'
+        ));
     }
 
-    /**
-     * Display a comparative dashboard monitoring all registered healthcare facilities (Monitoring Faskes)
-     */
     public function monitoringFaskes(Request $request)
     {
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
 
-        // Dynamically recalculate based on raw transactional data before querying
         $this->recalculateRealData($tahun, $bulan);
 
-        // Fetch faskes list with aggregated monthly rekap logs
         $faskesList = FasilitasKesehatan::all();
 
         foreach ($faskesList as $faskes) {
-            $faskes->cakupan = RekapCakupanKia::where('faskes_id', $faskes->id)
-                ->where('tahun', $tahun)
-                ->where('bulan', $bulan)
-                ->first();
-
-            $faskes->gizi = RekapGiziBalita::where('faskes_id', $faskes->id)
-                ->where('tahun', $tahun)
-                ->where('bulan', $bulan)
-                ->first();
-
-            $faskes->ttd = RekapTtd::where('faskes_id', $faskes->id)
-                ->where('tahun', $tahun)
-                ->where('bulan', $bulan)
-                ->first();
-
-            $faskes->kematian = IndikatorKematian::where('faskes_id', $faskes->id)
-                ->where('tahun', $tahun)
-                ->where('bulan', $bulan)
-                ->first();
+            $faskes->cakupan  = RekapCakupanKia::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+            $faskes->gizi     = RekapGiziBalita::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+            $faskes->ttd      = RekapTtd::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+            $faskes->kematian = IndikatorKematian::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
         }
 
-        return view('pages.laporan.monitoring_faskes', [
-            'faskesList' => $faskesList,
-            'tahun' => $tahun,
-            'bulan' => $bulan,
-        ]);
+        return view('pages.laporan.monitoring_faskes', compact('faskesList', 'tahun', 'bulan'));
     }
 
-    /**
-     * Export dynamic health records compiled into Excel Sheet using Laravel Excel
-     */
-    public function exportExcel(Request $request)
+    public function monitoringKbPascaSalin(Request $request)
     {
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $tahun    = $request->input('tahun', now()->year);
+        $bulan    = $request->input('bulan', now()->month);
+        $faskesId = $request->input('faskes_id');
 
-        // Dynamically recalculate based on raw transactional data before compiling Excel
+        $query = KbPascaSalin::with(['bukuKia.profilIbu', 'fasilitasKesehatan', 'nakes'])
+            ->whereYear('tanggal_mulai', $tahun)
+            ->whereMonth('tanggal_mulai', $bulan);
+
+        if ($faskesId) {
+            $query->where('fasilitas_kesehatan_id', $faskesId);
+        }
+
+        $kbList = $query->orderBy('tanggal_mulai', 'desc')->paginate(15)->withQueryString();
+
+        $perMetode = KbPascaSalin::select('metode_kb', DB::raw('COUNT(*) as total'))
+            ->whereYear('tanggal_mulai', $tahun)
+            ->whereMonth('tanggal_mulai', $bulan)
+            ->when($faskesId, fn($q) => $q->where('fasilitas_kesehatan_id', $faskesId))
+            ->groupBy('metode_kb')->orderByDesc('total')->get();
+
+        $totalKb   = $perMetode->sum('total');
+        $faskesList = FasilitasKesehatan::all();
+
+        return view('pages.laporan.kb_pasca_salin', compact(
+            'kbList', 'perMetode', 'totalKb', 'faskesList', 'tahun', 'bulan', 'faskesId'
+        ));
+    }
+
+    public function petaSebaran(Request $request)
+    {
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
+
         $this->recalculateRealData($tahun, $bulan);
 
-        $filename = "Laporan_Monitoring_Faskes_{$tahun}_{$bulan}.xlsx";
+        $faskesList = FasilitasKesehatan::all()->map(function ($faskes) use ($tahun, $bulan) {
+            $faskes->kematian = IndikatorKematian::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+            $faskes->gizi     = RekapGiziBalita::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+            $faskes->cakupan  = RekapCakupanKia::where('faskes_id', $faskes->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
 
-        return Excel::download(new LaporanKiaExport($tahun, $bulan), $filename);
+            // Hitung level risiko
+            $risikoScore = 0;
+            if ($faskes->kematian) {
+                $risikoScore += ($faskes->kematian->kematian_ibu * 3) + ($faskes->kematian->kematian_bayi * 2);
+            }
+            if ($faskes->gizi) {
+                $risikoScore += $faskes->gizi->stunting + $faskes->gizi->gizi_buruk;
+            }
+            $faskes->risiko_score = $risikoScore;
+            $faskes->risiko_level = $risikoScore >= 5 ? 'tinggi' : ($risikoScore >= 2 ? 'sedang' : 'rendah');
+
+            return $faskes;
+        });
+
+        return view('pages.laporan.peta_sebaran', compact('faskesList', 'tahun', 'bulan'));
     }
 
-    /**
-     * Display the Buku KIA monitoring dashboard
-     */
+    public function exportExcel(Request $request)
+    {
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
+
+        $this->recalculateRealData($tahun, $bulan);
+
+        return Excel::download(new LaporanKiaExport($tahun, $bulan), "Laporan_KIA_{$tahun}_{$bulan}.xlsx");
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
+
+        $this->recalculateRealData($tahun, $bulan);
+
+        $bulanIndo = ['', 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+        $data = [
+            'tahun'  => $tahun,
+            'bulan'  => $bulan,
+            'bulanNama' => $bulanIndo[$bulan],
+            'ancK1'  => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k1_total'),
+            'ancK4'  => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k4_total'),
+            'ancK6'  => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('k6_total'),
+            'persalinanFaskes'    => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('persalinan_faskes'),
+            'persalinanNonFaskes' => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('persalinan_non_faskes'),
+            'kbPascaSalin'        => RekapCakupanKia::where('tahun', $tahun)->where('bulan', $bulan)->sum('kb_pasca_salin'),
+            'kbPerMetode'         => KbPascaSalin::select('metode_kb', DB::raw('COUNT(*) as total'))->whereYear('tanggal_mulai', $tahun)->whereMonth('tanggal_mulai', $bulan)->groupBy('metode_kb')->get(),
+            'ttdTarget'   => RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('target_ibu_hamil'),
+            'ttdPatuh'    => RekapTtd::where('tahun', $tahun)->where('bulan', $bulan)->sum('patuh_konsumsi'),
+            'stunting'    => RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('stunting'),
+            'giziBuruk'   => RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('gizi_buruk'),
+            'totalBalita' => RekapGiziBalita::where('tahun', $tahun)->where('bulan', $bulan)->sum('total_balita_ditimbang'),
+            'kematianIbu'    => IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_ibu'),
+            'kematianBayi'   => IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_bayi'),
+            'kematianBalita' => IndikatorKematian::where('tahun', $tahun)->where('bulan', $bulan)->sum('kematian_balita'),
+            'imunisasi'   => RekapImunisasi::select('jenis_imunisasi', DB::raw('SUM(jumlah_diberikan) as total'))->where('tahun', $tahun)->where('bulan', $bulan)->groupBy('jenis_imunisasi')->get(),
+            'faskesList'  => FasilitasKesehatan::all()->map(function ($f) use ($tahun, $bulan) {
+                $f->cakupan  = RekapCakupanKia::where('faskes_id', $f->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+                $f->kematian = IndikatorKematian::where('faskes_id', $f->id)->where('tahun', $tahun)->where('bulan', $bulan)->first();
+                return $f;
+            }),
+        ];
+
+        $pdf = Pdf::loadView('exports.laporan_pdf', $data)
+            ->setPaper('a4', 'portrait')
+            ->setOptions(['defaultFont' => 'sans-serif', 'isHtml5ParserEnabled' => true]);
+
+        return $pdf->download("Laporan_KIA_{$tahun}_{$bulan}.pdf");
+    }
+
+    public function exportSiga(Request $request)
+    {
+        $tahun = $request->input('tahun', now()->year);
+        $bulan = $request->input('bulan', now()->month);
+
+        $this->recalculateRealData($tahun, $bulan);
+
+        return Excel::download(new SigaExport($tahun, $bulan), "SIGA_KIA_{$tahun}_{$bulan}.xlsx");
+    }
+
     public function monitoringBukuKia(Request $request)
     {
         $faskesId = $request->input('faskes_id');
-        $status = $request->input('status');
-        $search = $request->input('search');
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $status   = $request->input('status');
+        $search   = $request->input('search');
+        $tahun    = $request->input('tahun', now()->year);
+        $bulan    = $request->input('bulan', now()->month);
 
         $query = \App\Models\BukuKia::with(['profilIbu', 'fasilitasKesehatan', 'profilAnak', 'kunjunganAncs', 'pemantauanNifas'])
             ->whereYear('diterbitkan_pada', $tahun)
@@ -419,148 +305,89 @@ class LaporanController extends Controller
         }
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('no_reg_kohort_ibu', 'like', "%{$search}%")
-                  ->orWhere('no_reg_kohort_bayi', 'like', "%{$search}%")
-                  ->orWhere('no_reg_kohort_balita', 'like', "%{$search}%")
-                  ->orWhereHas('profilIbu', function($qi) use ($search) {
-                      $qi->where('nama_lengkap', 'like', "%{$search}%")
-                         ->orWhere('nik', 'like', "%{$search}%");
-                  });
+                  ->orWhereHas('profilIbu', fn($qi) => $qi->where('nama_lengkap', 'like', "%{$search}%")->orWhere('nik', 'like', "%{$search}%"));
             });
         }
 
-        $bukuKiaList = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
-
-        // Calculate quick total indicators
-        $totalBuku = \App\Models\BukuKia::count();
-        $totalAktif = \App\Models\BukuKia::where('status', 'Aktif')->count();
+        $bukuKiaList  = $query->orderBy('created_at', 'desc')->paginate(10)->withQueryString();
+        $totalBuku    = \App\Models\BukuKia::count();
+        $totalAktif   = \App\Models\BukuKia::where('status', 'Aktif')->count();
         $totalSelesai = \App\Models\BukuKia::where('status', 'Selesai')->count();
-        $totalAnc = \App\Models\KunjunganAnc::count();
+        $totalAnc     = \App\Models\KunjunganAnc::count();
+        $faskesList   = FasilitasKesehatan::all();
 
-        $faskesList = FasilitasKesehatan::all();
-
-        return view('pages.laporan.monitoring_buku_kia', [
-            'bukuKiaList' => $bukuKiaList,
-            'totalBuku' => $totalBuku,
-            'totalAktif' => $totalAktif,
-            'totalSelesai' => $totalSelesai,
-            'totalAnc' => $totalAnc,
-            'faskesList' => $faskesList,
-            'faskesId' => $faskesId,
-            'status' => $status,
-            'search' => $search,
-            'tahun' => $tahun,
-            'bulan' => $bulan,
-        ]);
+        return view('pages.laporan.monitoring_buku_kia', compact(
+            'bukuKiaList', 'totalBuku', 'totalAktif', 'totalSelesai', 'totalAnc',
+            'faskesList', 'faskesId', 'status', 'search', 'tahun', 'bulan'
+        ));
     }
 
-    /**
-     * Display the Imunisasi Anak monitoring dashboard
-     */
     public function monitoringImunisasi(Request $request)
     {
         $faskesId = $request->input('faskes_id');
-        $search = $request->input('search');
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $search   = $request->input('search');
+        $tahun    = $request->input('tahun', now()->year);
+        $bulan    = $request->input('bulan', now()->month);
 
-        // Dynamic synchronizer to make sure data is real and synchronized before querying
         $this->recalculateRealData($tahun, $bulan);
 
         $query = \App\Models\ImunisasiAnak::with(['profilAnak.bukuKia', 'fasilitasKesehatan', 'nakes'])
-            ->whereYear('tanggal_pemberian', $tahun)
-            ->whereMonth('tanggal_pemberian', $bulan);
+            ->whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan);
 
-        if ($faskesId) {
-            $query->where('fasilitas_kesehatan_id', $faskesId);
-        }
+        if ($faskesId) $query->where('fasilitas_kesehatan_id', $faskesId);
 
         if ($search) {
-            $query->where(function($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('jenis_imunisasi', 'like', "%{$search}%")
-                  ->orWhereHas('profilAnak', function($qp) use ($search) {
-                      $qp->where('nama_lengkap', 'like', "%{$search}%")
-                         ->orWhere('nik', 'like', "%{$search}%");
-                  });
+                  ->orWhereHas('profilAnak', fn($qp) => $qp->where('nama_lengkap', 'like', "%{$search}%"));
             });
         }
 
         $imunisasiList = $query->orderBy('tanggal_pemberian', 'desc')->paginate(10)->withQueryString();
+        $base = \App\Models\ImunisasiAnak::whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan);
+        $totalVaksin = (clone $base)->count();
+        $totalBcg    = (clone $base)->where('jenis_imunisasi', 'like', '%BCG%')->count();
+        $totalDpt    = (clone $base)->where('jenis_imunisasi', 'like', '%DPT%')->count();
+        $totalPolio  = (clone $base)->where('jenis_imunisasi', 'like', '%Polio%')->count();
+        $faskesList  = FasilitasKesehatan::all();
 
-        // Calculate quick KPI totals for the selected period
-        $totalVaksin = \App\Models\ImunisasiAnak::whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan)->count();
-        $totalBcg = \App\Models\ImunisasiAnak::whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan)->where('jenis_imunisasi', 'like', '%BCG%')->count();
-        $totalDpt = \App\Models\ImunisasiAnak::whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan)->where('jenis_imunisasi', 'like', '%DPT%')->count();
-        $totalPolio = \App\Models\ImunisasiAnak::whereYear('tanggal_pemberian', $tahun)->whereMonth('tanggal_pemberian', $bulan)->where('jenis_imunisasi', 'like', '%Polio%')->count();
-
-        $faskesList = FasilitasKesehatan::all();
-
-        return view('pages.laporan.monitoring_imunisasi', [
-            'imunisasiList' => $imunisasiList,
-            'totalVaksin' => $totalVaksin,
-            'totalBcg' => $totalBcg,
-            'totalDpt' => $totalDpt,
-            'totalPolio' => $totalPolio,
-            'faskesList' => $faskesList,
-            'faskesId' => $faskesId,
-            'search' => $search,
-            'tahun' => $tahun,
-            'bulan' => $bulan,
-        ]);
+        return view('pages.laporan.monitoring_imunisasi', compact(
+            'imunisasiList', 'totalVaksin', 'totalBcg', 'totalDpt', 'totalPolio',
+            'faskesList', 'faskesId', 'search', 'tahun', 'bulan'
+        ));
     }
 
-    /**
-     * Display the Gizi Balita (Tumbuh Kembang) monitoring dashboard
-     */
     public function monitoringGiziBalita(Request $request)
     {
         $faskesId = $request->input('faskes_id');
-        $search = $request->input('search');
-        $tahun = $request->input('tahun', 2026);
-        $bulan = $request->input('bulan', 5);
+        $search   = $request->input('search');
+        $tahun    = $request->input('tahun', now()->year);
+        $bulan    = $request->input('bulan', now()->month);
 
-        // Dynamic synchronizer to make sure data is real and synchronized before querying
         $this->recalculateRealData($tahun, $bulan);
 
         $query = \App\Models\TumbuhKembang::with(['profilAnak.bukuKia', 'fasilitasKesehatan', 'nakes'])
-            ->whereYear('tanggal_ukur', $tahun)
-            ->whereMonth('tanggal_ukur', $bulan);
+            ->whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan);
 
-        if ($faskesId) {
-            $query->where('fasilitas_kesehatan_id', $faskesId);
-        }
+        if ($faskesId) $query->where('fasilitas_kesehatan_id', $faskesId);
 
         if ($search) {
-            $query->where(function($q) use ($search) {
-                $q->whereHas('profilAnak', function($qp) use ($search) {
-                    $qp->where('nama_lengkap', 'like', "%{$search}%")
-                       ->orWhere('nik', 'like', "%{$search}%");
-                });
-            });
+            $query->whereHas('profilAnak', fn($qp) => $qp->where('nama_lengkap', 'like', "%{$search}%"));
         }
 
         $giziList = $query->orderBy('tanggal_ukur', 'desc')->paginate(10)->withQueryString();
-
-        // Calculate quick KPI totals for the selected period
-        $totalDitimbang = \App\Models\TumbuhKembang::whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan)->count();
-        $totalGiziBaik = \App\Models\TumbuhKembang::whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan)->where('status_gizi_bb_u', 'gizi baik')->count();
-        $totalGiziKurang = \App\Models\TumbuhKembang::whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan)->whereIn('status_gizi_bb_u', ['gizi kurang', 'gizi buruk'])->count();
-        $totalStunting = \App\Models\TumbuhKembang::whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan)->where('status_stunting', 'stunting')->count();
-
+        $base = \App\Models\TumbuhKembang::whereYear('tanggal_ukur', $tahun)->whereMonth('tanggal_ukur', $bulan);
+        $totalDitimbang  = (clone $base)->count();
+        $totalGiziBaik   = (clone $base)->where('status_gizi_bb_u', 'gizi baik')->count();
+        $totalGiziKurang = (clone $base)->whereIn('status_gizi_bb_u', ['gizi kurang', 'gizi buruk'])->count();
+        $totalStunting   = (clone $base)->where('status_stunting', 'stunting')->count();
         $faskesList = FasilitasKesehatan::all();
 
-        return view('pages.laporan.monitoring_gizi_balita', [
-            'giziList' => $giziList,
-            'totalDitimbang' => $totalDitimbang,
-            'totalGiziBaik' => $totalGiziBaik,
-            'totalGiziKurang' => $totalGiziKurang,
-            'totalStunting' => $totalStunting,
-            'faskesList' => $faskesList,
-            'faskesId' => $faskesId,
-            'search' => $search,
-            'tahun' => $tahun,
-            'bulan' => $bulan,
-        ]);
+        return view('pages.laporan.monitoring_gizi_balita', compact(
+            'giziList', 'totalDitimbang', 'totalGiziBaik', 'totalGiziKurang', 'totalStunting',
+            'faskesList', 'faskesId', 'search', 'tahun', 'bulan'
+        ));
     }
 }

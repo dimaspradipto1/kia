@@ -32,6 +32,8 @@ class FasilitasKesehatanRequest extends FormRequest
             'jam_buka' => 'nullable|string|max:10',
             'jam_tutup' => 'nullable|string|max:10',
             'embed_map' => 'nullable|string',
+            'latitude'  => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             'is_active' => 'required|boolean',
         ];
     }

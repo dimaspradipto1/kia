@@ -69,31 +69,43 @@
         <!-- Filter Form & Actions -->
         <div class="col-12 mb-4">
             <div class="card report-card p-4 border-start border-4 border-primary">
-                <form action="{{ route('laporan.statistik') }}" method="GET" class="row align-items-end g-3">
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-secondary small">Pilih Tahun</label>
-                        <select name="tahun" class="form-select rounded-pill">
-                            <option value="2025" {{ $tahun == 2025 ? 'selected' : '' }}>2025</option>
-                            <option value="2026" {{ $tahun == 2026 ? 'selected' : '' }}>2026</option>
-                            <option value="2027" {{ $tahun == 2027 ? 'selected' : '' }}>2027</option>
-                        </select>
+                <form action="{{ route('laporan.statistik') }}" method="GET">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small">Pilih Tahun</label>
+                            <select name="tahun" class="form-select rounded-pill">
+                                <option value="2025" {{ $tahun == 2025 ? 'selected' : '' }}>2025</option>
+                                <option value="2026" {{ $tahun == 2026 ? 'selected' : '' }}>2026</option>
+                                <option value="2027" {{ $tahun == 2027 ? 'selected' : '' }}>2027</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small">Pilih Bulan</label>
+                            <select name="bulan" class="form-select rounded-pill">
+                                @foreach(range(1, 12) as $m)
+                                    <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
+                                        {{ $bulanIndo[$m] }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <label class="form-label fw-bold text-secondary small">Pilih Bulan</label>
-                        <select name="bulan" class="form-select rounded-pill">
-                            @foreach(range(1, 12) as $m)
-                                <option value="{{ $m }}" {{ $bulan == $m ? 'selected' : '' }}>
-                                    {{ $bulanIndo[$m] }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary rounded-pill w-100 fw-bold"><i class="bi bi-filter me-2"></i> Filter</button>
-                    </div>
-                    <div class="col-md-4 text-md-end">
-                        <a href="{{ route('laporan.export-excel', ['tahun' => $tahun, 'bulan' => $bulan]) }}" class="btn btn-success rounded-pill px-3 fw-bold me-2"><i class="bi bi-file-earmark-excel me-2"></i> Ekspor Excel</a>
-                        <button type="button" onclick="window.print()" class="btn btn-outline-primary rounded-pill px-3 fw-bold"><i class="bi bi-printer me-2"></i> Cetak</button>
+                    <div class="d-flex align-items-center gap-2 w-100">
+                        <button type="submit" class="btn btn-primary rounded-pill fw-bold flex-grow-1">
+                            <i class="bi bi-filter me-1"></i> Filter
+                        </button>
+                        <a href="{{ route('laporan.export-excel', ['tahun' => $tahun, 'bulan' => $bulan]) }}" class="btn btn-success rounded-pill fw-bold flex-grow-1">
+                            <i class="bi bi-file-earmark-excel me-1"></i> Excel
+                        </a>
+                        <a href="{{ route('laporan.export-pdf', ['tahun' => $tahun, 'bulan' => $bulan]) }}" class="btn btn-danger rounded-pill fw-bold flex-grow-1">
+                            <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+                        </a>
+                        <a href="{{ route('laporan.export-siga', ['tahun' => $tahun, 'bulan' => $bulan]) }}" class="btn btn-warning rounded-pill fw-bold text-dark flex-grow-1">
+                            <i class="bi bi-file-earmark-spreadsheet me-1"></i> SIGA
+                        </a>
+                        <button type="button" onclick="window.print()" class="btn btn-outline-secondary rounded-pill fw-bold flex-grow-1">
+                            <i class="bi bi-printer me-1"></i> Cetak
+                        </button>
                     </div>
                 </form>
             </div>
@@ -174,7 +186,42 @@
             </div>
         </div>
 
-        <!-- Row 2: Child Immunization & Nutrition Metrics -->
+        <!-- Row 2: Persalinan Faskes vs Non-Faskes & KB Pasca Salin per Metode -->
+        <div class="col-lg-6 mb-4">
+            <div class="card report-card h-100">
+                <div class="card-header card-header-custom d-flex align-items-center">
+                    <div class="icon-box-small bg-purple-subtle me-3" style="background:#f3e8ff;">
+                        <i class="bi bi-hospital" style="color:#7c3aed;"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold text-dark mb-0">Persalinan: Faskes vs Non-Faskes</h5>
+                        <span class="text-muted small">Distribusi tempat persalinan ibu</span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div id="persalinanChart" style="min-height:320px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card report-card h-100">
+                <div class="card-header card-header-custom d-flex align-items-center">
+                    <div class="icon-box-small bg-pink-subtle me-3" style="background:#fce7f3;">
+                        <i class="bi bi-heart-pulse" style="color:#db2777;"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold text-dark mb-0">KB Pasca Salin per Metode</h5>
+                        <span class="text-muted small">Distribusi metode KB yang digunakan ibu</span>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div id="kbChart" style="min-height:320px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Row 3: Child Immunization & Nutrition Metrics -->
         <div class="col-lg-6 mb-4">
             <div class="card report-card h-100">
                 <div class="card-header card-header-custom d-flex align-items-center justify-content-between">
@@ -316,7 +363,30 @@
             grid: { borderColor: '#f1f5f9' }
         }).render();
 
-        // 4. Gizi BB/U Pie Chart
+        // 4. Persalinan Faskes vs Non-Faskes
+        new ApexCharts(document.querySelector("#persalinanChart"), {
+            series: [{{ $persalinanFaskes }}, {{ $persalinanNonFaskes }}],
+            chart: { type: 'donut', height: 320, background: 'transparent' },
+            labels: ['Di Faskes', 'Non-Faskes (Rumah/Dukun)'],
+            colors: ['#7c3aed', '#f59e0b'],
+            legend: { position: 'bottom' },
+            dataLabels: { enabled: true },
+            plotOptions: { pie: { donut: { size: '65%', labels: { show: true, total: { show: true, label: 'Total', formatter: () => {{ $persalinanFaskes + $persalinanNonFaskes }} } } } } }
+        }).render();
+
+        // 5. KB Pasca Salin per Metode
+        new ApexCharts(document.querySelector("#kbChart"), {
+            series: @json($kbValues),
+            chart: { type: 'bar', height: 320, toolbar: { show: false } },
+            plotOptions: { bar: { borderRadius: 6, horizontal: true, distributed: true } },
+            colors: ['#db2777','#9333ea','#2563eb','#059669','#d97706','#dc2626'],
+            dataLabels: { enabled: true },
+            xaxis: { categories: @json($kbLabels), labels: { style: { colors: '#64748b' } } },
+            legend: { show: false },
+            grid: { borderColor: '#f1f5f9' }
+        }).render();
+
+        // 6. Gizi BB/U Pie Chart
         new ApexCharts(document.querySelector("#giziChart"), {
             series: [{{ $giziBaik }}, {{ $giziKurang }}, {{ $giziBuruk }}, {{ $overweight }}],
             chart: {

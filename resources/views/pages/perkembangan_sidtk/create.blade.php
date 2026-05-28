@@ -86,7 +86,7 @@
                     <div class="card border-0 shadow-sm mb-4" style="border-radius:12px; border-top:5px solid #16B3AC !important;">
                         <div class="card-header bg-white border-bottom py-3 px-4">
                             <h5 class="m-0 fw-bold text-dark">
-                                <i class="bi bi-brain text-teal me-1"></i> Hasil Skrining SIDTK
+                                <i class="bi bi-puzzle text-teal me-1"></i> Hasil Skrining SIDTK
                             </h5>
                         </div>
                         <div class="card-body p-4">

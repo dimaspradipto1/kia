@@ -28,7 +28,7 @@
                         <i class="bi bi-info-circle me-2"></i>
                         Data layanan yang berstatus <strong>Aktif</strong> akan ditampilkan di halaman <strong>Layanan</strong> pada website publik. Urutan menentukan posisi tampil kartu layanan.
                     </div>
-                    {{ $dataTable->table(['class' => 'table table-hover align-middle']) }}
+                    {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle']) }}
                 </div>
             </div>
         </div>

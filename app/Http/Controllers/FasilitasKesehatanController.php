@@ -56,6 +56,21 @@ class FasilitasKesehatanController extends Controller
         return redirect()->route('fasilitas-kesehatan.index');
     }
 
+    public function saveKoordinat(Request $request, FasilitasKesehatan $fasilitasKesehatan)
+    {
+        $request->validate([
+            'latitude'  => 'required|numeric|between:-90,90',
+            'longitude' => 'required|numeric|between:-180,180',
+        ]);
+
+        $fasilitasKesehatan->update([
+            'latitude'  => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return response()->json(['success' => true, 'id' => $fasilitasKesehatan->id]);
+    }
+
     public function destroy(FasilitasKesehatan $fasilitasKesehatan)
     {
         $fasilitasKesehatan->delete();

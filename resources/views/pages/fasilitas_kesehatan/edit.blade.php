@@ -144,6 +144,35 @@
                             </div>
 
                             <div class="row mb-3">
+                                <label class="col-sm-2 col-form-label fw-bold">Koordinat GIS</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="latitude"  id="lat_input"  value="{{ old('latitude', $fasilitasKesehatan->latitude) }}">
+                                    <input type="hidden" name="longitude" id="lng_input"  value="{{ old('longitude', $fasilitasKesehatan->longitude) }}">
+
+                                    <div class="d-flex gap-2 align-items-center mb-2 flex-wrap">
+                                        <span class="badge bg-light text-dark border fw-semibold" style="font-size:0.8rem;">
+                                            Lat: <span id="lat_display">{{ old('latitude', $fasilitasKesehatan->latitude ?? '-') }}</span>
+                                        </span>
+                                        <span class="badge bg-light text-dark border fw-semibold" style="font-size:0.8rem;">
+                                            Lng: <span id="lng_display">{{ old('longitude', $fasilitasKesehatan->longitude ?? '-') }}</span>
+                                        </span>
+                                        <button type="button" id="btn-geocode-form" class="btn btn-sm btn-outline-primary rounded-pill">
+                                            <i class="bi bi-geo me-1"></i> Cari Otomatis dari Nama & Alamat
+                                        </button>
+                                        <button type="button" id="btn-clear-coords" class="btn btn-sm btn-outline-danger rounded-pill">
+                                            <i class="bi bi-x-circle me-1"></i> Reset
+                                        </button>
+                                    </div>
+                                    <div id="picker-map" style="height:280px; border-radius:12px; border:1px solid #dee2e6; z-index:1;"></div>
+                                    <div class="mt-1 text-muted" style="font-size:0.78rem;">
+                                        <i class="bi bi-hand-index me-1"></i>Klik pada peta untuk menempatkan pin, atau seret pin untuk mengubah posisi.
+                                    </div>
+                                    @error('latitude') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                                    @error('longitude')<div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <label class="col-sm-2 col-form-label fw-bold">Status</label>
                                 <div class="col-sm-10">
                                     <select name="is_active" class="form-select">
@@ -171,37 +200,124 @@
             </div>
         </div>
     </section>
+@push('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+@endpush
+
 @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const embedInput = document.getElementById('embed_map');
-            const previewContainer = document.getElementById('map-preview');
-            const previewContent = document.getElementById('preview-content');
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
-            function updatePreview() {
-                const val = embedInput.value.trim();
-                if (val.includes('<iframe')) {
-                    previewContainer.classList.remove('d-none');
-                    // Clean the iframe for responsiveness
-                    let cleanedIframe = val.replace(/width="[0-9]*"/, 'width="100%"')
-                                           .replace(/height="[0-9]*"/, 'height="100%"');
-                    previewContent.innerHTML = cleanedIframe;
-                } else {
-                    previewContainer.classList.add('d-none');
-                    previewContent.innerHTML = '';
-                }
-            }
+    // ── Embed Map Preview ──────────────────────────────────────────────
+    const embedInput = document.getElementById('embed_map');
+    const previewContainer = document.getElementById('map-preview');
+    const previewContent   = document.getElementById('preview-content');
 
-            embedInput.addEventListener('input', updatePreview);
-            
-            // Initial cleaning for responsiveness if exists
-            if (embedInput.value.trim() !== '') {
-                let val = embedInput.value.trim();
-                let cleanedIframe = val.replace(/width="[0-9]*"/, 'width="100%"')
-                                       .replace(/height="[0-9]*"/, 'height="100%"');
-                previewContent.innerHTML = cleanedIframe;
+    function updatePreview() {
+        const val = embedInput.value.trim();
+        if (val.includes('<iframe')) {
+            previewContainer.classList.remove('d-none');
+            previewContent.innerHTML = val.replace(/width="[0-9]*"/, 'width="100%"')
+                                          .replace(/height="[0-9]*"/, 'height="100%"');
+        } else {
+            previewContainer.classList.add('d-none');
+            previewContent.innerHTML = '';
+        }
+    }
+    embedInput.addEventListener('input', updatePreview);
+    if (embedInput.value.trim()) updatePreview();
+
+    // ── Leaflet Map Picker ─────────────────────────────────────────────
+    const DEFAULT_LAT = 1.1301, DEFAULT_LNG = 104.0529;
+    const savedLat = parseFloat(document.getElementById('lat_input').value) || null;
+    const savedLng = parseFloat(document.getElementById('lng_input').value) || null;
+
+    const pickerMap = L.map('picker-map').setView(
+        savedLat && savedLng ? [savedLat, savedLng] : [DEFAULT_LAT, DEFAULT_LNG],
+        savedLat && savedLng ? 16 : 12
+    );
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap', maxZoom: 19
+    }).addTo(pickerMap);
+
+    let marker = null;
+
+    function setCoords(lat, lng) {
+        lat = parseFloat(lat.toFixed(7));
+        lng = parseFloat(lng.toFixed(7));
+        document.getElementById('lat_input').value  = lat;
+        document.getElementById('lng_input').value  = lng;
+        document.getElementById('lat_display').textContent = lat;
+        document.getElementById('lng_display').textContent = lng;
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng], { draggable: true }).addTo(pickerMap);
+            marker.on('dragend', function (e) {
+                const pos = e.target.getLatLng();
+                setCoords(pos.lat, pos.lng);
+            });
+        }
+    }
+
+    if (savedLat && savedLng) setCoords(savedLat, savedLng);
+
+    pickerMap.on('click', function (e) {
+        setCoords(e.latlng.lat, e.latlng.lng);
+        pickerMap.setView([e.latlng.lat, e.latlng.lng], Math.max(pickerMap.getZoom(), 15));
+    });
+
+    document.getElementById('btn-clear-coords').addEventListener('click', function () {
+        document.getElementById('lat_input').value  = '';
+        document.getElementById('lng_input').value  = '';
+        document.getElementById('lat_display').textContent = '-';
+        document.getElementById('lng_display').textContent = '-';
+        if (marker) { pickerMap.removeLayer(marker); marker = null; }
+    });
+
+    // ── Auto-geocode ───────────────────────────────────────────────────
+    document.getElementById('btn-geocode-form').addEventListener('click', async function () {
+        const nama = document.querySelector('[name="nama_faskes"]').value.trim();
+        const kec  = document.querySelector('[name="kecamatan"]').value.trim();
+        const kab  = document.querySelector('[name="kab_kota"]').value.trim();
+
+        if (!nama && !kec && !kab) {
+            alert('Isi terlebih dahulu Nama Faskes, Kecamatan, atau Kab/Kota sebelum mencari koordinat.');
+            return;
+        }
+
+        this.disabled = true;
+        this.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Mencari…';
+
+        try {
+            const q   = encodeURIComponent(`${nama} ${kec} ${kab} Indonesia`);
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`, {
+                headers: { 'Accept-Language': 'id' }
+            });
+            const data = await res.json();
+
+            if (data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lng = parseFloat(data[0].lon);
+                setCoords(lat, lng);
+                pickerMap.setView([lat, lng], 16);
+                this.innerHTML = '<i class="bi bi-check-circle me-1"></i> Ditemukan!';
+            } else {
+                this.innerHTML = '<i class="bi bi-x-circle me-1"></i> Tidak ditemukan';
+                alert('Koordinat tidak ditemukan. Coba klik manual pada peta di atas.');
             }
-        });
-    </script>
+        } catch (e) {
+            this.innerHTML = '<i class="bi bi-x-circle me-1"></i> Error';
+        }
+
+        setTimeout(() => {
+            this.disabled = false;
+            this.innerHTML = '<i class="bi bi-geo me-1"></i> Cari Otomatis dari Nama & Alamat';
+        }, 2000);
+    });
+});
+</script>
 @endpush
 @endsection

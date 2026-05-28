@@ -58,12 +58,12 @@
 
               {{-- Buku KIA Dropdown --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
                       data-bs-target="#buku-kia-admin-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-book"></i><span>Buku KIA</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
                   </a>
                   <ul id="buku-kia-admin-nav"
-                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
                       <li><a href="{{ route('buku-kia.index') }}"
                               class="{{ request()->routeIs('buku-kia.*') ? 'active' : '' }}"><i
@@ -77,34 +77,6 @@
                       <li><a href="{{ route('profil-suami.index') }}"
                               class="{{ request()->routeIs('profil-suami.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Profil Suami</span></a></li>
-                      <li class="nav-item">
-                          <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
-                              data-bs-target="#profil-anak-admin-nav" data-bs-toggle="collapse" href="#">
-                              <i class="bi bi-circle"></i><span>Profil Anak</span><i
-                                  class="bi bi-chevron-down ms-auto fs-5"></i>
-                          </a>
-                          <ul id="profil-anak-admin-nav"
-                              class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}">
-                              <li><a href="{{ route('profil-anak.index') }}"
-                                      class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Informasi Detail</span></a></li>
-                              <li><a href="{{ route('bayi-baru-lahir.index') }}"
-                                      class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
-                              <li><a href="{{ route('imunisasi-anak.index') }}"
-                                      class="{{ request()->routeIs('imunisasi-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Imunisasi</span></a></li>
-                              <li><a href="{{ route('tumbuh-kembang.index') }}"
-                                      class="{{ request()->routeIs('tumbuh-kembang.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Tumbuh Kembang</span></a></li>
-                              <li><a href="{{ route('perkembangan-sidtk.index') }}"
-                                      class="{{ request()->routeIs('perkembangan-sidtk.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>SIDTK</span></a></li>
-                              <li><a href="{{ route('mpasi.index') }}"
-                                      class="{{ request()->routeIs('mpasi.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>MPASI</span></a></li>
-                          </ul>
-                      </li>
                       <li><a href="{{ route('pembiayaan.index') }}"
                               class="{{ request()->routeIs('pembiayaan.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Pembiayaan</span></a></li>
@@ -117,6 +89,37 @@
                       <li><a href="{{ route('dokumen.index') }}"
                               class="{{ request()->routeIs('dokumen.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Dokumen Pasien</span></a></li>
+                  </ul>
+              </li>
+
+              {{-- Kesehatan Anak Dropdown --}}
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
+                      data-bs-target="#anak-admin-nav" data-bs-toggle="collapse" href="#">
+                      <i class="bi bi-emoji-smile"></i><span>Kesehatan Anak</span><i
+                          class="bi bi-chevron-down ms-auto fs-5"></i>
+                  </a>
+                  <ul id="anak-admin-nav"
+                      class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}"
+                      data-bs-parent="#sidebar-nav">
+                      <li><a href="{{ route('profil-anak.index') }}"
+                              class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Profil Anak</span></a></li>
+                      <li><a href="{{ route('bayi-baru-lahir.index') }}"
+                              class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
+                      <li><a href="{{ route('imunisasi-anak.index') }}"
+                              class="{{ request()->routeIs('imunisasi-anak.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Imunisasi Anak</span></a></li>
+                      <li><a href="{{ route('tumbuh-kembang.index') }}"
+                              class="{{ request()->routeIs('tumbuh-kembang.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Tumbuh Kembang</span></a></li>
+                      <li><a href="{{ route('perkembangan-sidtk.index') }}"
+                              class="{{ request()->routeIs('perkembangan-sidtk.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Perkembangan SIDTK</span></a></li>
+                      <li><a href="{{ route('mpasi.index') }}"
+                              class="{{ request()->routeIs('mpasi.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>MPASI</span></a></li>
                   </ul>
               </li>
 
@@ -197,6 +200,18 @@
                       <i class="bi bi-heart-pulse"></i><span>Monitoring Gizi Balita</span>
                   </a>
               </li>
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('laporan.kb-pasca-salin') ? '' : 'collapsed' }}"
+                      href="{{ route('laporan.kb-pasca-salin') }}">
+                      <i class="bi bi-hearts"></i><span>KB Pasca Salin</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('laporan.peta-sebaran') ? '' : 'collapsed' }}"
+                      href="{{ route('laporan.peta-sebaran') }}">
+                      <i class="bi bi-geo-alt"></i><span>Peta Sebaran Risiko</span>
+                  </a>
+              </li>
           @endif
 
           @if (in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'dinas kesehatan']))
@@ -231,6 +246,18 @@
                       <i class="bi bi-heart-pulse"></i><span>Monitoring Gizi Balita</span>
                   </a>
               </li>
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('laporan.kb-pasca-salin') ? '' : 'collapsed' }}"
+                      href="{{ route('laporan.kb-pasca-salin') }}">
+                      <i class="bi bi-hearts"></i><span>KB Pasca Salin</span>
+                  </a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link {{ request()->routeIs('laporan.peta-sebaran') ? '' : 'collapsed' }}"
+                      href="{{ route('laporan.peta-sebaran') }}">
+                      <i class="bi bi-geo-alt"></i><span>Peta Sebaran Risiko</span>
+                  </a>
+              </li>
           @endif
 
           @if (in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'nakes']))
@@ -238,12 +265,12 @@
 
               {{-- Buku KIA Dropdown --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
                       data-bs-target="#buku-kia-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-book"></i><span>Buku KIA</span><i class="bi bi-chevron-down ms-auto fs-5"></i>
                   </a>
                   <ul id="buku-kia-nav"
-                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
                       <li><a href="{{ route('buku-kia.index') }}"
                               class="{{ request()->routeIs('buku-kia.*') ? 'active' : '' }}"><i
@@ -257,34 +284,6 @@
                       <li><a href="{{ route('profil-suami.index') }}"
                               class="{{ request()->routeIs('profil-suami.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Suami</span></a></li>
-                      <li class="nav-item">
-                          <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
-                              data-bs-target="#profil-anak-nakes-nav" data-bs-toggle="collapse" href="#">
-                              <i class="bi bi-circle"></i><span>Profil Anak</span><i
-                                  class="bi bi-chevron-down ms-auto fs-5"></i>
-                          </a>
-                          <ul id="profil-anak-nakes-nav"
-                              class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}">
-                              <li><a href="{{ route('profil-anak.index') }}"
-                                      class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Informasi Detail</span></a></li>
-                              <li><a href="{{ route('bayi-baru-lahir.index') }}"
-                                      class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
-                              <li><a href="{{ route('imunisasi-anak.index') }}"
-                                      class="{{ request()->routeIs('imunisasi-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Imunisasi</span></a></li>
-                              <li><a href="{{ route('tumbuh-kembang.index') }}"
-                                      class="{{ request()->routeIs('tumbuh-kembang.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Tumbuh Kembang</span></a></li>
-                              <li><a href="{{ route('perkembangan-sidtk.index') }}"
-                                      class="{{ request()->routeIs('perkembangan-sidtk.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>SIDTK</span></a></li>
-                              <li><a href="{{ route('mpasi.index') }}"
-                                      class="{{ request()->routeIs('mpasi.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>MPASI</span></a></li>
-                          </ul>
-                      </li>
                       <li><a href="{{ route('pembiayaan.index') }}"
                               class="{{ request()->routeIs('pembiayaan.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Biaya</span></a></li>
@@ -302,34 +301,39 @@
 
               {{-- Pemeriksaan Ibu --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('hasil-lab-ibu.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('pencatatan-ttd.*') || request()->routeIs('persalinan.*') ? '' : 'collapsed' }}"
                       data-bs-target="#pemeriksaan-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-clipboard2-pulse"></i><span>Pemeriksaan Ibu</span><i
                           class="bi bi-chevron-down ms-auto"></i>
                   </a>
                   <ul id="pemeriksaan-nav"
-                      class="nav-content collapse {{ request()->routeIs('hasil-lab-ibu.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('pencatatan-ttd.*') || request()->routeIs('persalinan.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
                       <li><a href="{{ route('hasil-lab-ibu.index') }}"
                               class="{{ request()->routeIs('hasil-lab-ibu.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
-                      <li><a href="#" class="text-muted"><i class="bi bi-circle"></i><span>Pencatatan
-                                  TTD/MMS</span></a></li>
-                      <li><a href="#" class="text-muted"><i class="bi bi-circle"></i><span>Data
-                                  Persalinan</span></a></li>
+                      <li><a href="{{ route('pencatatan-ttd.index') }}"
+                              class="{{ request()->routeIs('pencatatan-ttd.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Pencatatan TTD/MMS</span></a></li>
+                      <li><a href="{{ route('persalinan.index') }}"
+                              class="{{ request()->routeIs('persalinan.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Data Persalinan</span></a></li>
                   </ul>
               </li>
 
               {{-- Kesehatan Anak --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
                       data-bs-target="#anak-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-emoji-heart-eyes"></i><span>Kesehatan Anak</span><i
                           class="bi bi-chevron-down ms-auto"></i>
                   </a>
                   <ul id="anak-nav"
-                      class="nav-content collapse {{ request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
+                      <li><a href="{{ route('profil-anak.index') }}"
+                              class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Profil Anak</span></a></li>
                       <li><a href="{{ route('bayi-baru-lahir.index') }}"
                               class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
@@ -354,13 +358,13 @@
 
               {{-- Buku KIA Saya Dropdown --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? '' : 'collapsed' }}"
                       data-bs-target="#buku-kia-ibu-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-journal-check"></i><span>Buku KIA Saya</span><i
                           class="bi bi-chevron-down ms-auto fs-5"></i>
                   </a>
                   <ul id="buku-kia-ibu-nav"
-                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('profil-anak.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('buku-kia.*') || request()->routeIs('kunjungan-anc.*') || request()->routeIs('profil-ibu.*') || request()->routeIs('profil-suami.*') || request()->routeIs('pembiayaan.*') || request()->routeIs('pemantauan-nifas.*') || request()->routeIs('kb-pasca-salin.*') || request()->routeIs('dokumen.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
                       <li><a href="{{ route('buku-kia.index') }}"
                               class="{{ request()->routeIs('buku-kia.*') ? 'active' : '' }}"><i
@@ -374,34 +378,6 @@
                       <li><a href="{{ route('profil-suami.index') }}"
                               class="{{ request()->routeIs('profil-suami.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Suami</span></a></li>
-                      <li class="nav-item">
-                          <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
-                              data-bs-target="#profil-anak-ibu-nav" data-bs-toggle="collapse" href="#">
-                              <i class="bi bi-circle"></i><span>Profil Anak</span><i
-                                  class="bi bi-chevron-down ms-auto fs-5"></i>
-                          </a>
-                          <ul id="profil-anak-ibu-nav"
-                              class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}">
-                              <li><a href="{{ route('profil-anak.index') }}"
-                                      class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Informasi Detail</span></a></li>
-                              <li><a href="{{ route('bayi-baru-lahir.index') }}"
-                                      class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
-                              <li><a href="{{ route('imunisasi-anak.index') }}"
-                                      class="{{ request()->routeIs('imunisasi-anak.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Imunisasi</span></a></li>
-                              <li><a href="{{ route('tumbuh-kembang.index') }}"
-                                      class="{{ request()->routeIs('tumbuh-kembang.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>Tumbuh Kembang</span></a></li>
-                              <li><a href="{{ route('perkembangan-sidtk.index') }}"
-                                      class="{{ request()->routeIs('perkembangan-sidtk.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>SIDTK</span></a></li>
-                              <li><a href="{{ route('mpasi.index') }}"
-                                      class="{{ request()->routeIs('mpasi.*') ? 'active' : '' }}"><i
-                                          class="bi bi-circle"></i><span>MPASI</span></a></li>
-                          </ul>
-                      </li>
                       <li><a href="{{ route('pembiayaan.index') }}"
                               class="{{ request()->routeIs('pembiayaan.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Biaya</span></a></li>
@@ -416,7 +392,7 @@
                                   class="bi bi-circle"></i><span>Dokumen</span></a></li>
                   </ul>
               </li>
-
+ 
               {{-- Fasilitas Kesehatan --}}
               <li class="nav-item">
                   <a class="nav-link {{ request()->routeIs('fasilitas-kesehatan.*') ? '' : 'collapsed' }}"
@@ -424,25 +400,42 @@
                       <i class="bi bi-hospital"></i><span>Fasilitas Kesehatan</span>
                   </a>
               </li>
-
-              {{-- Hasil Lab Ibu --}}
+ 
+              {{-- Pemeriksaan Ibu --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('hasil-lab-ibu.*') ? '' : 'collapsed' }}"
-                      href="{{ route('hasil-lab-ibu.index') }}">
-                      <i class="bi bi-clipboard2-pulse"></i><span>Hasil Lab Ibu</span>
+                  <a class="nav-link {{ request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('pencatatan-ttd.*') || request()->routeIs('persalinan.*') ? '' : 'collapsed' }}"
+                      data-bs-target="#pemeriksaan-ibu-nav" data-bs-toggle="collapse" href="#">
+                      <i class="bi bi-clipboard2-pulse"></i><span>Pemeriksaan Ibu</span><i
+                          class="bi bi-chevron-down ms-auto fs-5"></i>
                   </a>
+                  <ul id="pemeriksaan-ibu-nav"
+                      class="nav-content collapse {{ request()->routeIs('hasil-lab-ibu.*') || request()->routeIs('pencatatan-ttd.*') || request()->routeIs('persalinan.*') ? 'show' : '' }}"
+                      data-bs-parent="#sidebar-nav">
+                      <li><a href="{{ route('hasil-lab-ibu.index') }}"
+                              class="{{ request()->routeIs('hasil-lab-ibu.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Hasil Lab Ibu</span></a></li>
+                      <li><a href="{{ route('pencatatan-ttd.index') }}"
+                              class="{{ request()->routeIs('pencatatan-ttd.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Pencatatan TTD/MMS</span></a></li>
+                      <li><a href="{{ route('persalinan.index') }}"
+                              class="{{ request()->routeIs('persalinan.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Data Persalinan</span></a></li>
+                  </ul>
               </li>
 
               {{-- Kesehatan Anak --}}
               <li class="nav-item">
-                  <a class="nav-link {{ request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
+                  <a class="nav-link {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? '' : 'collapsed' }}"
                       data-bs-target="#anak-ibu-nav" data-bs-toggle="collapse" href="#">
                       <i class="bi bi-emoji-smile"></i><span>Kesehatan Anak</span><i
                           class="bi bi-chevron-down ms-auto fs-5"></i>
                   </a>
                   <ul id="anak-ibu-nav"
-                      class="nav-content collapse {{ request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}"
+                      class="nav-content collapse {{ request()->routeIs('profil-anak.*') || request()->routeIs('bayi-baru-lahir.*') || request()->routeIs('imunisasi-anak.*') || request()->routeIs('tumbuh-kembang.*') || request()->routeIs('perkembangan-sidtk.*') || request()->routeIs('mpasi.*') ? 'show' : '' }}"
                       data-bs-parent="#sidebar-nav">
+                      <li><a href="{{ route('profil-anak.index') }}"
+                              class="{{ request()->routeIs('profil-anak.*') ? 'active' : '' }}"><i
+                                  class="bi bi-circle"></i><span>Profil Anak</span></a></li>
                       <li><a href="{{ route('bayi-baru-lahir.index') }}"
                               class="{{ request()->routeIs('bayi-baru-lahir.*') ? 'active' : '' }}"><i
                                   class="bi bi-circle"></i><span>Bayi Baru Lahir</span></a></li>
@@ -470,6 +463,16 @@
                   <i class="bi bi-chat-dots"></i>
                   <span>Konsultasi Online</span>
                   <span id="konsultasi-unread-badge" class="badge bg-danger rounded-pill ms-auto d-none"
+                      style="font-size: 10px; padding: 3px 6px;">0</span>
+              </a>
+          </li>
+
+          <li class="nav-item">
+              <a class="nav-link {{ request()->routeIs('notifikasi.*') ? '' : 'collapsed' }}"
+                  href="{{ route('notifikasi.index') }}">
+                  <i class="bi bi-bell"></i>
+                  <span>Notifikasi</span>
+                  <span id="sidebar-notif-badge" class="badge bg-danger rounded-pill ms-auto d-none"
                       style="font-size: 10px; padding: 3px 6px;">0</span>
               </a>
           </li>

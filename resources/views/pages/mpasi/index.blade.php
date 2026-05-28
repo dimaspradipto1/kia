@@ -15,60 +15,76 @@
 
     <section class="section animate__animated animate__fadeIn">
         <div class="row">
-            {{-- Kartu Info Kiri --}}
-            <div class="col-lg-3 mb-4">
+            {{-- Banner Info Atas --}}
+            <div class="col-lg-12 mb-4">
+                @php
+                    $totalMpasi   = \App\Models\Mpasi::count();
+                    $bulanIni     = \App\Models\Mpasi::whereMonth('tanggal_mulai_mpasi', now()->month)
+                                                      ->whereYear('tanggal_mulai_mpasi', now()->year)->count();
+                    $jenisCount   = \App\Models\Mpasi::distinct('profil_anak_id')->count('profil_anak_id');
+                @endphp
                 <div class="card border-0 shadow-sm" style="border-radius:12px; background: linear-gradient(135deg, #F0FFF4 0%, #DCFCE7 100%);">
-                    <div class="card-body p-4 d-flex flex-column align-items-center text-center">
-                        <div class="d-flex align-items-center justify-content-center mb-3"
-                             style="width:80px; height:80px; border-radius:50%; background:white;">
-                            <i class="bi bi-egg-fried" style="font-size:2.5rem; color:#16a34a;"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">MPASI</h5>
-                        <p class="text-muted small mb-4">Makanan Pendamping ASI untuk bayi usia 6 bulan ke atas.</p>
-
-                        <a href="{{ route('mpasi.create') }}" class="btn w-100 text-white py-2 shadow-sm fw-bold"
-                           style="background: linear-gradient(135deg, #16a34a, #15803d); border-radius:30px; letter-spacing:0.5px;">
-                            <i class="bi bi-plus-circle-fill me-1"></i> CATAT MPASI
-                        </a>
-
-                        <hr class="w-100 my-3">
-
-                        @php
-                            $totalMpasi   = \App\Models\Mpasi::count();
-                            $bulanIni     = \App\Models\Mpasi::whereMonth('tanggal_mulai_mpasi', now()->month)
-                                                              ->whereYear('tanggal_mulai_mpasi', now()->year)->count();
-                            $jenisCount   = \App\Models\Mpasi::distinct('profil_anak_id')->count('profil_anak_id');
-                        @endphp
-
-                        <div class="w-100 text-start">
-                            <div class="d-flex align-items-center mb-2 p-2 rounded" style="background:rgba(22,163,74,.08);">
-                                <i class="bi bi-clipboard-data-fill text-success me-2"></i>
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <!-- Info Utama -->
+                            <div class="col-xl-5 col-lg-6 d-flex align-items-center gap-3 mb-3 mb-lg-0">
+                                <div class="d-flex align-items-center justify-content-center shadow-xs flex-shrink-0"
+                                     style="width:70px; height:70px; border-radius:50%; background:white;">
+                                    <i class="bi bi-egg-fried" style="font-size:2.2rem; color:#16a34a;"></i>
+                                </div>
                                 <div>
-                                    <div class="fw-semibold small text-dark">Total Catatan</div>
-                                    <div class="fw-bold fs-5 text-success">{{ $totalMpasi }}</div>
+                                    <h4 class="fw-bold text-dark mb-1">MPASI</h4>
+                                    <p class="text-muted small mb-0">Makanan Pendamping ASI untuk bayi usia 6 bulan ke atas.</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center mb-2 p-2 rounded" style="background:rgba(22,163,74,.08);">
-                                <i class="bi bi-people-fill text-primary me-2"></i>
-                                <div>
-                                    <div class="fw-semibold small text-dark">Anak Terpantau</div>
-                                    <div class="fw-bold fs-5 text-primary">{{ $jenisCount }}</div>
+                            
+                            <!-- Metrics Cards -->
+                            <div class="col-xl-5 col-lg-6 mb-3 mb-lg-0">
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(22,163,74,.08);">
+                                            <i class="bi bi-clipboard-data-fill text-success me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Total Catatan</div>
+                                                <div class="fw-bold fs-6 text-success mt-0.5">{{ $totalMpasi }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(22,163,74,.08);">
+                                            <i class="bi bi-people-fill text-primary me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Anak Terpantau</div>
+                                                <div class="fw-bold fs-6 text-primary mt-0.5">{{ $jenisCount }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(22,163,74,.08);">
+                                            <i class="bi bi-calendar-check-fill text-warning me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Mulai Bulan Ini</div>
+                                                <div class="fw-bold fs-6 text-warning mt-0.5">{{ $bulanIni }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center p-2 rounded" style="background:rgba(22,163,74,.08);">
-                                <i class="bi bi-calendar-check-fill text-warning me-2"></i>
-                                <div>
-                                    <div class="fw-semibold small text-dark">Mulai Bulan Ini</div>
-                                    <div class="fw-bold fs-5 text-warning">{{ $bulanIni }}</div>
-                                </div>
+
+                            <!-- Tombol Aksi -->
+                            <div class="col-xl-2 col-lg-12 text-xl-end mt-3 mt-xl-0">
+                                <a href="{{ route('mpasi.create') }}" class="btn text-white py-2.5 px-3 shadow-sm fw-bold w-100"
+                                   style="background: linear-gradient(135deg, #16a34a, #15803d); border-radius:30px; letter-spacing:0.5px; font-size: 0.85rem;">
+                                    <i class="bi bi-plus-circle-fill me-1"></i> CATAT MPASI
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Tabel Data Kanan --}}
-            <div class="col-lg-9 mb-4">
+            {{-- Tabel Data Bawah --}}
+            <div class="col-lg-12 mb-4">
                 <div class="card border-0 shadow-sm" style="border-radius:12px;">
                     <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 fw-bold text-dark">Data MPASI Anak</h5>
@@ -79,7 +95,7 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="table-responsive">
-                            {{ $dataTable->table(['class' => 'table table-hover align-middle table-custom-mpasi', 'style' => 'width:100%']) }}
+                            {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle table-custom-mpasi', 'style' => 'width:100%']) }}
                         </div>
                     </div>
                 </div>
@@ -88,6 +104,11 @@
     </section>
 
     <style>
+        .table-custom-mpasi.table-bordered,
+        .table-custom-mpasi.table-bordered th,
+        .table-custom-mpasi.table-bordered td {
+            border: 1px solid #DCFCE7 !important;
+        }
         .table-custom-mpasi thead th {
             background-color: #F0FFF4 !important;
             color: #16a34a !important;

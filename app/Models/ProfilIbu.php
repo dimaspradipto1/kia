@@ -18,6 +18,11 @@ class ProfilIbu extends Model
         return $this->belongsTo(FasilitasKesehatan::class, 'fasilitas_kesehatan_id');
     }
 
+    public function bukuKias()
+    {
+        return $this->hasMany(BukuKia::class, 'profil_ibu_id');
+    }
+
     public function pembiayaans()
     {
         return $this->hasMany(Pembiayaan::class, 'profil_ibu_id');

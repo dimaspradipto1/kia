@@ -31,7 +31,7 @@
                         @if ($profilAnak->bayiBaruLahir)
                             <div class="w-100 text-center">
                                 <span class="badge px-3 py-2 fw-semibold" style="background:linear-gradient(135deg,#0d6efd,#0a58ca); border-radius:20px; font-size:0.8rem;">
-                                    <i class="bi bi-baby me-1"></i> Data BBL Tercatat
+                                    <i class="bi bi-emoji-smile me-1"></i> Data BBL Tercatat
                                 </span>
                                 @php
                                     $kondisi = $profilAnak->bayiBaruLahir->kondisi_umum;
@@ -77,7 +77,7 @@
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-bbl">
-                                    <i class="bi bi-baby me-1"></i> Bayi Baru Lahir
+                                    <i class="bi bi-emoji-smile me-1"></i> Bayi Baru Lahir
                                     @if ($profilAnak->bayiBaruLahir)
                                         <span class="badge bg-primary ms-1" style="font-size:0.65rem;">✓</span>
                                     @else
@@ -107,7 +107,7 @@
                             </li>
                             <li class="nav-item">
                                 <button class="nav-link fw-bold" data-bs-toggle="tab" data-bs-target="#tab-sidtk">
-                                    <i class="bi bi-brain me-1"></i> SIDTK
+                                    <i class="bi bi-puzzle-fill me-1"></i> SIDTK
                                     @if ($profilAnak->perkembanganSidtks->count() > 0)
                                         <span class="badge ms-1 text-white" style="background:#7c3aed; font-size:0.65rem;">{{ $profilAnak->perkembanganSidtks->count() }}</span>
                                     @else
@@ -166,7 +166,7 @@
                                     {{-- Header Kondisi --}}
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <h5 class="card-title fw-bold mb-0">
-                                            <i class="bi bi-baby text-primary me-1"></i> Rekam Medis Bayi Baru Lahir
+                                            <i class="bi bi-emoji-smile-fill text-primary me-1"></i> Rekam Medis Bayi Baru Lahir
                                         </h5>
                                         <div class="d-flex gap-2">
                                             @php
@@ -296,7 +296,7 @@
                                     <div class="text-center py-5">
                                         <div class="d-flex align-items-center justify-content-center mb-3 mx-auto"
                                              style="width:80px;height:80px;border-radius:50%;background:#EFF6FF;">
-                                            <i class="bi bi-baby" style="font-size:2.2rem;color:#0d6efd;"></i>
+                                            <i class="bi bi-emoji-smile-fill" style="font-size:2.2rem;color:#0d6efd;"></i>
                                         </div>
                                         <h5 class="fw-bold text-dark mb-1">Data Bayi Baru Lahir Belum Ada</h5>
                                         <p class="text-muted mb-4">Belum ada data pemeriksaan bayi baru lahir yang dicatat untuk <strong>{{ $profilAnak->nama_lengkap }}</strong>.</p>
@@ -535,7 +535,7 @@
                             <div class="tab-pane fade" id="tab-sidtk">
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <h5 class="card-title fw-bold mb-0">
-                                        <i class="bi bi-brain me-1" style="color:#7c3aed;"></i> Riwayat Perkembangan SIDTK
+                                        <i class="bi bi-puzzle-fill me-1" style="color:#7c3aed;"></i> Riwayat Perkembangan SIDTK
                                     </h5>
                                     <a href="{{ route('perkembangan-sidtk.create', ['profil_anak_id' => $profilAnak->id]) }}"
                                        class="btn btn-sm text-white fw-semibold"
@@ -645,7 +645,7 @@
                                     <div class="text-center py-5">
                                         <div class="d-flex align-items-center justify-content-center mb-3 mx-auto"
                                              style="width:80px;height:80px;border-radius:50%;background:#F5F3FF;">
-                                            <i class="bi bi-brain" style="font-size:2.2rem;color:#7c3aed;"></i>
+                                            <i class="bi bi-puzzle-fill" style="font-size:2.2rem;color:#7c3aed;"></i>
                                         </div>
                                         <h5 class="fw-bold text-dark mb-1">Belum Ada Data SIDTK</h5>
                                         <p class="text-muted mb-4">Belum ada data skrining perkembangan untuk <strong>{{ $profilAnak->nama_lengkap }}</strong>.</p>

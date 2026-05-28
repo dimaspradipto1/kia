@@ -57,7 +57,7 @@
                 <div class="col-lg-7 mb-4">
                     <div class="card border-0 shadow-sm" style="border-radius:12px; border-top:5px solid #EC1E88 !important; height: 100%;">
                         <div class="card-header bg-white border-bottom py-3 px-4">
-                            <h5 class="m-0 fw-bold text-dark"><i class="bi bi-flask text-pink me-1"></i> Parameter & Hasil Laboratorium</h5>
+                            <h5 class="m-0 fw-bold text-dark"><i class="bi bi-droplet text-pink me-1"></i> Parameter & Hasil Laboratorium</h5>
                         </div>
                         <div class="card-body p-4">
                             @php

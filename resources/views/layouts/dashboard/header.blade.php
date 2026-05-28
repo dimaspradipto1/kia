@@ -25,33 +25,36 @@
           </a>
         </li><!-- End Search Icon-->
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" id="notif-nav-item">
 
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
-            <span id="header-notification-badge" class="badge bg-danger badge-number d-none">0</span>
-          </a><!-- End Notification Icon -->
+            <span id="header-notif-badge" class="badge bg-danger badge-number" style="display:none;">0</span>
+          </a>
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="header-notification-dropdown">
-            <li class="dropdown-header">
-              <span id="header-notification-text">Anda tidak memiliki notifikasi baru</span>
-              <a href="{{ route('konsultasi-online.index') }}"><span class="badge rounded-pill bg-primary p-2 ms-2">Buka</span></a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" style="min-width:340px;">
+            <li class="dropdown-header d-flex justify-content-between align-items-center">
+              <span id="header-notif-title" class="fw-semibold">Notifikasi</span>
+              <a href="{{ route('notifikasi.index') }}" class="badge rounded-pill bg-primary text-white p-2 ms-2 text-decoration-none" style="font-size:0.72rem;">Lihat Semua</a>
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+            <li><hr class="dropdown-divider m-0"></li>
 
-            <li id="header-notifications-list">
-              <div class="text-center py-4 text-muted small">
+            <li id="header-notif-list">
+              <div class="text-center py-4 text-muted small" id="header-notif-empty">
                 <i class="bi bi-bell-slash me-1"></i> Tidak ada notifikasi baru
               </div>
             </li>
 
+            <li><hr class="dropdown-divider m-0"></li>
             <li class="dropdown-footer">
-              <a href="{{ route('konsultasi-online.index') }}">Tampilkan Semua Konsultasi</a>
+              <form action="{{ route('notifikasi.mark-all-read') }}" method="POST">
+                @csrf @method('PATCH')
+                <button type="submit" class="btn btn-link btn-sm text-decoration-none p-0 w-100 text-center">
+                  <i class="bi bi-check2-all me-1"></i>Tandai Semua Dibaca
+                </button>
+              </form>
             </li>
-
-          </ul><!-- End Notification Dropdown Items -->
+          </ul>
 
         </li><!-- End Notification Nav -->
 

@@ -28,7 +28,7 @@
                         <i class="bi bi-info-circle me-2"></i>
                         Hanya <strong>1 data aktif</strong> yang ditampilkan di halaman Visi & Misi. Pastikan hanya satu record yang berstatus <strong>Aktif</strong>.
                     </div>
-                    {{ $dataTable->table(['class' => 'table table-hover align-middle']) }}
+                    {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle']) }}
                 </div>
             </div>
         </div>

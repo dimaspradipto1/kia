@@ -23,6 +23,9 @@ class HasilLabIbuDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('DT_RowIndex', '')
             ->addColumn('action', function ($row) {
+                if (auth()->user()->role->nama_role === 'ibu hamil') {
+                    return '-';
+                }
                 return '<div class="d-flex justify-content-center gap-1">
                     <a href="' . route('hasil-lab-ibu.edit', $row->id) . '" class="btn btn-warning btn-sm text-white" title="Edit">
                         <i class="bi bi-pencil-square"></i>
@@ -101,7 +104,15 @@ class HasilLabIbuDataTable extends DataTable
      */
     public function query(HasilLabIbu $model): QueryBuilder
     {
-        return $model->newQuery()->with(['kunjunganAnc.bukuKia.profilIbu', 'nakes'])->orderBy('tanggal_periksa', 'desc');
+        $query = $model->newQuery()->with(['kunjunganAnc.bukuKia.profilIbu', 'nakes']);
+
+        if (auth()->user()->role->nama_role === 'ibu hamil') {
+            $query->whereHas('kunjunganAnc.bukuKia.profilIbu', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        return $query->orderBy('tanggal_periksa', 'desc');
     }
 
     /**
@@ -130,7 +141,7 @@ class HasilLabIbuDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [
+        $cols = [
             Column::make('DT_RowIndex')->title('No')->width(50)->addClass('text-center'),
             Column::computed('ibu_hamil')->title('Ibu Hamil')->addClass('text-start'),
             Column::computed('anc_kunjungan')->title('Kunjungan ANC')->addClass('text-start'),
@@ -140,12 +151,17 @@ class HasilLabIbuDataTable extends DataTable
             Column::make('tanggal_periksa')->title('Tanggal Periksa')->addClass('text-start'),
             Column::computed('status_klinis')->title('Status')->addClass('text-center'),
             Column::computed('nakes')->title('Pemeriksa')->addClass('text-start'),
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(120)
-                  ->addClass('text-center'),
         ];
+
+        if (auth()->user()->role->nama_role !== 'ibu hamil') {
+            $cols[] = Column::computed('action')
+                      ->exportable(false)
+                      ->printable(false)
+                      ->width(120)
+                      ->addClass('text-center');
+        }
+
+        return $cols;
     }
 
     /**

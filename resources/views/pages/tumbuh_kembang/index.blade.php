@@ -15,53 +15,70 @@
 
     <section class="section animate__animated animate__fadeIn">
         <div class="row">
-            {{-- Kartu Info Kiri --}}
-            <div class="col-lg-3 mb-4">
+            {{-- Banner Info Atas --}}
+            <div class="col-lg-12 mb-4">
                 <div class="card border-0 shadow-sm" style="border-radius:12px; background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%);">
-                    <div class="card-body p-4 d-flex flex-column align-items-center text-center">
-                        <div class="d-flex align-items-center justify-content-center mb-3"
-                             style="width:80px; height:80px; border-radius:50%; background:white;">
-                            <i class="bi bi-bar-chart-line-fill" style="font-size:2.5rem; color:#ea580c;"></i>
-                        </div>
-                        <h5 class="fw-bold text-dark mb-1">Tumbuh Kembang</h5>
-                        <p class="text-muted small mb-4">Pantau berat badan, tinggi badan, dan status gizi anak secara berkala.</p>
-
-                        <a href="{{ route('tumbuh-kembang.create') }}" class="btn w-100 text-white py-2 shadow-sm fw-bold"
-                           style="background: linear-gradient(135deg, #ea580c, #c2410c); border-radius:30px; letter-spacing:0.5px;">
-                            <i class="bi bi-plus-circle-fill me-1"></i> CATAT PENGUKURAN
-                        </a>
-
-                        <hr class="w-100 my-3">
-
-                        <div class="w-100 text-start">
-                            <div class="d-flex align-items-center mb-2 p-2 rounded" style="background:rgba(234,88,12,.08);">
-                                <i class="bi bi-clipboard-data-fill text-warning me-2"></i>
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <!-- Info Utama -->
+                            <div class="col-xl-5 col-lg-6 d-flex align-items-center gap-3 mb-3 mb-lg-0">
+                                <div class="d-flex align-items-center justify-content-center shadow-xs flex-shrink-0"
+                                     style="width:70px; height:70px; border-radius:50%; background:white;">
+                                    <i class="bi bi-bar-chart-line-fill" style="font-size:2.2rem; color:#ea580c;"></i>
+                                </div>
                                 <div>
-                                    <div class="fw-semibold small text-dark">Total Pengukuran</div>
-                                    <div class="fw-bold fs-5" style="color:#ea580c;">{{ \App\Models\TumbuhKembang::count() }}</div>
+                                    <h4 class="fw-bold text-dark mb-1">Tumbuh Kembang</h4>
+                                    <p class="text-muted small mb-0">Pantau berat badan, tinggi badan, dan status gizi anak secara berkala.</p>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center mb-2 p-2 rounded" style="background:rgba(234,88,12,.08);">
-                                <i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>
-                                <div>
-                                    <div class="fw-semibold small text-dark">Stunting</div>
-                                    <div class="fw-bold fs-5 text-danger">{{ \App\Models\TumbuhKembang::where('status_stunting', 'like', '%Stunting%')->count() }}</div>
+                            
+                            <!-- Metrics Cards -->
+                            <div class="col-xl-5 col-lg-6 mb-3 mb-lg-0">
+                                <div class="row g-2">
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(234,88,12,.08);">
+                                            <i class="bi bi-clipboard-data-fill text-warning me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Total Pengukuran</div>
+                                                <div class="fw-bold fs-6 mt-0.5" style="color:#ea580c;">{{ \App\Models\TumbuhKembang::count() }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(234,88,12,.08);">
+                                            <i class="bi bi-exclamation-triangle-fill text-danger me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Stunting</div>
+                                                <div class="fw-bold fs-6 text-danger mt-0.5">{{ \App\Models\TumbuhKembang::where('status_stunting', 'like', '%Stunting%')->count() }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="d-flex align-items-center p-2 rounded h-100" style="background:rgba(234,88,12,.08);">
+                                            <i class="bi bi-calendar-check-fill text-success me-2 fs-5 d-none d-sm-inline"></i>
+                                            <div>
+                                                <div class="fw-semibold text-dark" style="font-size: 0.7rem; line-height: 1.1;">Bulan Ini</div>
+                                                <div class="fw-bold fs-6 text-success mt-0.5">{{ \App\Models\TumbuhKembang::whereMonth('tanggal_ukur', now()->month)->whereYear('tanggal_ukur', now()->year)->count() }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center p-2 rounded" style="background:rgba(234,88,12,.08);">
-                                <i class="bi bi-calendar-check-fill text-success me-2"></i>
-                                <div>
-                                    <div class="fw-semibold small text-dark">Bulan Ini</div>
-                                    <div class="fw-bold fs-5 text-success">{{ \App\Models\TumbuhKembang::whereMonth('tanggal_ukur', now()->month)->whereYear('tanggal_ukur', now()->year)->count() }}</div>
-                                </div>
+
+                            <!-- Tombol Aksi -->
+                            <div class="col-xl-2 col-lg-12 text-xl-end mt-3 mt-xl-0">
+                                <a href="{{ route('tumbuh-kembang.create') }}" class="btn text-white py-2.5 px-3 shadow-sm fw-bold w-100"
+                                   style="background: linear-gradient(135deg, #ea580c, #c2410c); border-radius:30px; letter-spacing:0.5px; font-size: 0.85rem;">
+                                    <i class="bi bi-plus-circle-fill me-1"></i> CATAT UKUR
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Tabel Data Kanan --}}
-            <div class="col-lg-9 mb-4">
+            {{-- Tabel Data Bawah --}}
+            <div class="col-lg-12 mb-4">
                 <div class="card border-0 shadow-sm" style="border-radius:12px;">
                     <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 fw-bold text-dark">Data Pengukuran Tumbuh Kembang</h5>
@@ -72,7 +89,7 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="table-responsive">
-                            {{ $dataTable->table(['class' => 'table table-hover align-middle table-custom-tk', 'style' => 'width:100%']) }}
+                            {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle table-custom-tk', 'style' => 'width:100%']) }}
                         </div>
                     </div>
                 </div>
@@ -81,6 +98,11 @@
     </section>
 
     <style>
+        .table-custom-tk.table-bordered,
+        .table-custom-tk.table-bordered th,
+        .table-custom-tk.table-bordered td {
+            border: 1px solid #FED7AA !important;
+        }
         .table-custom-tk thead th {
             background-color: #FFF7ED !important;
             color: #ea580c !important;

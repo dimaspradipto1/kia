@@ -79,4 +79,14 @@ class BukuKia extends Model
     {
         return $this->hasMany(KunjunganAnc::class, 'buku_kia_id');
     }
+
+    public function pencatatanTtds()
+    {
+        return $this->hasMany(PencatatanTtd::class, 'buku_kia_id');
+    }
+
+    public function persalinans()
+    {
+        return $this->hasMany(Persalinan::class, 'buku_kia_id');
+    }
 }

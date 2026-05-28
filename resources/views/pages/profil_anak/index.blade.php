@@ -23,7 +23,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            {{ $dataTable->table(['class' => 'table table-hover w-100', 'id' => 'profilanak-table']) }}
+                            {{ $dataTable->table(['class' => 'table table-hover table-bordered w-100', 'id' => 'profilanak-table']) }}
                         </div>
                     </div>
                 </div>

@@ -26,6 +26,7 @@ class LaporanKiaExport implements WithMultipleSheets
             new Sheets\RekapGiziBalitaSheet($this->tahun, $this->bulan),
             new Sheets\RekapTtdSheet($this->tahun, $this->bulan),
             new Sheets\IndikatorKematianSheet($this->tahun, $this->bulan),
+            new Sheets\KbPascaSalinSheet($this->tahun, $this->bulan),
             new Sheets\RekapBukuKiaSheet($this->tahun, $this->bulan),
         ];
     }

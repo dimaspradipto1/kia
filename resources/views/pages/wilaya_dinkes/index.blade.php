@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="table-responsive">
-                            {!! $dataTable->table(['class' => 'table table-hover table-striped w-100']) !!}
+                            {!! $dataTable->table(['class' => 'table table-hover table-striped table-bordered w-100']) !!}
                         </div>
                     </div>
                 </div>

@@ -15,27 +15,34 @@
 
     <section class="section animate__animated animate__fadeIn">
         <div class="row">
-            {{-- Kapsul Navigasi Kiri --}}
-            <div class="col-lg-3 mb-4">
+            {{-- Banner Info Atas --}}
+            <div class="col-lg-12 mb-4">
                 <div class="card border-0 shadow-sm" style="border-radius:12px; background: linear-gradient(135deg, #FFF0F5 0%, #FFE4E1 100%);">
-                    <div class="card-body p-4 d-flex flex-column align-items-center text-center">
-                        <div class="d-flex align-items-center justify-content-center mb-3 shadow-xs"
-                             style="width:80px; height:80px; border-radius:50%; background:white;">
-                            <i class="bi bi-clipboard2-pulse-fill" style="font-size:2.5rem; color:#EC1E88;"></i>
+                    <div class="card-body p-4">
+                        <div class="row align-items-center">
+                            <div class="col-md-8 d-flex align-items-center gap-3">
+                                <div class="d-flex align-items-center justify-content-center shadow-xs flex-shrink-0"
+                                     style="width:70px; height:70px; border-radius:50%; background:white;">
+                                    <i class="bi bi-clipboard2-pulse-fill" style="font-size:2.2rem; color:#EC1E88;"></i>
+                                </div>
+                                <div>
+                                    <h4 class="fw-bold text-dark mb-1">Pemeriksaan ANC</h4>
+                                    <p class="text-muted small mb-0">Catat pemeriksaan rutin ibu hamil (Trimester 1, 2, dan 3) secara berkala.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                <a href="{{ route('kunjungan-anc.create') }}" class="btn text-white py-2.5 px-4 shadow-sm fw-bold"
+                                   style="background-color:#EC1E88; border-radius:30px; letter-spacing: 0.5px;">
+                                    <i class="bi bi-plus-circle-fill me-1.5"></i> CATAT KUNJUNGAN
+                                </a>
+                            </div>
                         </div>
-                        <h5 class="fw-bold text-dark mb-1">Pemeriksaan ANC</h5>
-                        <p class="text-muted small mb-4">Catat pemeriksaan rutin ibu hamil (Trimester 1, 2, dan 3) secara berkala.</p>
-                        
-                        <a href="{{ route('kunjungan-anc.create') }}" class="btn w-100 text-white py-2.5 shadow-sm fw-bold"
-                           style="background-color:#EC1E88; border-radius:30px; letter-spacing: 0.5px;">
-                            <i class="bi bi-plus-circle-fill me-1.5"></i> CATAT KUNJUNGAN
-                        </a>
                     </div>
                 </div>
             </div>
 
-            {{-- Tabel Data Kanan --}}
-            <div class="col-lg-9 mb-4">
+            {{-- Tabel Data Bawah --}}
+            <div class="col-lg-12 mb-4">
                 <div class="card border-0 shadow-sm" style="border-radius:12px;">
                     <div class="card-header bg-white border-bottom py-3 px-4 d-flex justify-content-between align-items-center">
                         <h5 class="m-0 fw-bold text-dark">Data Pemeriksaan ANC</h5>
@@ -45,7 +52,7 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="table-responsive">
-                            {{ $dataTable->table(['class' => 'table table-hover align-middle table-custom-anc', 'style' => 'width:100%']) }}
+                            {{ $dataTable->table(['class' => 'table table-hover table-bordered align-middle table-custom-anc', 'style' => 'width:100%']) }}
                         </div>
                     </div>
                 </div>
@@ -61,6 +68,11 @@
             border-color: #fce4f1 !important;
         }
         /* Custom Premium Table Styling */
+        .table-custom-anc.table-bordered,
+        .table-custom-anc.table-bordered th,
+        .table-custom-anc.table-bordered td {
+            border: 1px solid #fce4f1 !important;
+        }
         .table-custom-anc thead th {
             background-color: #FFF0F5 !important;
             color: #EC1E88 !important;

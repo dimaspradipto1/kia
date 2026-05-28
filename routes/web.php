@@ -34,6 +34,9 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\VisiMisiController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\LayananIntroController;
+use App\Http\Controllers\PencatatanTtdController;
+use App\Http\Controllers\PersalinanController;
+use App\Http\Controllers\NotifikasiController;
 
 Route::get('/', [HomepageController::class,'index'])->name('homepage');
 Route::get('/about', [HomepageController::class,'about'])->name('homepage.about');
@@ -65,6 +68,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('faqs', FaqController::class);
+    Route::patch('fasilitas-kesehatan/{fasilitasKesehatan}/koordinat', [FasilitasKesehatanController::class, 'saveKoordinat'])->name('fasilitas-kesehatan.koordinat');
     Route::resource('fasilitas-kesehatan', FasilitasKesehatanController::class)->parameters(['fasilitas-kesehatan' => 'fasilitasKesehatan']);
     Route::resource('profil-ibu', ProfilIbuController::class)->parameters(['profil-ibu' => 'profilIbu']);
     Route::resource('profil-suami', ProfilSuamiController::class)->parameters(['profil-suami' => 'profilSuami']);
@@ -83,6 +87,15 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('tumbuh-kembang', TumbuhKembangController::class)->parameters(['tumbuh-kembang' => 'tumbuhKembang']);
     Route::resource('perkembangan-sidtk', PerkembanganSidtkController::class)->parameters(['perkembangan-sidtk' => 'perkembanganSidtk']);
     Route::resource('mpasi', MpasiController::class);
+    Route::resource('pencatatan-ttd', PencatatanTtdController::class)->parameters(['pencatatan-ttd' => 'pencatatanTtd']);
+    Route::resource('persalinan', PersalinanController::class);
+
+    // Notifikasi
+    Route::get('notifikasi/unread-count', [NotifikasiController::class, 'unreadCount'])->name('notifikasi.unread-count');
+    Route::patch('notifikasi/{id}/read', [NotifikasiController::class, 'markRead'])->name('notifikasi.mark-read');
+    Route::patch('notifikasi/mark-all-read', [NotifikasiController::class, 'markAllRead'])->name('notifikasi.mark-all-read');
+    Route::delete('notifikasi/{id}', [NotifikasiController::class, 'destroy'])->name('notifikasi.destroy');
+    Route::get('notifikasi', [NotifikasiController::class, 'index'])->name('notifikasi.index');
     Route::get('konsultasi-online/check-updates', [KonsultasiOnlineController::class, 'checkUpdates'])->name('konsultasi-online.check-updates');
     Route::get('konsultasi-online/{konsultasiOnline}/messages', [KonsultasiOnlineController::class, 'fetchMessages'])->name('konsultasi-online.messages');
     Route::post('konsultasi-online/{konsultasiOnline}/reply', [KonsultasiOnlineController::class, 'reply'])->name('konsultasi-online.reply');
@@ -113,5 +126,9 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::get('/laporan/monitoring-buku-kia', [LaporanController::class, 'monitoringBukuKia'])->name('laporan.monitoring-buku-kia');
     Route::get('/laporan/monitoring-imunisasi', [LaporanController::class, 'monitoringImunisasi'])->name('laporan.monitoring-imunisasi');
     Route::get('/laporan/monitoring-gizi-balita', [LaporanController::class, 'monitoringGiziBalita'])->name('laporan.monitoring-gizi-balita');
+    Route::get('/laporan/kb-pasca-salin', [LaporanController::class, 'monitoringKbPascaSalin'])->name('laporan.kb-pasca-salin');
+    Route::get('/laporan/peta-sebaran', [LaporanController::class, 'petaSebaran'])->name('laporan.peta-sebaran');
     Route::get('/laporan/export-excel', [LaporanController::class, 'exportExcel'])->name('laporan.export-excel');
+    Route::get('/laporan/export-pdf', [LaporanController::class, 'exportPdf'])->name('laporan.export-pdf');
+    Route::get('/laporan/export-siga', [LaporanController::class, 'exportSiga'])->name('laporan.export-siga');
 }); 
