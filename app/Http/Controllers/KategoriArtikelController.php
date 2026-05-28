@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\KategoriArtikelDataTable;
 use App\Models\KategoriArtikel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class KategoriArtikelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(KategoriArtikelDataTable $dataTable)
     {
-        //
+        return $dataTable->render('pages.kategori_artikel.index');
     }
 
     /**
@@ -20,7 +23,7 @@ class KategoriArtikelController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.kategori_artikel.create');
     }
 
     /**
@@ -28,7 +31,17 @@ class KategoriArtikelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'nama'      => 'required|string|max:255|unique:kategori_artikels,nama',
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $data['slug'] = Str::slug($data['nama']);
+
+        KategoriArtikel::create($data);
+
+        Alert::success('Berhasil', 'Kategori artikel berhasil ditambahkan.');
+        return redirect()->route('kategori-artikel.index');
     }
 
     /**
@@ -36,7 +49,8 @@ class KategoriArtikelController extends Controller
      */
     public function show(KategoriArtikel $kategoriArtikel)
     {
-        //
+        $kategoriArtikel->loadCount('artikels');
+        return view('pages.kategori_artikel.show', compact('kategoriArtikel'));
     }
 
     /**
@@ -44,7 +58,7 @@ class KategoriArtikelController extends Controller
      */
     public function edit(KategoriArtikel $kategoriArtikel)
     {
-        //
+        return view('pages.kategori_artikel.edit', compact('kategoriArtikel'));
     }
 
     /**
@@ -52,7 +66,17 @@ class KategoriArtikelController extends Controller
      */
     public function update(Request $request, KategoriArtikel $kategoriArtikel)
     {
-        //
+        $data = $request->validate([
+            'nama'      => 'required|string|max:255|unique:kategori_artikels,nama,' . $kategoriArtikel->id,
+            'deskripsi' => 'nullable|string',
+        ]);
+
+        $data['slug'] = Str::slug($data['nama']);
+
+        $kategoriArtikel->update($data);
+
+        Alert::success('Berhasil', 'Kategori artikel berhasil diperbarui.');
+        return redirect()->route('kategori-artikel.index');
     }
 
     /**
@@ -60,6 +84,9 @@ class KategoriArtikelController extends Controller
      */
     public function destroy(KategoriArtikel $kategoriArtikel)
     {
-        //
+        $kategoriArtikel->delete();
+
+        Alert::success('Berhasil', 'Kategori artikel berhasil dihapus.');
+        return redirect()->route('kategori-artikel.index');
     }
 }

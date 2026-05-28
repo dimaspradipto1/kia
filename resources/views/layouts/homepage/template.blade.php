@@ -1239,7 +1239,7 @@
                     <div class="ve-footer-brand">
                         <a href="{{ route('homepage') }}" class="ve-footer-logo d-flex align-items-center mb-4">
                             <img src="{{ asset('assets/img/logo.png') }}" alt="Logo" style="height: 50px;" class="me-2">
-                            <span class="ve-logo-text" style="font-size: 1.5rem; font-weight: 700; color: #fff;">Buku <strong>KIA</strong></span>
+                            <span class="ve-logo-text" style="font-size: 1.5rem; font-weight: 700; color: #fff;">MY <strong>KIA</strong></span>
                         </a>
                         <p>Pendamping terpercaya dalam menjaga kesehatan Ibu dan Anak dengan informasi medis terkini dan layanan penuh kasih.</p>
                         <div class="ve-social">

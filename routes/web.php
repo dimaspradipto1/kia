@@ -89,6 +89,7 @@ Route::middleware(['auth', 'checkrole'])->group(function () {
     Route::resource('konsultasi-online', KonsultasiOnlineController::class)->parameters(['konsultasi-online' => 'konsultasiOnline']);
 
     // Manajemen Homepage
+    Route::post('artikel-edukasi/upload-image', [ArtikelEdukasiController::class, 'uploadImage'])->name('artikel-edukasi.upload-image');
     Route::resource('artikel-edukasi', ArtikelEdukasiController::class)->parameters(['artikel-edukasi' => 'artikelEdukasi']);
     Route::resource('kategori-artikel', KategoriArtikelController::class)->parameters(['kategori-artikel' => 'kategoriArtikel']);
     Route::resource('contacts', ContactController::class);

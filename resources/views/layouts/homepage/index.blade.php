@@ -77,10 +77,10 @@
                     <div>
                         <div class="icon-circle"><i class="fa fa-child"></i></div>
                         <h4 class="sora fw-bold mb-3">1000 HPK</h4>
-                        <p>Fase krusial yang menentukan kualitas hidup anak selamanya. Pastikan nutrisi optimal hari demi hari.</p>
-                    </div>
-                    <div class="mt-5 d-none d-lg-block">
-                        <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=400" class="w-100 rounded-4" style="height: 150px; object-fit: cover;">
+                        <p class="mb-4">Fase krusial yang menentukan kualitas hidup anak selamanya. Pastikan nutrisi optimal hari demi hari.</p>
+                        <div class="d-none d-lg-block">
+                            <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&q=80&w=400" class="w-100 rounded-4" style="height: 150px; object-fit: cover;">
+                        </div>
                     </div>
                 </div>
                 <div class="bento-card wide">
@@ -163,43 +163,114 @@
 
     <!-- ===== FASKES & LAYANAN (LIGHT & COOL) ===== -->
     <section id="layanan" class="section-gap">
+        <style>
+            .faskes-card-light {
+                background: #FFFFFF !important;
+                border-radius: 20px !important;
+                padding: 20px !important;
+                border: 1px solid #e2e8f0 !important;
+                box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03) !important;
+                transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+            .faskes-card-light:hover {
+                border-color: var(--brand-p) !important;
+                transform: translateY(-5px) !important;
+                box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08) !important;
+            }
+            .faskes-card-light iframe {
+                width: 100% !important;
+                height: 100% !important;
+                border: 0;
+            }
+            .icon-circle-s {
+                width: 44px !important;
+                height: 44px !important;
+                margin-bottom: 15px !important;
+                border-radius: 12px !important;
+                font-size: 1.1rem !important;
+            }
+            .faskes-card-light h3 {
+                font-size: 1.25rem !important;
+                line-height: 1.4 !important;
+            }
+            .faskes-card-wrapper {
+                margin-bottom: 30px !important;
+            }
+        </style>
         <div class="container-tight">
-            <div class="text-center mb-5">
+            <div class="text-center mb-4">
                 <span class="badge-pill">Jejaring Kesehatan</span>
                 <h2 class="hero-title-main" style="font-size: 3.5rem;">Layanan Faskes <br><span style="color: var(--brand-s);">Dekat Dengan Anda.</span></h2>
             </div>
 
-            <div class="row g-4">
-                <div class="col-lg-7">
-                    <div class="faskes-card-light">
-                        <div class="position-relative rounded-4 overflow-hidden mb-4" style="height: 300px;">
-                            <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200" class="w-100 h-100 object-fit-cover">
-                        </div>
-                        <div class="icon-circle-s"><i class="fa fa-map-marker"></i></div>
-                        <h3 class="sora fw-bold mb-3">Puskesmas Standar Internasional</h3>
-                        <p class="text-muted">Fasilitas kesehatan primer dengan peralatan medis modern dan tenaga ahli untuk pelayanan KIA terbaik.</p>
-                        <div class="mt-4">
-                            <a href="#" class="btn-s">Cek Lokasi Terdekat</a>
-                        </div>
+            <!-- Faskes Search Bar -->
+            <div class="row justify-content-center mb-5">
+                <div class="col-md-7 col-11">
+                    <div class="position-relative shadow-sm" style="border-radius: 30px; overflow: hidden; border: 1px solid #e2e8f0; background: #fff; transition: all 0.3s ease;">
+                        <span class="position-absolute" style="left: 20px; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.15rem;">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        <input type="text" id="faskes-search" class="form-control border-0 py-3" placeholder="Cari berdasarkan nama faskes, jenis (Klinik/Puskesmas/RS), daerah/kecamatan..." style="padding-left: 50px; padding-right: 20px; font-size: 0.95rem; border-radius: 30px; outline: none; box-shadow: none; height: 54px;">
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="faskes-card-light" style="background: #F0FDFA; border-color: #CCFBF1;">
-                        <div class="icon-circle-s" style="background: #fff;"><i class="fa fa-hospital-o"></i></div>
-                        <h3 class="sora fw-bold mb-3">RS Umum Daerah</h3>
-                        <p class="text-muted">Rujukan utama untuk penanganan medis tingkat lanjut bagi ibu dan anak dengan fasilitas rawat inap lengkap.</p>
-                        <div class="mt-auto">
-                            <div class="p-4 bg-white rounded-4 border border-info border-opacity-10 d-flex align-items-center mb-4">
-                                <div class="me-3"><i class="fa fa-bed text-info fs-3"></i></div>
-                                <div>
-                                    <span class="d-block small text-muted">Ketersediaan Bed</span>
-                                    <strong class="text-dark">12 Bed Tersedia</strong>
+            </div>
+
+            <div class="row g-4 justify-content-center" id="faskes-list-row">
+                @forelse($faskes as $index => $item)
+                    <div class="faskes-card-wrapper col-lg-4 col-md-6 col-12 mb-4" 
+                         data-search="{{ strtolower($item->nama_faskes . ' ' . $item->jenis . ' ' . $item->kecamatan . ' ' . $item->alamat) }}">
+                        <div class="faskes-card-light h-100 d-flex flex-column">
+                            @if($item->embed_map)
+                                <div class="position-relative rounded-3 overflow-hidden mb-3 shadow-sm border" style="height: 180px;">
+                                    {!! $item->embed_map !!}
                                 </div>
+                            @else
+                                <div class="position-relative rounded-3 overflow-hidden mb-3 bg-light d-flex align-items-center justify-content-center border" style="height: 180px;">
+                                    <i class="fa fa-hospital-o fs-1 text-muted opacity-50"></i>
+                                </div>
+                            @endif
+                            <div class="icon-circle-s"><i class="fa {{ $item->jenis == 'Rumah Sakit' ? 'fa-hospital-o' : 'fa-map-marker' }}"></i></div>
+                            <h3 class="sora fw-bold mb-2">{{ $item->nama_faskes }}</h3>
+                            <span class="badge bg-light text-dark align-self-start mb-3" style="font-size: 0.75rem; border: 1px solid #e2e8f0; border-radius: 20px; padding: 4px 10px;">
+                                {{ $item->jenis }} · {{ $item->kecamatan }}
+                            </span>
+                            <p class="text-muted small mb-4" style="line-height: 1.5; font-size: 0.85rem;">
+                                <i class="fa fa-map-marker me-1 text-danger"></i> {{ $item->alamat }}
+                                <br>
+                                <i class="fa fa-clock-o me-1 text-primary"></i> Operasional: {{ $item->jam_operasional }}
+                            </p>
+                            <div class="mt-auto pt-3 border-top d-flex gap-2">
+                                @if($item->telepon)
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $item->telepon) }}" target="_blank" class="btn btn-sm text-white px-3 py-2 flex-grow-1" style="background-color: #10B981; border-radius: 20px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.8rem;">
+                                        <i class="fa fa-whatsapp"></i> Hubungi WhatsApp
+                                    </a>
+                                    <a href="tel:{{ $item->telepon }}" class="btn btn-sm btn-outline-secondary px-3 py-2" style="border-radius: 20px; font-size: 0.8rem;" title="Telepon Langsung">
+                                        <i class="fa fa-phone"></i>
+                                    </a>
+                                @else
+                                    <span class="text-muted small">Hubungi admin untuk info kontak</span>
+                                @endif
                             </div>
-                            <a href="#" class="btn-p w-100 justify-content-center">Pesan Kamar</a>
                         </div>
                     </div>
+                @empty
+                    <div class="col-12 text-center py-5 text-muted">
+                        <i class="fa fa-hospital-o fs-1 d-block mb-3" style="color: #cbd5e1;"></i>
+                        Belum ada data fasilitas kesehatan yang aktif.
+                    </div>
+                @endforelse
+                <div id="faskes-empty-msg" class="col-12 text-center py-5 text-muted d-none">
+                    <i class="fa fa-hospital-o fs-1 d-block mb-3" style="color: #cbd5e1;"></i>
+                    Tidak ada fasilitas kesehatan yang cocok dengan pencarian Anda.
                 </div>
+            </div>
+
+            <!-- Faskes Pagination -->
+            <div id="faskes-pagination-container" class="d-flex justify-content-center align-items-center gap-2 mt-5">
+                <!-- Pagination buttons will be generated by JavaScript -->
             </div>
         </div>
     </section>
@@ -509,7 +580,7 @@
                     <p>Dapatkan konsultasi gratis 30 menit dengan bidan atau ahli gizi kami hari ini.</p>
                 </div>
                 <div class="col-12 col-lg-4 text-lg-right">
-                    <a href="contact.html" class="ve-btn-white">Hubungi Kami Sekarang</a>
+                    <a href="{{ route('homepage.contact') }}" class="ve-btn-white">Hubungi Kami Sekarang</a>
                 </div>
             </div>
         </div>
@@ -524,48 +595,30 @@
                 <p>Tetap terinformasi dengan tips ahli, analisis kesehatan, dan panduan praktis untuk Ibu & Anak.</p>
             </div>
             <div class="row">
-                <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="100ms">
-                    <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
-                        <div class="ve-insight-body">
-                            <span class="ve-insight-cat">Kehamilan</span>
-                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => '5-tips-menjaga-nutrisi-selama-trimester-pertama']) }}">5 Tips Menjaga Nutrisi Selama Trimester Pertama</a></h5>
-                            <p>Pelajari asupan makanan penting yang dibutuhkan janin Anda di awal masa kehamilan.</p>
-                            <div class="ve-insight-meta">
-                                <span><i class="fa fa-calendar"></i> April 26</span>
-                                <a href="{{ route('homepage.artikel.show', ['slug' => '5-tips-menjaga-nutrisi-selama-trimester-pertama']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                @forelse($latestArticles as $index => $article)
+                    @php
+                        $delay = 100 + ($index * 150);
+                    @endphp
+                    <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="{{ $delay }}ms">
+                        <div class="ve-insight-card">
+                            <div class="ve-insight-img bg-img" style="background-image:url({{ $article->gambar ? $article->gambar_url : asset('homepage/img/mother_baby_hero.png') }});"></div>
+                            <div class="ve-insight-body">
+                                <span class="ve-insight-cat">{{ $article->kategoriArtikel ? $article->kategoriArtikel->nama : 'Umum' }}</span>
+                                <h5><a href="{{ route('homepage.artikel.show', $article->slug) }}">{{ Str::limit($article->judul, 55) }}</a></h5>
+                                <p>{{ Str::limit(strip_tags($article->isi), 90) }}</p>
+                                <div class="ve-insight-meta">
+                                    <span><i class="fa fa-calendar"></i> {{ $article->diterbitkan_pada ? $article->diterbitkan_pada->format('d M') : 'Baru' }}</span>
+                                    <a href="{{ route('homepage.artikel.show', $article->slug) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="250ms">
-                    <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/pediatrician_accent.png') }});"></div>
-                        <div class="ve-insight-body">
-                            <span class="ve-insight-cat">Imunisasi</span>
-                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => 'pentingnya-imunisasi-dasar-lengkap-bagi-bayi']) }}">Pentingnya Imunisasi Dasar Lengkap Bagi Bayi</a></h5>
-                            <p>Kenali jenis-jenis imunisasi yang wajib diberikan untuk melindungi buah hati dari penyakit berbahaya.</p>
-                            <div class="ve-insight-meta">
-                                <span><i class="fa fa-calendar"></i> April 20</span>
-                                <a href="{{ route('homepage.artikel.show', ['slug' => 'pentingnya-imunisasi-dasar-lengkap-bagi-bayi']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
-                            </div>
-                        </div>
+                @empty
+                    <div class="col-12 text-center py-5 text-muted">
+                        <i class="fa fa-newspaper-o fs-1 d-block mb-3" style="color: #cbd5e1;"></i>
+                        Belum ada artikel edukasi terbaru yang dipublikasikan.
                     </div>
-                </div>
-                <div class="col-12 col-md-4 wow fadeInUp" data-wow-delay="400ms">
-                    <div class="ve-insight-card">
-                        <div class="ve-insight-img bg-img" style="background-image:url({{ asset('homepage/img/mother_baby_hero.png') }});"></div>
-                        <div class="ve-insight-body">
-                            <span class="ve-insight-cat">Parenting</span>
-                            <h5><a href="{{ route('homepage.artikel.show', ['slug' => 'membangun-ikatan-batin-sejak-anak-dalam-kandungan']) }}">Membangun Ikatan Batin Sejak Anak dalam Kandungan</a></h5>
-                            <p>Cara-cara sederhana namun efektif untuk mulai berkomunikasi dengan calon buah hati Anda.</p>
-                            <div class="ve-insight-meta">
-                                <span><i class="fa fa-calendar"></i> April 14</span>
-                                <a href="{{ route('homepage.artikel.show', ['slug' => 'membangun-ikatan-batin-sejak-anak-dalam-kandungan']) }}">Baca Selengkapnya <i class="fa fa-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
             <div class="text-center mt-5 wow fadeInUp" data-wow-delay="500ms">
                 <a href="{{ route('homepage.artikel') }}" class="ve-btn ve-btn-primary">
@@ -659,5 +712,140 @@
                 this.reset();
             });
         });
+
+        // ── Instant Faskes Search & Pagination ─────────────────────
+        const faskesSearch = document.getElementById('faskes-search');
+        const cards = Array.from(document.querySelectorAll('.faskes-card-wrapper'));
+        const itemsPerPage = 6;
+        let currentPage = 1;
+
+        function updateFaskesView() {
+            const query = faskesSearch ? faskesSearch.value.toLowerCase().trim() : '';
+            
+            // 1. Filter cards by search query
+            const filteredCards = cards.filter(card => {
+                const searchData = card.getAttribute('data-search') || '';
+                return searchData.includes(query);
+            });
+
+            // 2. Hide all cards initially
+            cards.forEach(card => card.classList.add('d-none'));
+
+            // 3. Paginate filtered cards
+            const totalItems = filteredCards.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            if (currentPage > totalPages) {
+                currentPage = Math.max(1, totalPages);
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            // Show current page items
+            const activePageCards = filteredCards.slice(startIndex, endIndex);
+            activePageCards.forEach(card => card.classList.remove('d-none'));
+
+            // 4. Render empty state message
+            const emptyMsg = document.getElementById('faskes-empty-msg');
+            if (emptyMsg) {
+                if (totalItems === 0) {
+                    emptyMsg.classList.remove('d-none');
+                } else {
+                    emptyMsg.classList.add('d-none');
+                }
+            }
+
+            // 5. Render pagination buttons
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            const paginationContainer = document.getElementById('faskes-pagination-container');
+            if (!paginationContainer) return;
+
+            paginationContainer.innerHTML = '';
+
+            // Hide pagination if totalPages <= 1
+            if (totalPages <= 1) {
+                return;
+            }
+
+            // Prev Button
+            const prevButton = document.createElement('button');
+            prevButton.className = 'btn btn-sm btn-outline-secondary';
+            prevButton.style.borderRadius = '50%';
+            prevButton.style.width = '36px';
+            prevButton.style.height = '36px';
+            prevButton.style.padding = '0';
+            prevButton.innerHTML = '<i class="fa fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateFaskesView();
+                    scrollToFaskes();
+                }
+            });
+            paginationContainer.appendChild(prevButton);
+
+            // Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.className = i === currentPage ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-outline-secondary';
+                pageButton.style.borderRadius = '50%';
+                pageButton.style.width = '36px';
+                pageButton.style.height = '36px';
+                pageButton.style.padding = '0';
+                pageButton.style.fontWeight = '600';
+                if (i === currentPage) {
+                    pageButton.style.backgroundColor = '#EC1E88';
+                    pageButton.style.borderColor = '#EC1E88';
+                }
+                pageButton.innerText = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    updateFaskesView();
+                    scrollToFaskes();
+                });
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Next Button
+            const nextButton = document.createElement('button');
+            nextButton.className = 'btn btn-sm btn-outline-secondary';
+            nextButton.style.borderRadius = '50%';
+            nextButton.style.width = '36px';
+            nextButton.style.height = '36px';
+            nextButton.style.padding = '0';
+            nextButton.innerHTML = '<i class="fa fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateFaskesView();
+                    scrollToFaskes();
+                }
+            });
+            paginationContainer.appendChild(nextButton);
+        }
+
+        function scrollToFaskes() {
+            const section = document.getElementById('layanan');
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Event listeners
+        if (faskesSearch) {
+            faskesSearch.addEventListener('input', function () {
+                currentPage = 1; // reset to page 1 on new search
+                updateFaskesView();
+            });
+        }
+
+        // Initialize on load
+        updateFaskesView();
     </script>
 @endsection
