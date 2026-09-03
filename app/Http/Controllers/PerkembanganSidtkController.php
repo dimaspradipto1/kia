@@ -20,7 +20,7 @@ class PerkembanganSidtkController extends Controller
     public function create(Request $request)
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
         $domains     = PerkembanganSidtk::DOMAINS;
         $hasilOptions   = PerkembanganSidtk::HASIL;
         $tindakLanjuts  = PerkembanganSidtk::TINDAK_LANJUT;
@@ -52,7 +52,7 @@ class PerkembanganSidtkController extends Controller
     public function edit(PerkembanganSidtk $perkembanganSidtk)
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
         $domains     = PerkembanganSidtk::DOMAINS;
         $hasilOptions   = PerkembanganSidtk::HASIL;
         $tindakLanjuts  = PerkembanganSidtk::TINDAK_LANJUT;

@@ -23,8 +23,8 @@ class KonsultasiOnlineRequest extends FormRequest
     {
         $userRole = auth()->user()->role->nama_role;
 
-        // If the request is from a Nakes responding to the query
-        if (in_array($userRole, ['nakes', 'administrator']) && $this->has('respons')) {
+        // If the request is from a Nakes/Kader responding to the query
+        if (in_array(strtolower($userRole), ['nakes', 'administrator', 'kader posyandu', 'kader']) && $this->has('respons')) {
             return [
                 'respons' => 'required|string|min:5',
                 'status'  => 'required|in:accepted,rejected',

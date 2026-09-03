@@ -20,7 +20,7 @@ class MpasiController extends Controller
     public function create(Request $request)
     {
         $profilAnaks   = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes         = User::where('roles_id', 3)->get();
+        $nakes         = User::whereIn('roles_id', [3, 5])->get();
         $jenisMpasi    = Mpasi::JENIS_MPASI;
         $frekuensiList = Mpasi::FREKUENSI;
         $teksturList   = Mpasi::TEKSTUR;
@@ -53,7 +53,7 @@ class MpasiController extends Controller
     public function edit(Mpasi $mpasi)
     {
         $profilAnaks   = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes         = User::where('roles_id', 3)->get();
+        $nakes         = User::whereIn('roles_id', [3, 5])->get();
         $jenisMpasi    = Mpasi::JENIS_MPASI;
         $frekuensiList = Mpasi::FREKUENSI;
         $teksturList   = Mpasi::TEKSTUR;

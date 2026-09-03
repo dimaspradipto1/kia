@@ -28,9 +28,9 @@ class KbPascaSalinController extends Controller
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
         
-        // Filter users with 'nakes' role
+        // Filter users with 'nakes' or 'kader posyandu' role
         $nakes = User::whereHas('role', function ($q) {
-            $q->where('nama_role', 'nakes');
+            $q->whereIn('nama_role', ['nakes', 'kader posyandu', 'Kader Posyandu']);
         })->get();
 
         $faskes = FasilitasKesehatan::all();
@@ -74,8 +74,9 @@ class KbPascaSalinController extends Controller
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
         
+        // Filter users with 'nakes' or 'kader posyandu' role
         $nakes = User::whereHas('role', function ($q) {
-            $q->where('nama_role', 'nakes');
+            $q->whereIn('nama_role', ['nakes', 'kader posyandu', 'Kader Posyandu']);
         })->get();
 
         $faskes = FasilitasKesehatan::all();

@@ -34,7 +34,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
             Alert::success('Berhasil Masuk', 'Selamat datang kembali, ' . $user->name);
 
-            return redirect()->intended('/dashboard');
+            return redirect()->route('dashboard');
         }
 
         Alert::error('Gagal Masuk', 'Email atau password salah.');
@@ -78,9 +78,11 @@ class LoginController extends Controller
         return redirect()->intended('/dashboard');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         Alert::success('Berhasil Keluar', 'Anda telah keluar dari sistem.');
         return redirect()->route('login');
     }

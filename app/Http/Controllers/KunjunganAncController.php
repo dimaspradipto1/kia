@@ -21,7 +21,7 @@ class KunjunganAncController extends Controller
     public function create(Request $request)
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
         $faskes = FasilitasKesehatan::all();
         $selectedBukuKiaId = $request->query('buku_kia_id');
 
@@ -60,7 +60,7 @@ class KunjunganAncController extends Controller
     public function edit(KunjunganAnc $kunjunganAnc)
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
         $faskes = FasilitasKesehatan::all();
 
         return view('pages.kunjungan_anc.edit', compact('kunjunganAnc', 'bukuKias', 'nakes', 'faskes'));

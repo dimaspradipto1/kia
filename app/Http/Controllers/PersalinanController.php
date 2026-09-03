@@ -28,7 +28,7 @@ class PersalinanController extends Controller
         $bukuKias = BukuKia::with('profilIbu')->get();
         $faskes = FasilitasKesehatan::all();
         // Fetch only Users that have a nakes role (role_id = 3)
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
         $selectedBukuKiaId = $request->query('buku_kia_id');
 
         return view('pages.persalinan.create', compact('bukuKias', 'faskes', 'nakes', 'selectedBukuKiaId'));
@@ -76,7 +76,7 @@ class PersalinanController extends Controller
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
         $faskes = FasilitasKesehatan::all();
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
 
         return view('pages.persalinan.edit', compact('persalinan', 'bukuKias', 'faskes', 'nakes'));
     }

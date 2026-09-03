@@ -35,7 +35,7 @@ class ImunisasiAnakController extends Controller
     {
         $profilAnaks  = ProfilAnak::with('bukuKia.profilIbu')->get();
         $faskes       = FasilitasKesehatan::all();
-        $nakes        = User::where('roles_id', 3)->get();
+        $nakes        = User::whereIn('roles_id', [3, 5])->get();
         $jenisOptions = self::JENIS_IMUNISASI;
         $selectedProfilAnakId = $request->query('profil_anak_id');
 
@@ -80,7 +80,7 @@ class ImunisasiAnakController extends Controller
     {
         $profilAnaks  = ProfilAnak::with('bukuKia.profilIbu')->get();
         $faskes       = FasilitasKesehatan::all();
-        $nakes        = User::where('roles_id', 3)->get();
+        $nakes        = User::whereIn('roles_id', [3, 5])->get();
         $jenisOptions = self::JENIS_IMUNISASI;
 
         return view('pages.imunisasi_anak.edit', compact(

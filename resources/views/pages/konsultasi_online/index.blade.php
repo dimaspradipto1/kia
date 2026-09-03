@@ -221,7 +221,7 @@
                                     NIK: {{ optional($konsultasiOnline->user->profilIbu)->nik ?? '-' }}
                                 </span>
                                 
-                                @if(in_array(auth()->user()->role->nama_role, ['administrator', 'nakes']) || (auth()->user()->role->nama_role === 'ibu hamil' && $konsultasiOnline->status === 'pending'))
+                                @if(in_array(strtolower(auth()->user()->role->nama_role ?? ''), ['administrator', 'nakes', 'kader posyandu', 'kader']) || (strtolower(auth()->user()->role->nama_role ?? '') === 'ibu hamil' && $konsultasiOnline->status === 'pending'))
                                     <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2 px-md-3 py-1 btn-delete shadow-xs fw-bold small d-flex align-items-center" data-id="{{ $konsultasiOnline->id }}">
                                         <i class="bi bi-trash"></i> <span class="d-none d-md-inline ms-1">Hapus</span>
                                     </button>

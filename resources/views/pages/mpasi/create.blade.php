@@ -50,8 +50,8 @@
                                         data-placeholder="Pilih Nakes" required>
                                     <option value=""></option>
                                     @foreach ($nakes as $n)
-                                        <option value="{{ $n->id }}" {{ old('nakes_id', Auth::user()->roles_id == 3 ? Auth::id() : '') == $n->id ? 'selected' : '' }}>
-                                            {{ $n->name }}
+                                        <option value="{{ $n->id }}" {{ old('nakes_id', in_array(Auth::user()->roles_id, [3, 5]) ? Auth::id() : '') == $n->id ? 'selected' : '' }}>
+                                            {{ $n->name }} ({{ $n->role->nama_role ?? 'Petugas' }})
                                         </option>
                                     @endforeach
                                 </select>

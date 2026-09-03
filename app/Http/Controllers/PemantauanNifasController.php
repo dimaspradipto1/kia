@@ -20,7 +20,7 @@ class PemantauanNifasController extends Controller
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
         // Fetch only Users that have a nakes role (role_id = 3)
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
         $selectedBukuKiaId = $request->query('buku_kia_id');
         
         return view('pages.pemantauan_nifas.create', compact('bukuKias', 'nakes', 'selectedBukuKiaId'));
@@ -52,7 +52,7 @@ class PemantauanNifasController extends Controller
     public function edit(PemantauanNifas $pemantauanNifas)
     {
         $bukuKias = BukuKia::with('profilIbu')->get();
-        $nakes = User::where('roles_id', 3)->get();
+        $nakes = User::whereIn('roles_id', [3, 5])->get();
         return view('pages.pemantauan_nifas.edit', compact('pemantauanNifas', 'bukuKias', 'nakes'));
     }
 

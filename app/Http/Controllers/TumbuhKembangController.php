@@ -34,7 +34,7 @@ class TumbuhKembangController extends Controller
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
         $faskes      = FasilitasKesehatan::all();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
         $statusGizi  = self::STATUS_GIZI;
         $statusTb    = self::STATUS_TB;
         $statusStunting = self::STATUS_STUNTING;
@@ -75,7 +75,7 @@ class TumbuhKembangController extends Controller
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
         $faskes      = FasilitasKesehatan::all();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
         $statusGizi  = self::STATUS_GIZI;
         $statusTb    = self::STATUS_TB;
         $statusStunting = self::STATUS_STUNTING;

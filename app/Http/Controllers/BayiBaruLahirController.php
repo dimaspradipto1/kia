@@ -26,7 +26,7 @@ class BayiBaruLahirController extends Controller
     public function create(Request $request)
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
         $selectedProfilAnakId = $request->query('profil_anak_id');
 
         return view('pages.bayi_baru_lahir.create', compact('profilAnaks', 'nakes', 'selectedProfilAnakId'));
@@ -67,7 +67,7 @@ class BayiBaruLahirController extends Controller
     public function edit(BayiBaruLahir $bayiBaruLahir)
     {
         $profilAnaks = ProfilAnak::with('bukuKia.profilIbu')->get();
-        $nakes       = User::where('roles_id', 3)->get();
+        $nakes       = User::whereIn('roles_id', [3, 5])->get();
 
         return view('pages.bayi_baru_lahir.edit', compact('bayiBaruLahir', 'profilAnaks', 'nakes'));
     }

@@ -105,7 +105,7 @@ class KonsultasiOnlineController extends Controller
                 }
             }
             $chatListQuery->where('user_id', $user->id);
-        } elseif ($user->role->nama_role === 'nakes' && $user->fasilitas_kesehatan_id) {
+        } elseif (in_array(strtolower($user->role->nama_role ?? ''), ['nakes', 'kader posyandu', 'kader']) && $user->fasilitas_kesehatan_id) {
             $chatListQuery->where('fasilitas_kesehatan_id', $user->fasilitas_kesehatan_id);
         }
         
@@ -207,8 +207,8 @@ class KonsultasiOnlineController extends Controller
         $user = auth()->user();
         $userRole = $user->role->nama_role;
 
-        // Bidan/Nakes/Admin editing is actually writing the medical response
-        if (in_array($userRole, ['nakes', 'administrator'])) {
+        // Bidan/Nakes/Kader/Admin editing is actually writing the medical response
+        if (in_array(strtolower($userRole), ['nakes', 'administrator', 'kader posyandu', 'kader'])) {
             $konsultasiOnline->load(['user.profilIbu', 'fasilitasKesehatan']);
             return view('pages.konsultasi_online.respond', compact('konsultasiOnline'));
         }
@@ -238,8 +238,8 @@ class KonsultasiOnlineController extends Controller
         $user = auth()->user();
         $userRole = $user->role->nama_role;
 
-        // Bidan/Nakes responding to the query
-        if (in_array($userRole, ['nakes', 'administrator'])) {
+        // Bidan/Nakes/Kader responding to the query
+        if (in_array(strtolower($userRole), ['nakes', 'administrator', 'kader posyandu', 'kader'])) {
             $konsultasiOnline->update([
                 'respons'        => $request->respons,
                 'direspons_oleh' => $user->name,
@@ -308,7 +308,7 @@ class KonsultasiOnlineController extends Controller
         ]);
 
         // 2. Automatically update compatibility cache on main table and set status
-        if (in_array($userRole, ['nakes', 'administrator'])) {
+        if (in_array(strtolower($userRole), ['nakes', 'administrator', 'kader posyandu', 'kader'])) {
             $konsultasiOnline->update([
                 'respons'        => $request->message,
                 'direspons_oleh' => $user->name,
@@ -369,9 +369,9 @@ class KonsultasiOnlineController extends Controller
             $q->orderBy('id', 'desc');
         }, 'user', 'fasilitasKesehatan']);
 
-        if ($user->role->nama_role === 'ibu hamil') {
+        if (strtolower($user->role->nama_role ?? '') === 'ibu hamil') {
             $query->where('user_id', $user->id);
-        } elseif ($user->role->nama_role === 'nakes' && $user->fasilitas_kesehatan_id) {
+        } elseif (in_array(strtolower($user->role->nama_role ?? ''), ['nakes', 'kader posyandu', 'kader']) && $user->fasilitas_kesehatan_id) {
             $query->where('fasilitas_kesehatan_id', $user->fasilitas_kesehatan_id);
         }
 
@@ -414,7 +414,7 @@ class KonsultasiOnlineController extends Controller
             return response()->json(['success' => false, 'message' => 'Akses ditolak.'], 403);
         }
 
-        if ($user->role->nama_role === 'nakes' && $user->fasilitas_kesehatan_id && $konsultasiOnline->fasilitas_kesehatan_id !== $user->fasilitas_kesehatan_id) {
+        if (in_array(strtolower($user->role->nama_role ?? ''), ['nakes', 'kader posyandu', 'kader']) && $user->fasilitas_kesehatan_id && $konsultasiOnline->fasilitas_kesehatan_id !== $user->fasilitas_kesehatan_id) {
             return response()->json(['success' => false, 'message' => 'Akses ditolak.'], 403);
         }
 

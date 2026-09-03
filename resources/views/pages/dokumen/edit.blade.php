@@ -61,7 +61,7 @@
                                 </div>
                             </div>
 
-                            @if(Auth::user()->role->nama_role == 'nakes' || Auth::user()->role->nama_role == 'administrator')
+                            @if(in_array(strtolower(Auth::user()->role->nama_role ?? ''), ['nakes', 'administrator', 'kader posyandu', 'kader']))
                             <hr>
                             <div class="row mb-3">
                                 <div class="col-md-12">

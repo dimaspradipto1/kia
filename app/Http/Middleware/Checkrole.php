@@ -22,8 +22,8 @@ class Checkrole
 
         $user = Auth::user();
 
-        // Pastikan relasi role ada dan ambil nama_role (gunakan lowercase untuk pengecekan)
-        $userRole = $user->role ? strtolower($user->role->nama_role) : null;
+        // Pastikan relasi role ada dan ambil nama_role (gunakan lowercase dan trim untuk pengecekan)
+        $userRole = $user->role ? trim(strtolower($user->role->nama_role)) : null;
 
         $allowedRoles = ['admin', 'administrator', 'dinas kesehatan', 'nakes', 'ibu hamil', 'pengguna', 'kader posyandu', 'kader'];
 

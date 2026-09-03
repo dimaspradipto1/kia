@@ -410,7 +410,7 @@
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="d-flex gap-1 justify-content-center">
-                                                                @if((Auth::user()->role->nama_role == 'nakes' || Auth::user()->role->nama_role == 'administrator') && $dok->status_verifikasi == 'pending')
+                                                                @if(in_array(strtolower(Auth::user()->role->nama_role ?? ''), ['nakes', 'administrator', 'kader posyandu', 'kader']) && $dok->status_verifikasi == 'pending')
                                                                     <button type="button" class="btn btn-sm btn-success btn-update-status" data-id="{{ $dok->id }}" data-status="verified" title="Verifikasi"><i class="bi bi-check-lg"></i></button>
                                                                     <button type="button" class="btn btn-sm btn-outline-danger btn-update-status" data-id="{{ $dok->id }}" data-status="rejected" title="Tolak"><i class="bi bi-x-lg"></i></button>
                                                                 @endif

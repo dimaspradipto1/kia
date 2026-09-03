@@ -6,9 +6,10 @@
     $chatListQuery = \App\Models\KonsultasiOnline::with(['user.profilIbu', 'fasilitasKesehatan'])->orderBy('updated_at', 'desc');
     
     // Filter consultations based on roles
-    if ($user->role->nama_role === 'ibu hamil') {
+    $roleNameLower = strtolower($user->role->nama_role ?? '');
+    if ($roleNameLower === 'ibu hamil') {
         $chatListQuery->where('user_id', $user->id);
-    } elseif ($user->role->nama_role === 'nakes' && $user->fasilitas_kesehatan_id) {
+    } elseif (in_array($roleNameLower, ['nakes', 'kader posyandu', 'kader']) && $user->fasilitas_kesehatan_id) {
         $chatListQuery->where('fasilitas_kesehatan_id', $user->fasilitas_kesehatan_id);
     }
     
@@ -140,7 +141,7 @@
                             <span class="badge text-secondary bg-white border border-light-subtle rounded-pill px-3 py-1fw-bold small shadow-xs">
                                 NIK: {{ optional($konsultasiOnline->user->profilIbu)->nik ?? '-' }}
                             </span>
-                            @if(in_array($user->role->nama_role, ['nakes', 'administrator']) && $konsultasiOnline->status !== 'pending')
+                            @if(in_array(strtolower($user->role->nama_role ?? ''), ['nakes', 'administrator', 'kader posyandu', 'kader']) && $konsultasiOnline->status !== 'pending')
                                 <a href="{{ route('konsultasi-online.edit', $konsultasiOnline->id) }}" class="btn btn-sm btn-outline-warning rounded-pill bg-white px-3 shadow-xs small" title="Ubah Tanggapan Medis">
                                     <i class="bi bi-pencil-square me-1"></i> Ubah Tanggapan
                                 </a>
@@ -211,8 +212,8 @@
                     <!-- Immersive WhatsApp-Style Footer Input -->
                     <div class="p-3 border-top d-flex align-items-center" style="background-color: #f0f2f5; height: 75px; z-index: 10;">
                         
-                        <!-- 1. IF CURRENT USER IS NAKES AND STATUS IS PENDING: ACTIVE TEXT INPUT FORM -->
-                        @if(in_array($user->role->nama_role, ['nakes', 'administrator']) && $konsultasiOnline->status === 'pending')
+                        <!-- 1. IF CURRENT USER IS NAKES/KADER AND STATUS IS PENDING: ACTIVE TEXT INPUT FORM -->
+                        @if(in_array(strtolower($user->role->nama_role ?? ''), ['nakes', 'administrator', 'kader posyandu', 'kader']) && $konsultasiOnline->status === 'pending')
                             <form action="{{ route('konsultasi-online.update', $konsultasiOnline->id) }}" method="POST" class="w-100 d-flex align-items-center gap-2 m-0">
                                 @csrf
                                 @method('PUT')
