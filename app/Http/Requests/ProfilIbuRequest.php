@@ -28,6 +28,7 @@ class ProfilIbuRequest extends FormRequest
             'fasilitas_kesehatan_id' => 'required|exists:fasilitas_kesehatans,id',
             'nik' => 'required|numeric|digits:16|unique:profil_ibus,nik,' . $profilIbuId,
             'nama_lengkap' => 'required|string|max:255',
+            'nama_ibu_kandung' => 'nullable|string|max:255',
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'golongan_darah' => 'nullable|string|max:5',

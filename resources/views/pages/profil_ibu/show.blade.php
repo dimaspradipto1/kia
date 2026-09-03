@@ -48,6 +48,11 @@
                             </div>
 
                             <div class="row mb-3">
+                                <div class="col-lg-3 col-md-4 label fw-bold text-muted">Nama Ibu Kandung</div>
+                                <div class="col-lg-9 col-md-8">{{ $profilIbu->nama_ibu_kandung ?? '-' }}</div>
+                            </div>
+
+                            <div class="row mb-3">
                                 <div class="col-lg-3 col-md-4 label fw-bold text-muted">Golongan Darah</div>
                                 <div class="col-lg-9 col-md-8"><span class="badge bg-danger px-3">{{ $profilIbu->golongan_darah ?? '-' }}</span></div>
                             </div>

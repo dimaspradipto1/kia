@@ -45,7 +45,7 @@ class DashboardController extends Controller
             $data['total_buku_kia'] = BukuKia::count();
             $data['recent_activities'] = BukuKia::with(['profilIbu', 'fasilitasKesehatan'])->latest()->take(5)->get();
             
-        } elseif ($roleName === 'nakes') {
+        } elseif ($roleName === 'nakes' || $roleName === 'kader posyandu' || $roleName === 'kader') {
             $faskesId = $user->fasilitas_kesehatan_id;
             if ($faskesId) {
                 $data['total_ibu'] = ProfilIbu::where('fasilitas_kesehatan_id', $faskesId)->count();

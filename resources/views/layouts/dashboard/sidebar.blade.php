@@ -260,8 +260,11 @@
               </li>
           @endif
 
-          @if (in_array(optional(Auth::user()->role)->nama_role, ['administrator', 'nakes']))
-              <li class="nav-heading">Tenaga Kesehatan</li>
+          @php
+              $sidebarRole = strtolower(optional(Auth::user()->role)->nama_role ?? '');
+          @endphp
+          @if (in_array($sidebarRole, ['administrator', 'nakes', 'kader posyandu', 'kader']))
+              <li class="nav-heading">{{ in_array($sidebarRole, ['kader posyandu', 'kader']) ? 'Kader Posyandu' : 'Tenaga Kesehatan' }}</li>
 
               {{-- Buku KIA Dropdown --}}
               <li class="nav-item">

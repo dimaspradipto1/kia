@@ -187,9 +187,10 @@
         const selectedOption = rolesSelect.options[rolesSelect.selectedIndex];
         if (!selectedOption) return;
         
-        const roleName = selectedOption.getAttribute('data-name');
+        const roleName = (selectedOption.getAttribute('data-name') || '').toLowerCase();
+        const isNakesOrKader = ['nakes', 'tenaga kesehatan', 'kader posyandu', 'kader'].includes(roleName);
         
-        if (roleName === 'nakes' || roleName === 'tenaga kesehatan') {
+        if (isNakesOrKader) {
             nakesField1.classList.remove('d-none');
             nakesField2.classList.remove('d-none');
             dinkesSelect.setAttribute('required', 'required');

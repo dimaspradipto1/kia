@@ -186,6 +186,7 @@
                                         <tbody>
                                             <tr><th class="w-40">NIK</th><td>{{ $ibu->nik }}</td></tr>
                                             <tr><th>Nama Lengkap</th><td>{{ $ibu->nama_lengkap }}</td></tr>
+                                            <tr><th>Nama Ibu Kandung</th><td>{{ $ibu->nama_ibu_kandung ?? '-' }}</td></tr>
                                             <tr><th>Tempat Lahir</th><td>{{ $ibu->tempat_lahir }}</td></tr>
                                             <tr><th>Tanggal Lahir</th><td>{{ $ibu->tanggal_lahir ? \Carbon\Carbon::parse($ibu->tanggal_lahir)->translatedFormat('d F Y') : '-' }}</td></tr>
                                             <tr><th>Golongan Darah</th><td><span class="badge bg-danger fs-7 px-2.5">{{ $ibu->golongan_darah ?? '-' }}</span></td></tr>

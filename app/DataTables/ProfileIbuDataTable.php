@@ -42,6 +42,9 @@ class ProfileIbuDataTable extends DataTable
             ->addColumn('faskes_name', function($row) {
                 return $row->fasilitasKesehatan->nama_faskes ?? '-';
             })
+            ->editColumn('nama_ibu_kandung', function($row) {
+                return $row->nama_ibu_kandung ?? '-';
+            })
             ->editColumn('tanggal_lahir', function($row) {
                 return $row->tanggal_lahir ? \Carbon\Carbon::parse($row->tanggal_lahir)->translatedFormat('d F Y') : '-';
             })
@@ -57,10 +60,26 @@ class ProfileIbuDataTable extends DataTable
     {
         $query = $model->newQuery()->with(['user', 'fasilitasKesehatan']);
 
+        /** @var \App\Models\User $authUser */
+        $authUser = \Illuminate\Support\Facades\Auth::user();
+        $userRole = strtolower($authUser->role->nama_role ?? '');
+
         // Ibu hamil (roles_id = 4) hanya melihat datanya sendiri
-        $authUser = auth()->user();
-        if ($authUser->roles_id == 4) {
+        if ($authUser->roles_id == 4 || $userRole === 'ibu hamil') {
             $query->where('user_id', $authUser->id);
+        }
+
+        // Kader Posyandu hanya melihat daftar ibu hamil sesuai lokasi dimana kader posyandu terdaftar (Faskes / Wilayah)
+        if (in_array($userRole, ['kader posyandu', 'kader'])) {
+            if ($authUser->fasilitas_kesehatan_id) {
+                $query->where('fasilitas_kesehatan_id', $authUser->fasilitas_kesehatan_id);
+            } elseif ($authUser->wilaya_dinkes_id) {
+                $query->whereHas('fasilitasKesehatan', function ($q) use ($authUser) {
+                    $q->where('wilayah_id', $authUser->wilaya_dinkes_id);
+                });
+            } else {
+                $query->whereRaw('1 = 0');
+            }
         }
 
         return $query;
@@ -96,6 +115,7 @@ class ProfileIbuDataTable extends DataTable
             Column::make('DT_RowIndex')->title('No')->width(50)->addClass('text-center'),
             Column::make('nik')->title('NIK')->addClass('text-start'),
             Column::make('nama_lengkap')->title('Nama Lengkap'),
+            Column::make('nama_ibu_kandung')->title('Nama Ibu Kandung'),
             Column::make('tempat_lahir')->title('Tempat Lahir'),
             Column::make('tanggal_lahir')->title('Tgl Lahir'),
             Column::computed('faskes_name')->title('Faskes'),

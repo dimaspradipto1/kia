@@ -118,7 +118,7 @@
                 <div class="card welcome-banner admin-gradient p-4 text-white">
             @elseif($role === 'dinas kesehatan')
                 <div class="card welcome-banner dinkes-gradient p-4 text-white">
-            @elseif($role === 'nakes')
+            @elseif($role === 'nakes' || $role === 'kader posyandu' || $role === 'kader')
                 <div class="card welcome-banner nakes-gradient p-4 text-white">
             @elseif($role === 'ibu hamil')
                 <div class="card welcome-banner maternal-gradient p-4 text-white">
@@ -133,6 +133,8 @@
                                 Anda masuk sebagai <strong>Administrator Sistem</strong>. Kelola data master, monitoring faskes, audit user, dan atur hak akses pelayanan KIA nasional secara terpadu.
                             @elseif($role === 'dinas kesehatan')
                                 Anda masuk sebagai <strong>Dinas Kesehatan</strong>. Pantau metrik kesehatan wilayah, agregasi data faskes, serta evaluasi kemajuan pelayanan KIA di kabupaten/kota.
+                            @elseif($role === 'kader posyandu' || $role === 'kader')
+                                Anda masuk sebagai <strong>Kader Posyandu</strong>. Pantau data dan pemeriksaan ibu hamil di lokasi kerja wilayah Anda secara terpadu.
                             @elseif($role === 'nakes')
                                 Anda masuk sebagai <strong>Tenaga Kesehatan (Nakes)</strong>. Kelola buku KIA pasien, isi rekam medis ANC, imunisasi anak, dan pantau tumbuh kembang anak secara digital.
                             @elseif($role === 'ibu hamil')
@@ -454,8 +456,8 @@
                 </div>
             </div>
 
-        <!-- ROLE: TENAGA KESEHATAN (NAKES) -->
-        @elseif($role === 'nakes')
+        <!-- ROLE: TENAGA KESEHATAN (NAKES) & KADER POSYANDU -->
+        @elseif($role === 'nakes' || $role === 'kader posyandu' || $role === 'kader')
             <!-- Clinic Metadata Info -->
             @if($my_faskes)
                 <div class="col-12 mb-4">

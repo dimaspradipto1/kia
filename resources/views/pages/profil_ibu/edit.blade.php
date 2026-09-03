@@ -44,19 +44,26 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">NIK</label>
                                     <input type="number" name="nik"
                                         class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik', $profilIbu->nik) }}"
                                         required>
                                     @error('nik') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">Nama Lengkap</label>
                                     <input type="text" name="nama_lengkap"
                                         class="form-control @error('nama_lengkap') is-invalid @enderror"
                                         value="{{ old('nama_lengkap', $profilIbu->nama_lengkap) }}" required>
                                     @error('nama_lengkap') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label class="form-label fw-bold">Nama Ibu Kandung</label>
+                                    <input type="text" name="nama_ibu_kandung"
+                                        class="form-control @error('nama_ibu_kandung') is-invalid @enderror"
+                                        value="{{ old('nama_ibu_kandung', $profilIbu->nama_ibu_kandung) }}" placeholder="Nama Ibu Kandung">
+                                    @error('nama_ibu_kandung') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                                 </div>
                             </div>
 

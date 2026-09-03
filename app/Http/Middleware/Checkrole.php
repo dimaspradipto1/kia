@@ -25,7 +25,7 @@ class Checkrole
         // Pastikan relasi role ada dan ambil nama_role (gunakan lowercase untuk pengecekan)
         $userRole = $user->role ? strtolower($user->role->nama_role) : null;
 
-        $allowedRoles = ['admin', 'administrator', 'dinas kesehatan', 'nakes', 'ibu hamil', 'pengguna'];
+        $allowedRoles = ['admin', 'administrator', 'dinas kesehatan', 'nakes', 'ibu hamil', 'pengguna', 'kader posyandu', 'kader'];
 
         if (in_array($userRole, $allowedRoles)) {
             // Jika role adalah 'ibu hamil', batasi akses ke menu-menu tertentu agar hanya bisa melihat (read-only)

@@ -54,6 +54,18 @@ class UserDataTable extends DataTable
             ->editColumn('role', function ($row) {
                 return $row->role->nama_role ?? '-';
             })
+            ->filterColumn('role', function ($query, $keyword) {
+                $query->whereHas('role', function ($q) use ($keyword) {
+                    $q->where('nama_role', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('is_active', function ($query, $keyword) {
+                if (stripos('aktif', $keyword) !== false) {
+                    $query->where('is_active', 1);
+                } elseif (stripos('non-aktif', $keyword) !== false || stripos('non', $keyword) !== false) {
+                    $query->where('is_active', 0);
+                }
+            })
             ->rawColumns(['action', 'is_active']);
     }
 

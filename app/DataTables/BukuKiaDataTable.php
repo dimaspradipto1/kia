@@ -59,11 +59,33 @@ class BukuKiaDataTable extends DataTable
     {
         $query = $model->newQuery()->with(['profilIbu', 'fasilitasKesehatan']);
 
+        /** @var \App\Models\User $authUser */
+        $authUser = \Illuminate\Support\Facades\Auth::user();
+        $userRole = strtolower($authUser->role->nama_role ?? '');
+
         // Jika login sebagai ibu hamil, hanya tampilkan data milik sendiri
-        if (auth()->user()->role->nama_role === 'ibu hamil') {
-            $query->whereHas('profilIbu', function ($q) {
-                $q->where('user_id', auth()->id());
+        if ($authUser->roles_id == 4 || $userRole === 'ibu hamil') {
+            $query->whereHas('profilIbu', function ($q) use ($authUser) {
+                $q->where('user_id', $authUser->id);
             });
+        }
+
+        // Kader Posyandu hanya melihat Buku KIA sesuai lokasi faskes/wilayah terdaftar
+        if (in_array($userRole, ['kader posyandu', 'kader'])) {
+            if ($authUser->fasilitas_kesehatan_id) {
+                $query->where(function ($q) use ($authUser) {
+                    $q->where('fasilitas_kesehatan_id', $authUser->fasilitas_kesehatan_id)
+                      ->orWhereHas('profilIbu', function ($sub) use ($authUser) {
+                          $sub->where('fasilitas_kesehatan_id', $authUser->fasilitas_kesehatan_id);
+                      });
+                });
+            } elseif ($authUser->wilaya_dinkes_id) {
+                $query->whereHas('fasilitasKesehatan', function ($q) use ($authUser) {
+                    $q->where('wilayah_id', $authUser->wilaya_dinkes_id);
+                });
+            } else {
+                $query->whereRaw('1 = 0');
+            }
         }
 
         return $query;
