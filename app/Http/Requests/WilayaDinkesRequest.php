@@ -21,7 +21,8 @@ class WilayaDinkesRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('wilaya_dinke') ? $this->route('wilaya_dinke')->id : null;
+        $wilayaDinke = $this->route('wilayaDinke') ?? $this->route('wilaya_dinke');
+        $id = is_object($wilayaDinke) ? $wilayaDinke->id : $wilayaDinke;
 
         return [
             'kode_dinkes' => 'required|string|max:255|unique:wilaya_dinkes,kode_dinkes,' . $id,

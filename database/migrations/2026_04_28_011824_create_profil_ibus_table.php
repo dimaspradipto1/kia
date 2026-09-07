@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('fasilitas_kesehatan_id')->constrained()->cascadeOnDelete();
             $table->string('nik');
             $table->string('nama_lengkap');
+            $table->string('nama_ibu_kandung')->nullable();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('jenis_fasilitas_kesehatan')->nullable();

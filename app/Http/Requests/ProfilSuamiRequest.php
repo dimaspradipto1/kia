@@ -13,9 +13,12 @@ class ProfilSuamiRequest extends FormRequest
 
     public function rules(): array
     {
+        $profilSuami = $this->route('profilSuami') ?? $this->route('profil_suami');
+        $profilSuamiId = is_object($profilSuami) ? $profilSuami->id : $profilSuami;
+
         return [
             'profil_ibu_id' => 'required|exists:profil_ibus,id',
-            'nik' => 'required|numeric|digits:16|unique:profil_suamis,nik,' . ($this->profil_suami ?? 'NULL'),
+            'nik' => 'required|numeric|digits:16|unique:profil_suamis,nik,' . ($profilSuamiId ?? 'NULL'),
             'nama_lengkap' => 'required|string|max:255',
             'tempat_lahir' => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',

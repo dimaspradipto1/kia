@@ -21,7 +21,8 @@ class ProfilIbuRequest extends FormRequest
      */
     public function rules(): array
     {
-        $profilIbuId = $this->route('profil_ibu') ? $this->route('profil_ibu')->id : null;
+        $profilIbu = $this->route('profilIbu') ?? $this->route('profil_ibu');
+        $profilIbuId = is_object($profilIbu) ? $profilIbu->id : $profilIbu;
 
         return [
             'user_id' => 'required|exists:users,id',
