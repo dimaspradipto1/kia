@@ -34,8 +34,22 @@ class BukuKiaController extends Controller
 
     public function create()
     {
-        $ibu    = ProfilIbu::all();
-        $faskes = FasilitasKesehatan::all();
+        $authUser = auth()->user();
+        $userRole = strtolower($authUser->role->nama_role ?? '');
+
+        if (in_array($userRole, ['kader posyandu', 'kader', 'nakes']) && $authUser->fasilitas_kesehatan_id) {
+            $ibu = ProfilIbu::orderByRaw("CASE WHEN fasilitas_kesehatan_id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
+                ->orderBy('nama_lengkap')
+                ->get();
+            $faskes = FasilitasKesehatan::where('is_active', true)
+                ->orderByRaw("CASE WHEN id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
+                ->orderBy('nama_faskes')
+                ->get();
+        } else {
+            $ibu = ProfilIbu::orderBy('nama_lengkap')->get();
+            $faskes = FasilitasKesehatan::where('is_active', true)->orderBy('nama_faskes')->get();
+        }
+
         return view('pages.buku_kia.create', compact('ibu', 'faskes'));
     }
 

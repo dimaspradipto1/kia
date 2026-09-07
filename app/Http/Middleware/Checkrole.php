@@ -28,22 +28,19 @@ class Checkrole
         $allowedRoles = ['admin', 'administrator', 'dinas kesehatan', 'nakes', 'ibu hamil', 'pengguna', 'kader posyandu', 'kader'];
 
         if (in_array($userRole, $allowedRoles)) {
-            // Jika role adalah 'ibu hamil', batasi akses ke menu-menu tertentu agar hanya bisa melihat (read-only)
+            // Jika role adalah 'ibu hamil', batasi akses ke pemeriksaan medis dan faskes agar hanya bisa melihat (read-only)
+            // Namun izinkan ibu hamil untuk mengisi data ibu, suami, anak, pembiayaan, dan dokumen
             if ($userRole === 'ibu hamil') {
                 $routeName = $request->route() ? $request->route()->getName() : null;
                 if ($routeName) {
                     $restrictedResources = [
                         'buku-kia',
                         'kunjungan-anc',
-                        'profil-ibu',
-                        'profil-suami',
-                        'profil-anak',
                         'bayi-baru-lahir',
                         'imunisasi-anak',
                         'tumbuh-kembang',
                         'perkembangan-sidtk',
                         'mpasi',
-                        'pembiayaan',
                         'pemantauan-nifas',
                         'kb-pasca-salin',
                         'hasil-lab-ibu',
@@ -63,10 +60,10 @@ class Checkrole
                             if ($request->ajax() || $request->wantsJson()) {
                                 return response()->json([
                                     'success' => false,
-                                    'message' => 'Anda tidak memiliki akses untuk menambah, mengedit, atau menghapus data ini.'
+                                    'message' => 'Halaman pemeriksaan medis hanya dapat diisi atau diperbarui oleh Tenaga Kesehatan / Kader.'
                                 ], 403);
                             }
-                            return redirect()->route('dashboard')->with('error', 'Anda hanya memiliki akses untuk melihat data pada menu ini.');
+                            return redirect()->route('dashboard')->with('error', 'Halaman pemeriksaan medis hanya dapat diisi atau diperbarui oleh Tenaga Kesehatan / Kader.');
                         }
                     }
                 }

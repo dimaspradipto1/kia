@@ -25,7 +25,7 @@ class ProfilIbuRequest extends FormRequest
         $profilIbuId = is_object($profilIbu) ? $profilIbu->id : $profilIbu;
 
         return [
-            'user_id' => 'required|exists:users,id',
+            'user_id' => 'nullable|exists:users,id',
             'fasilitas_kesehatan_id' => 'required|exists:fasilitas_kesehatans,id',
             'nik' => 'required|numeric|digits:16|unique:profil_ibus,nik,' . $profilIbuId,
             'nama_lengkap' => 'required|string|max:255',
@@ -39,6 +39,8 @@ class ProfilIbuRequest extends FormRequest
             'agama' => 'nullable|string|max:50',
             'nomor_wa' => 'nullable|numeric|digits_between:10,15',
             'nomor_jkn' => 'nullable|numeric|digits_between:10,20',
+            'email' => 'nullable|email',
+            'password' => 'nullable|string|min:6',
         ];
     }
 

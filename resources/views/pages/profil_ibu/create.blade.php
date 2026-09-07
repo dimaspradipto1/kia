@@ -23,8 +23,30 @@
                     <div class="card-body p-4">
                         <form action="{{ route('profil-ibu.store') }}" method="POST">
                             @csrf
+                            
+                            @if(isset($isIbuHamil) && !$isIbuHamil)
+                                <div class="card bg-light border-0 mb-4 p-3 rounded-3" style="border-left: 4px solid #EC1E88 !important;">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <i class="bi bi-person-badge text-primary fs-5 me-2" style="color: #EC1E88 !important;"></i>
+                                        <h6 class="fw-bold text-dark m-0">Akun Pengguna Ibu Hamil (Untuk Login Aplikasi)</h6>
+                                    </div>
+                                    <p class="text-muted small mb-3">Sistem akan otomatis membuatkan akun agar Ibu Hamil dapat login ke sistem MYKIA untuk melihat Buku KIA.</p>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <label class="form-label small fw-semibold">Email Login (Opsional)</label>
+                                            <input type="email" name="email" class="form-control form-control-sm @error('email') is-invalid @enderror" placeholder="Kosongkan jika tidak ada (otomatis NIK@kia.id)" value="{{ old('email') }}">
+                                            @error('email') <div class="invalid-feedback small">{{ $message }}</div> @enderror
+                                        </div>
+                                        <div class="col-md-6 mb-2">
+                                            <label class="form-label small fw-semibold">Kata Sandi Login (Opsional)</label>
+                                            <input type="text" name="password" class="form-control form-control-sm @error('password') is-invalid @enderror" placeholder="Default kata sandi: NIK Ibu Hamil" value="{{ old('password') }}">
+                                            @error('password') <div class="invalid-feedback small">{{ $message }}</div> @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="row mb-4">
-                                <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label fw-bold">Fasilitas Kesehatan</label>
                                     <select name="fasilitas_kesehatan_id"
@@ -32,8 +54,8 @@
                                         <option value="">Pilih Faskes</option>
                                         @foreach ($faskes as $f)
                                             <option value="{{ $f->id }}"
-                                                {{ old('fasilitas_kesehatan_id') == $f->id ? 'selected' : '' }}>
-                                                {{ $f->nama_faskes }}</option>
+                                                {{ old('fasilitas_kesehatan_id', auth()->user()->fasilitas_kesehatan_id) == $f->id ? 'selected' : '' }}>
+                                                {{ $f->nama_faskes }} ({{ $f->jenis }})</option>
                                         @endforeach
                                     </select>
                                     @error('fasilitas_kesehatan_id')
@@ -47,14 +69,14 @@
                                     <label class="form-label fw-bold">NIK</label>
                                     <input type="number" name="nik"
                                         class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik') }}"
-                                        required>
+                                        placeholder="16 digit NIK" required>
                                     @error('nik') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">Nama Lengkap</label>
                                     <input type="text" name="nama_lengkap"
                                         class="form-control @error('nama_lengkap') is-invalid @enderror"
-                                        value="{{ old('nama_lengkap') }}" required>
+                                        value="{{ old('nama_lengkap', (isset($isIbuHamil) && $isIbuHamil) ? auth()->user()->name : '') }}" required>
                                     @error('nama_lengkap') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                                 </div>
                                 <div class="col-md-4 mb-3">

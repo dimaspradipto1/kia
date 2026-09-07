@@ -247,6 +247,26 @@
           </div>
 
           <div class="mb-3">
+            <label for="fasilitas_kesehatan_id" class="form-label">Fasilitas Kesehatan (Posyandu / Puskesmas)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-hospital text-muted"></i></span>
+              <select name="fasilitas_kesehatan_id" class="form-select border-start-0 bg-light @error('fasilitas_kesehatan_id') is-invalid @enderror" id="fasilitas_kesehatan_id" required>
+                <option value="">-- Pilih Fasilitas Kesehatan --</option>
+                @if(isset($faskes))
+                  @foreach($faskes as $f)
+                    <option value="{{ $f->id }}" {{ old('fasilitas_kesehatan_id') == $f->id ? 'selected' : '' }}>
+                      {{ $f->nama_faskes }} ({{ $f->jenis }})
+                    </option>
+                  @endforeach
+                @endif
+              </select>
+            </div>
+            @error('fasilitas_kesehatan_id')
+              <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <div class="mb-3">
             <label for="password" class="form-label">Kata Sandi</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>

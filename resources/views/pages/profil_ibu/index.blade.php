@@ -18,11 +18,18 @@
                 <div class="card-header bg-white border-bottom py-3 px-4">
                     <div class="row align-items-center">
                         <div class="col-md-8">
+                            @php
+                                $authUser = auth()->user();
+                                $isIbuHamil = $authUser && $authUser->role && strtolower($authUser->role->nama_role) === 'ibu hamil';
+                                $hasProfile = $isIbuHamil ? \App\Models\ProfilIbu::where('user_id', $authUser->id)->exists() : false;
+                            @endphp
+                            @if(!$isIbuHamil || !$hasProfile)
                             <div class="d-inline-flex shadow-sm overflow-hidden" style="border: 1px solid #e3e6f0; border-radius: 30px;">
                                 <a href="{{ route('profil-ibu.create') }}" class="btn btn-success btn-sm font-weight-bold px-3 py-1 border-0" style="background-color: #EC1E88; color: white; font-size: 11px; height: 32px; display: flex; align-items: center; border-radius: 30px;">
-                                    <i class="bi bi-plus-lg me-1"></i> TAMBAH PROFIL
+                                    <i class="bi bi-plus-lg me-1"></i> {{ $isIbuHamil ? 'LENGKAPI PROFIL SAYA' : 'TAMBAH PROFIL' }}
                                 </a>
                             </div>
+                            @endif
                         </div>
                         <div class="col-md-4 text-end">
                             <h5 class="m-0 fw-bold text-dark" style="font-size: 1.1rem;">Daftar Profil Ibu</h5>

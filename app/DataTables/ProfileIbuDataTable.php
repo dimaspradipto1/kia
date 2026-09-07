@@ -23,21 +23,28 @@ class ProfileIbuDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('DT_RowIndex', '')
             ->addColumn('action', function ($row) {
-                return '<div class="d-flex justify-content-center gap-1">
+                $authUser = \Illuminate\Support\Facades\Auth::user();
+                $userRole = strtolower($authUser->role->nama_role ?? '');
+
+                $html = '<div class="d-flex justify-content-center gap-1">
                             <a href="' . route('profil-ibu.show', $row->id) . '" class="btn btn-info btn-sm text-white" title="Detail">
                                 <i class="bi bi-eye"></i>
                             </a>
                             <a href="' . route('profil-ibu.edit', $row->id) . '" class="btn btn-warning btn-sm" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <form action="' . route('profil-ibu.destroy', $row->id) . '" method="POST" class="d-inline delete-form">
+                            </a>';
+
+                if ($userRole !== 'ibu hamil') {
+                    $html .= '<form action="' . route('profil-ibu.destroy', $row->id) . '" method="POST" class="d-inline delete-form">
                                 ' . csrf_field() . '
                                 ' . method_field('DELETE') . '
                                 <button type="button" class="btn btn-danger btn-sm btn-delete" title="Hapus">
                                     <i class="bi bi-trash"></i>
                                 </button>
-                            </form>
-                        </div>';
+                            </form>';
+                }
+                $html .= '</div>';
+                return $html;
             })
             ->addColumn('faskes_name', function($row) {
                 return $row->fasilitasKesehatan->nama_faskes ?? '-';

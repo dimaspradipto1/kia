@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\UserDataTable;
 use App\Models\User;
+use App\Models\ProfilIbu;
+use App\Models\FasilitasKesehatan;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +22,21 @@ class LoginController extends Controller
 
     public function proseslogin(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $loginInput = trim($request->input('email'));
+        $password = $request->input('password');
+
+        // Cek apakah login menggunakan format Email atau NIK
+        if (filter_var($loginInput, FILTER_VALIDATE_EMAIL)) {
+            $credentials = ['email' => $loginInput, 'password' => $password];
+        } else {
+            // Cari profil ibu dengan NIK tersebut
+            $profilIbu = ProfilIbu::where('nik', $loginInput)->first();
+            if ($profilIbu && $profilIbu->user) {
+                $credentials = ['email' => $profilIbu->user->email, 'password' => $password];
+            } else {
+                $credentials = ['email' => $loginInput, 'password' => $password];
+            }
+        }
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
@@ -37,13 +53,14 @@ class LoginController extends Controller
             return redirect()->route('dashboard');
         }
 
-        Alert::error('Gagal Masuk', 'Email atau password salah.');
-        return redirect()->back();
+        Alert::error('Gagal Masuk', 'Email/NIK atau password salah.');
+        return redirect()->back()->withInput($request->only('email'));
     }
 
     public function register()
     {
-        return view('layouts.auth.register');
+        $faskes = FasilitasKesehatan::where('is_active', true)->orderBy('nama_faskes')->get();
+        return view('layouts.auth.register', compact('faskes'));
     }
 
     public function registerproses(Request $request)
@@ -51,29 +68,36 @@ class LoginController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
+            'fasilitas_kesehatan_id' => 'required|exists:fasilitas_kesehatans,id',
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Alamat email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
+            'fasilitas_kesehatan_id.required' => 'Fasilitas Kesehatan wajib dipilih.',
+            'fasilitas_kesehatan_id.exists' => 'Fasilitas Kesehatan tidak valid.',
             'password.required' => 'Kata sandi wajib diisi.',
             'password.min' => 'Kata sandi minimal 8 karakter.',
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
+
+        $faskes = FasilitasKesehatan::find($request->fasilitas_kesehatan_id);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'roles_id' => 4, // Ibu Hamil
+            'fasilitas_kesehatan_id' => $request->fasilitas_kesehatan_id,
+            'wilaya_dinkes_id' => $faskes ? $faskes->wilayah_id : null,
             'is_active' => true,
         ]);
 
         Auth::login($user);
         $request->session()->regenerate();
 
-        Alert::success('Registrasi Berhasil', 'Selamat datang, ' . $user->name);
+        Alert::success('Registrasi Berhasil', 'Selamat datang, ' . $user->name . '. Silakan lengkapi Profil Ibu Hamil Anda.');
 
         return redirect()->intended('/dashboard');
     }

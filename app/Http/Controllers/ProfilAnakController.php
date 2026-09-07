@@ -17,7 +17,15 @@ class ProfilAnakController extends Controller
 
     public function create()
     {
-        $bukuKia = BukuKia::with('profilIbu')->get();
+        $user = auth()->user();
+        $isIbuHamil = $user && $user->role && strtolower($user->role->nama_role) === 'ibu hamil';
+        if ($isIbuHamil) {
+            $bukuKia = BukuKia::whereHas('profilIbu', function($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->with('profilIbu')->get();
+        } else {
+            $bukuKia = BukuKia::with('profilIbu')->get();
+        }
         return view('pages.profil_anak.create', compact('bukuKia'));
     }
 

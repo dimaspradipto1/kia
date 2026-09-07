@@ -224,10 +224,10 @@
         <form action="{{ route('proseslogin') }}" method="POST" class="needs-validation" novalidate>
           @csrf
           <div class="mb-3">
-            <label for="email" class="form-label">Alamat Email</label>
+            <label for="email" class="form-label">Email atau NIK</label>
             <div class="input-group">
-              <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-              <input type="email" name="email" class="form-control border-start-0 bg-light" id="email" placeholder="contoh@email.com" required value="{{ old('email') }}">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-person-badge text-muted"></i></span>
+              <input type="text" name="email" class="form-control border-start-0 bg-light" id="email" placeholder="contoh@email.com atau 16 digit NIK" required value="{{ old('email') }}">
             </div>
             @error('email')
               <div class="text-danger small mt-1">{{ $message }}</div>
