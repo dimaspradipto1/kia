@@ -37,8 +37,34 @@ class BukuKiaController extends Controller
         $authUser = auth()->user();
         $userRole = strtolower($authUser->role->nama_role ?? '');
 
-        if (in_array($userRole, ['kader posyandu', 'kader', 'nakes']) && $authUser->fasilitas_kesehatan_id) {
-            $ibu = ProfilIbu::orderByRaw("CASE WHEN fasilitas_kesehatan_id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
+        if (in_array($userRole, ['kader posyandu', 'kader'])) {
+            if ($authUser->fasilitas_kesehatan_id) {
+                $ibu = ProfilIbu::with('fasilitasKesehatan')
+                    ->where('fasilitas_kesehatan_id', $authUser->fasilitas_kesehatan_id)
+                    ->orderBy('nama_lengkap')
+                    ->get();
+                $faskes = FasilitasKesehatan::where('is_active', true)
+                    ->orderByRaw("CASE WHEN id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
+                    ->orderBy('nama_faskes')
+                    ->get();
+            } elseif ($authUser->wilaya_dinkes_id) {
+                $ibu = ProfilIbu::with('fasilitasKesehatan')
+                    ->whereHas('fasilitasKesehatan', function ($q) use ($authUser) {
+                        $q->where('wilayah_id', $authUser->wilaya_dinkes_id);
+                    })
+                    ->orderBy('nama_lengkap')
+                    ->get();
+                $faskes = FasilitasKesehatan::where('is_active', true)
+                    ->where('wilayah_id', $authUser->wilaya_dinkes_id)
+                    ->orderBy('nama_faskes')
+                    ->get();
+            } else {
+                $ibu = ProfilIbu::with('fasilitasKesehatan')->orderBy('nama_lengkap')->get();
+                $faskes = FasilitasKesehatan::where('is_active', true)->orderBy('nama_faskes')->get();
+            }
+        } elseif ($userRole === 'nakes' && $authUser->fasilitas_kesehatan_id) {
+            $ibu = ProfilIbu::with('fasilitasKesehatan')
+                ->orderByRaw("CASE WHEN fasilitas_kesehatan_id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
                 ->orderBy('nama_lengkap')
                 ->get();
             $faskes = FasilitasKesehatan::where('is_active', true)
@@ -46,7 +72,7 @@ class BukuKiaController extends Controller
                 ->orderBy('nama_faskes')
                 ->get();
         } else {
-            $ibu = ProfilIbu::orderBy('nama_lengkap')->get();
+            $ibu = ProfilIbu::with('fasilitasKesehatan')->orderBy('nama_lengkap')->get();
             $faskes = FasilitasKesehatan::where('is_active', true)->orderBy('nama_faskes')->get();
         }
 
@@ -56,7 +82,12 @@ class BukuKiaController extends Controller
     public function store(BukuKiaRequest $request)
     {
         $data = $request->validated();
+        $data['no_reg_kohort_bayi'] = $data['no_reg_kohort_bayi'] ?? '-';
+        $data['no_reg_kohort_balita'] = $data['no_reg_kohort_balita'] ?? '-';
+        $data['riwayat_penyakit'] = $data['riwayat_penyakit'] ?? '-';
+        $data['no_catatan_medik_rs'] = $data['no_catatan_medik_rs'] ?? '-';
         $data['qr_code'] = 'KIA-' . strtoupper(uniqid());
+
         BukuKia::create($data);
         Alert::success('Berhasil', 'Buku KIA berhasil ditambahkan.');
         return redirect()->route('buku-kia.index');
@@ -81,14 +112,36 @@ class BukuKiaController extends Controller
 
     public function edit(BukuKia $bukuKia)
     {
-        $ibu    = ProfilIbu::all();
-        $faskes = FasilitasKesehatan::all();
+        $authUser = auth()->user();
+        $userRole = strtolower($authUser->role->nama_role ?? '');
+
+        if (in_array($userRole, ['kader posyandu', 'kader']) && $authUser->fasilitas_kesehatan_id) {
+            $ibu = ProfilIbu::with('fasilitasKesehatan')
+                ->where('fasilitas_kesehatan_id', $authUser->fasilitas_kesehatan_id)
+                ->orWhere('id', $bukuKia->profil_ibu_id)
+                ->orderBy('nama_lengkap')
+                ->get();
+            $faskes = FasilitasKesehatan::where('is_active', true)
+                ->orderByRaw("CASE WHEN id = " . intval($authUser->fasilitas_kesehatan_id) . " THEN 0 ELSE 1 END")
+                ->orderBy('nama_faskes')
+                ->get();
+        } else {
+            $ibu = ProfilIbu::with('fasilitasKesehatan')->orderBy('nama_lengkap')->get();
+            $faskes = FasilitasKesehatan::where('is_active', true)->orderBy('nama_faskes')->get();
+        }
+
         return view('pages.buku_kia.edit', compact('bukuKia', 'ibu', 'faskes'));
     }
 
     public function update(BukuKiaRequest $request, BukuKia $bukuKia)
     {
-        $bukuKia->update($request->validated());
+        $data = $request->validated();
+        $data['no_reg_kohort_bayi'] = $data['no_reg_kohort_bayi'] ?? '-';
+        $data['no_reg_kohort_balita'] = $data['no_reg_kohort_balita'] ?? '-';
+        $data['riwayat_penyakit'] = $data['riwayat_penyakit'] ?? '-';
+        $data['no_catatan_medik_rs'] = $data['no_catatan_medik_rs'] ?? '-';
+
+        $bukuKia->update($data);
         Alert::success('Berhasil', 'Buku KIA berhasil diperbarui.');
         return redirect()->route('buku-kia.index');
     }

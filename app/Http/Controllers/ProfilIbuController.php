@@ -44,6 +44,12 @@ class ProfilIbuController extends Controller
         $isIbuHamil = $authUser && $authUser->role && strtolower($authUser->role->nama_role) === 'ibu hamil';
 
         if ($isIbuHamil) {
+            $existing = ProfilIbu::where('user_id', $authUser->id)->first();
+            if ($existing) {
+                Alert::info('Info', 'Anda sudah memiliki Profil Ibu. Silakan perbarui data profil jika diperlukan.');
+                return redirect()->route('profil-ibu.edit', $existing->id);
+            }
+
             $data['user_id'] = $authUser->id;
             $faskes = FasilitasKesehatan::find($request->fasilitas_kesehatan_id);
             $authUser->update([
@@ -52,26 +58,40 @@ class ProfilIbuController extends Controller
             ]);
             $successMsg = 'Profil Ibu berhasil disimpan.';
         } else {
-            // Didaftarkan oleh Kader / Nakes / Admin -> Buat akun User untuk Ibu Hamil
+            // Didaftarkan oleh Kader / Nakes / Admin -> Buat / hubungkan akun User untuk Ibu Hamil
             $email = $request->filled('email') ? $request->email : $request->nik . '@kia.id';
             $password = $request->filled('password') ? $request->password : $request->nik;
 
             $user = User::where('email', $email)->first();
+            $ibuRoleId = \App\Models\Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
+            $faskes = FasilitasKesehatan::find($request->fasilitas_kesehatan_id);
+
             if (!$user) {
-                $faskes = FasilitasKesehatan::find($request->fasilitas_kesehatan_id);
                 $user = User::create([
                     'name' => $request->nama_lengkap,
                     'email' => $email,
                     'password' => Hash::make($password),
-                    'roles_id' => 4, // Ibu Hamil
+                    'roles_id' => $ibuRoleId,
                     'fasilitas_kesehatan_id' => $request->fasilitas_kesehatan_id,
                     'wilaya_dinkes_id' => $faskes ? $faskes->wilayah_id : null,
                     'is_active' => true,
                 ]);
+            } else {
+                $user->update([
+                    'name' => $request->nama_lengkap,
+                    'fasilitas_kesehatan_id' => $request->fasilitas_kesehatan_id,
+                    'wilaya_dinkes_id' => $faskes ? $faskes->wilayah_id : $user->wilaya_dinkes_id,
+                ]);
+            }
+
+            // Cek apakah user ini sudah memiliki Profil Ibu
+            if ($user->profilIbu) {
+                Alert::warning('Perhatian', 'Akun pengguna ini sudah memiliki data Profil Ibu.');
+                return redirect()->back()->withInput();
             }
 
             $data['user_id'] = $user->id;
-            $successMsg = "Profil Ibu berhasil ditambahkan. Akun login dibuat: Email/NIK ({$email} / {$request->nik}), Sandi: {$password}.";
+            $successMsg = "Profil Ibu berhasil ditambahkan. Akun login terhubung: Email/NIK ({$email} / {$request->nik}), Sandi: {$password}.";
         }
 
         unset($data['email'], $data['password']);

@@ -27,11 +27,14 @@
                             <div class="row mb-3">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Nama Ibu</label>
-                                    <select name="profil_ibu_id" class="form-select select2 @error('profil_ibu_id') is-invalid @enderror" data-placeholder="Pilih Profil Ibu" required>
+                                    <select name="profil_ibu_id" id="profil_ibu_id" class="form-select select2 @error('profil_ibu_id') is-invalid @enderror" data-placeholder="Pilih Profil Ibu" required>
                                         <option value="">Pilih Profil Ibu</option>
                                         @foreach ($ibu as $i)
-                                            <option value="{{ $i->id }}" {{ old('profil_ibu_id', $bukuKia->profil_ibu_id) == $i->id ? 'selected' : '' }}>
-                                                {{ $i->nama_lengkap }} (NIK: {{ $i->nik }})
+                                            <option value="{{ $i->id }}" 
+                                                data-faskes-id="{{ $i->fasilitas_kesehatan_id }}" 
+                                                data-faskes-name="{{ $i->fasilitasKesehatan->nama_faskes ?? '' }}"
+                                                {{ old('profil_ibu_id', $bukuKia->profil_ibu_id) == $i->id ? 'selected' : '' }}>
+                                                {{ $i->nama_lengkap }} (NIK: {{ $i->nik }}){{ $i->fasilitasKesehatan ? ' - ' . $i->fasilitasKesehatan->nama_faskes : '' }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -39,11 +42,11 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Fasilitas Kesehatan</label>
-                                    <select name="fasilitas_kesehatan_id" class="form-select select2 @error('fasilitas_kesehatan_id') is-invalid @enderror" data-placeholder="Pilih Faskes" required>
+                                    <select name="fasilitas_kesehatan_id" id="fasilitas_kesehatan_id" class="form-select select2 @error('fasilitas_kesehatan_id') is-invalid @enderror" data-placeholder="Pilih Faskes" required>
                                         <option value="">Pilih Faskes</option>
                                         @foreach ($faskes as $f)
                                             <option value="{{ $f->id }}" {{ old('fasilitas_kesehatan_id', $bukuKia->fasilitas_kesehatan_id) == $f->id ? 'selected' : '' }}>
-                                                {{ $f->nama_faskes }}
+                                                {{ $f->nama_faskes }} ({{ $f->jenis }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -131,4 +134,20 @@
             </div>
         </div>
     </section>
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('#profil_ibu_id').on('change', function() {
+            let selectedOpt = $(this).find('option:selected');
+            let faskesId = selectedOpt.data('faskes-id');
+            let faskesName = selectedOpt.data('faskes-name');
+
+            if (faskesId) {
+                $('#fasilitas_kesehatan_id').val(faskesId).trigger('change');
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

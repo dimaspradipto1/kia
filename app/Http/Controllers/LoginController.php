@@ -67,11 +67,17 @@ class LoginController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'nik' => 'required|numeric|digits:16|unique:profil_ibus,nik',
             'email' => 'required|string|email|max:255|unique:users',
+            'nomor_wa' => 'nullable|string|max:25',
             'fasilitas_kesehatan_id' => 'required|exists:fasilitas_kesehatans,id',
             'password' => 'required|string|min:8|confirmed',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.numeric' => 'NIK harus berupa angka.',
+            'nik.digits' => 'NIK harus berjumlah 16 digit.',
+            'nik.unique' => 'NIK sudah terdaftar dalam sistem.',
             'email.required' => 'Alamat email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
@@ -83,21 +89,32 @@ class LoginController extends Controller
         ]);
 
         $faskes = FasilitasKesehatan::find($request->fasilitas_kesehatan_id);
+        $ibuRoleId = \App\Models\Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'roles_id' => 4, // Ibu Hamil
+            'roles_id' => $ibuRoleId,
             'fasilitas_kesehatan_id' => $request->fasilitas_kesehatan_id,
             'wilaya_dinkes_id' => $faskes ? $faskes->wilayah_id : null,
             'is_active' => true,
         ]);
 
+        ProfilIbu::create([
+            'user_id' => $user->id,
+            'fasilitas_kesehatan_id' => $request->fasilitas_kesehatan_id,
+            'nik' => $request->nik,
+            'nama_lengkap' => $request->name,
+            'nomor_wa' => $request->nomor_wa ?? null,
+            'tempat_lahir' => '-',
+            'tanggal_lahir' => '1995-01-01',
+        ]);
+
         Auth::login($user);
         $request->session()->regenerate();
 
-        Alert::success('Registrasi Berhasil', 'Selamat datang, ' . $user->name . '. Silakan lengkapi Profil Ibu Hamil Anda.');
+        Alert::success('Registrasi Berhasil', 'Selamat datang, ' . $user->name . '. Akun Anda dan Profil Pasien telah terdaftar.');
 
         return redirect()->intended('/dashboard');
     }

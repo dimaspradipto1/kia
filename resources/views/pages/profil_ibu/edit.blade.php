@@ -46,7 +46,7 @@
                             <div class="row mb-3">
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label fw-bold">NIK</label>
-                                    <input type="number" name="nik"
+                                    <input type="text" inputmode="numeric" name="nik" maxlength="16"
                                         class="form-control @error('nik') is-invalid @enderror" value="{{ old('nik', $profilIbu->nik) }}"
                                         required>
                                     @error('nik') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
@@ -71,12 +71,12 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Tempat Lahir</label>
                                     <input type="text" name="tempat_lahir" class="form-control"
-                                        value="{{ old('tempat_lahir', $profilIbu->tempat_lahir) }}" required>
+                                        value="{{ old('tempat_lahir', $profilIbu->tempat_lahir) }}" placeholder="Tempat Lahir">
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Tanggal Lahir</label>
                                     <input type="text" name="tanggal_lahir" class="form-control datepicker"
-                                        value="{{ old('tanggal_lahir', $profilIbu->tanggal_lahir) }}" required placeholder="Pilih Tanggal">
+                                        value="{{ old('tanggal_lahir', $profilIbu->tanggal_lahir) }}" placeholder="Pilih Tanggal">
                                 </div>
                             </div>
 
@@ -133,8 +133,8 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label fw-bold">Nomor WhatsApp</label>
-                                    <input type="number" name="nomor_wa" class="form-control @error('nomor_wa') is-invalid @enderror"
-                                        value="{{ old('nomor_wa', $profilIbu->nomor_wa) }}">
+                                    <input type="text" inputmode="numeric" name="nomor_wa" class="form-control @error('nomor_wa') is-invalid @enderror"
+                                        value="{{ old('nomor_wa', $profilIbu->nomor_wa) }}" placeholder="cth: 081234567890">
                                     @error('nomor_wa') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                                 </div>
                             </div>
@@ -146,8 +146,8 @@
 
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Nomor JKN/BPJS (Opsional)</label>
-                                <input type="number" name="nomor_jkn" class="form-control @error('nomor_jkn') is-invalid @enderror"
-                                    value="{{ old('nomor_jkn', $profilIbu->nomor_jkn) }}">
+                                <input type="text" inputmode="numeric" name="nomor_jkn" class="form-control @error('nomor_jkn') is-invalid @enderror"
+                                    value="{{ old('nomor_jkn', $profilIbu->nomor_jkn) }}" placeholder="cth: 000123456789">
                                 @error('nomor_jkn') <div class="invalid-feedback text-danger" style="font-size: 0.8rem;">{{ $message }}</div> @enderror
                             </div>
 

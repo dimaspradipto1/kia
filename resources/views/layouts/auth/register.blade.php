@@ -236,12 +236,34 @@
           </div>
 
           <div class="mb-3">
+            <label for="nik" class="form-label">NIK (16 Digit KTP)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-card-heading text-muted"></i></span>
+              <input type="text" inputmode="numeric" name="nik" maxlength="16" class="form-control border-start-0 bg-light @error('nik') is-invalid @enderror" id="nik" placeholder="16 digit NIK KTP" required value="{{ old('nik') }}">
+            </div>
+            @error('nik')
+              <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <div class="mb-3">
             <label for="email" class="form-label">Alamat Email</label>
             <div class="input-group">
               <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
               <input type="email" name="email" class="form-control border-start-0 bg-light @error('email') is-invalid @enderror" id="email" placeholder="contoh@email.com" required value="{{ old('email') }}">
             </div>
             @error('email')
+              <div class="text-danger small mt-1">{{ $message }}</div>
+            @enderror
+          </div>
+
+          <div class="mb-3">
+            <label for="nomor_wa" class="form-label">Nomor WhatsApp / HP (Opsional)</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0"><i class="bi bi-whatsapp text-muted"></i></span>
+              <input type="text" inputmode="numeric" name="nomor_wa" class="form-control border-start-0 bg-light @error('nomor_wa') is-invalid @enderror" id="nomor_wa" placeholder="cth: 081234567890" value="{{ old('nomor_wa') }}">
+            </div>
+            @error('nomor_wa')
               <div class="text-danger small mt-1">{{ $message }}</div>
             @enderror
           </div>
