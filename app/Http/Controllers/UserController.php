@@ -48,7 +48,19 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('users', 'public');
         }
 
-        User::create($data);
+        $user = User::create($data);
+
+        $ibuRoleId = Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
+        if ($user->roles_id == $ibuRoleId) {
+            \App\Models\ProfilIbu::create([
+                'user_id' => $user->id,
+                'fasilitas_kesehatan_id' => $user->fasilitas_kesehatan_id ?? 1,
+                'nik' => '32' . str_pad($user->id, 14, '0', STR_PAD_LEFT),
+                'nama_lengkap' => $user->name,
+                'tempat_lahir' => '-',
+                'tanggal_lahir' => '1995-01-01',
+            ]);
+        }
 
         Alert::success('Berhasil', 'User berhasil ditambahkan.');
         return redirect()->route('users.index');
@@ -89,6 +101,29 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        // Selaraskan data Profil Ibu jika pengguna ini adalah ibu hamil / memiliki profil ibu
+        if ($user->profilIbu) {
+            $profilData = [
+                'nama_lengkap' => $user->name,
+            ];
+            if ($user->fasilitas_kesehatan_id) {
+                $profilData['fasilitas_kesehatan_id'] = $user->fasilitas_kesehatan_id;
+            }
+            $user->profilIbu->update($profilData);
+        } else {
+            $ibuRoleId = Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
+            if ($user->roles_id == $ibuRoleId) {
+                \App\Models\ProfilIbu::create([
+                    'user_id' => $user->id,
+                    'fasilitas_kesehatan_id' => $user->fasilitas_kesehatan_id ?? 1,
+                    'nik' => '32' . str_pad($user->id, 14, '0', STR_PAD_LEFT),
+                    'nama_lengkap' => $user->name,
+                    'tempat_lahir' => '-',
+                    'tanggal_lahir' => '1995-01-01',
+                ]);
+            }
+        }
 
         Alert::success('Berhasil', 'User berhasil diperbarui.');
         return redirect()->route('users.index');

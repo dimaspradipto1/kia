@@ -69,4 +69,23 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfilIbu::class);
     }
+
+    protected static function booted()
+    {
+        static::saved(function ($user) {
+            $profil = ProfilIbu::where('user_id', $user->id)->first();
+            if ($profil) {
+                $update = [];
+                if ($user->wasChanged('name') || $profil->nama_lengkap !== $user->name) {
+                    $update['nama_lengkap'] = $user->name;
+                }
+                if (($user->wasChanged('fasilitas_kesehatan_id') || $profil->fasilitas_kesehatan_id !== $user->fasilitas_kesehatan_id) && $user->fasilitas_kesehatan_id) {
+                    $update['fasilitas_kesehatan_id'] = $user->fasilitas_kesehatan_id;
+                }
+                if (!empty($update)) {
+                    $profil->updateQuietly($update);
+                }
+            }
+        });
+    }
 }
