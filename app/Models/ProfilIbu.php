@@ -33,7 +33,8 @@ class ProfilIbu extends Model
         static::saved(function ($profil) {
             if ($profil->user_id) {
                 $user = User::find($profil->user_id);
-                if ($user) {
+                $ibuRoleId = Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
+                if ($user && $user->roles_id == $ibuRoleId) {
                     $update = [];
                     if ($profil->wasChanged('nama_lengkap') || $user->name !== $profil->nama_lengkap) {
                         $update['name'] = $profil->nama_lengkap;

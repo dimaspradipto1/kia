@@ -73,6 +73,10 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::saved(function ($user) {
+            $ibuRoleId = Role::whereRaw('LOWER(nama_role) = ?', ['ibu hamil'])->value('id') ?? 4;
+            if ($user->roles_id != $ibuRoleId) {
+                return;
+            }
             $profil = ProfilIbu::where('user_id', $user->id)->first();
             if ($profil) {
                 $update = [];

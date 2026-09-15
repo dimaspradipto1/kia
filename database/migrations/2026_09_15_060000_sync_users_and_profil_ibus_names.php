@@ -15,6 +15,7 @@ return new class extends Migration
         // 1. Selaraskan nama_lengkap di profil_ibus dengan name di users jika berbeda
         $users = DB::table('users')
             ->join('profil_ibus', 'profil_ibus.user_id', '=', 'users.id')
+            ->where('users.roles_id', 4)
             ->select('users.id as user_id', 'users.name as user_name', 'users.fasilitas_kesehatan_id as user_faskes', 'profil_ibus.id as profil_id', 'profil_ibus.nama_lengkap as profil_name')
             ->get();
 
